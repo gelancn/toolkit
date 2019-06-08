@@ -68,7 +68,6 @@ var Emitter = /** @class */ (function() {
      * @param type
      * @param params
      */
-    // tslint:disable-next-line:no-any
     Emitter.prototype.emit = function(type, arg1, arg2, arg3, arg4, arg5) {
         var handlerList = this._getHandlerList(type);
         if (handlerList.length === 0) {

@@ -11,8 +11,8 @@ module.exports = {
     output: {
         path: distPath,
         filename: '[name].js',
-        library: 'toolkit',
-        libraryTarget: 'umd',
+        // library: 'toolkit',
+        // libraryTarget: 'umd',
     },
 
     resolve: {

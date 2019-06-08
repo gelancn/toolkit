@@ -76,14 +76,13 @@ export class Emitter {
      * @param type
      * @param params
      */
-    // tslint:disable-next-line:no-any
     public emit(
         type: string,
-        arg1?: any,
-        arg2?: any,
-        arg3?: any,
-        arg4?: any,
-        arg5?: any,
+        arg1?: Any,
+        arg2?: Any,
+        arg3?: Any,
+        arg4?: Any,
+        arg5?: Any,
     ): void {
         const handlerList: Array<HandlerExt> = this._getHandlerList(type);
         if (handlerList.length === 0) {
@@ -150,6 +149,8 @@ export class Emitter {
 
 // tslint:disable-next-line:no-any
 type Handler = (...params: Array<any>) => void;
+// tslint:disable-next-line:no-any
+type Any = any;
 
 interface HandlerExt extends Handler {
     context?: unknown;

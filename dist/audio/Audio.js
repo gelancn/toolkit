@@ -123,6 +123,9 @@ var Audio = /** @class */ (function() {
     Audio.prototype.play = function(params) {
         var _this = this;
         var url = params.url;
+        if (this._playingMap[url] != null) {
+            return;
+        }
         var tag = this.getTag();
         var sourceData = this.getSource(url);
         var base64 = sourceData && sourceData.base64;
@@ -157,6 +160,7 @@ var Audio = /** @class */ (function() {
         };
         tag.loop = !!params.loop;
         tag.play();
+        this._playingMap[url] = tag;
     };
     /**
      * 停止一个音频

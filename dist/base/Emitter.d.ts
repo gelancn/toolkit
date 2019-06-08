@@ -35,13 +35,14 @@ export declare class Emitter {
      */
     emit(
         type: string,
-        arg1?: any,
-        arg2?: any,
-        arg3?: any,
-        arg4?: any,
-        arg5?: any,
+        arg1?: Any,
+        arg2?: Any,
+        arg3?: Any,
+        arg4?: Any,
+        arg5?: Any,
     ): void;
     private _getHandlerList;
 }
 declare type Handler = (...params: Array<any>) => void;
+declare type Any = any;
 export {};

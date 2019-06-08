@@ -130,6 +130,9 @@ export class Audio {
      */
     public play(params: PlayAudioParams): void {
         const url: string = params.url;
+        if (this._playingMap[url] != null) {
+            return;
+        }
         const tag: HTMLAudioElement = this.getTag();
         const sourceData: AudioSourceData = this.getSource(url);
         const base64: string = sourceData && sourceData.base64;
@@ -164,6 +167,7 @@ export class Audio {
         };
         tag.loop = !!params.loop;
         tag.play();
+        this._playingMap[url] = tag;
     }
 
     /**
