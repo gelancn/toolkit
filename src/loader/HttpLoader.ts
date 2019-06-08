@@ -119,7 +119,7 @@ export class HttpLoader extends Emitter implements ILoader {
     }
 }
 
-interface HttpLoaderParams {
+export interface HttpLoaderParams {
     url: string;
     method?: EnumHttpMethod;
     withCredentials?: boolean;

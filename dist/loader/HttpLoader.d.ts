@@ -11,7 +11,7 @@ export declare class HttpLoader extends Emitter implements ILoader {
     /** 重置 */
     reset(): void;
 }
-interface HttpLoaderParams {
+export interface HttpLoaderParams {
     url: string;
     method?: EnumHttpMethod;
     withCredentials?: boolean;
@@ -19,4 +19,3 @@ interface HttpLoaderParams {
     data?: Object;
     responseType?: XMLHttpRequestResponseType;
 }
-export {};

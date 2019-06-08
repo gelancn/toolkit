@@ -7,6 +7,10 @@ import { AudioTag, AudioTagFactory } from './AudioTagFactory';
 /** 音频管理器 */
 export class Audio {
     private _factory: AudioTagFactory = new AudioTagFactory();
+    /** 获取音频工厂，尽量不要使用 */
+    public get factory(): AudioTagFactory {
+        return this._factory;
+    }
 
     /**
      * 设置标签缓存的上限
@@ -198,14 +202,14 @@ export class Audio {
     }
 }
 
-interface LoadAudioParams {
+export interface LoadAudioParams {
     url: string;
     onComplete?(data: AudioSourceData): void;
     onProgress?(loaded: number, total: number): void;
     onError?(): void;
 }
 
-interface PlayAudioParams {
+export interface PlayAudioParams {
     url: string;
     loop?: boolean;
     progressHandler?(current: number, duration: number): void;

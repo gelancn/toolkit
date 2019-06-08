@@ -1,7 +1,10 @@
 import { AudioSourceData } from './AudioSourceData';
+import { AudioTagFactory } from './AudioTagFactory';
 /** 音频管理器 */
 export declare class Audio {
     private _factory;
+    /** 获取音频工厂，尽量不要使用 */
+    readonly factory: AudioTagFactory;
     /**
      * 设置标签缓存的上限
      * @param value
@@ -49,17 +52,16 @@ export declare class Audio {
     stop(url: string): void;
     private _disposeTag;
 }
-interface LoadAudioParams {
+export interface LoadAudioParams {
     url: string;
     onComplete?(data: AudioSourceData): void;
     onProgress?(loaded: number, total: number): void;
     onError?(): void;
 }
-interface PlayAudioParams {
+export interface PlayAudioParams {
     url: string;
     loop?: boolean;
     progressHandler?(current: number, duration: number): void;
     endedHandler?(): void;
     errorHandler?(): void;
 }
-export {};

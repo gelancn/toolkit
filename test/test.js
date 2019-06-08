@@ -782,6 +782,14 @@ and limitations under the License.
                         this._loadingMap = {};
                         this._playingMap = {};
                     }
+                    Object.defineProperty(Audio.prototype, 'factory', {
+                        /** 获取音频工厂，尽量不要使用 */
+                        get: function() {
+                            return this._factory;
+                        },
+                        enumerable: true,
+                        configurable: true,
+                    });
                     /**
                      * 设置标签缓存的上限
                      * @param value
@@ -1352,14 +1360,13 @@ and limitations under the License.
                     Emitter.prototype.has = function(type, handler) {
                         var handlerList = this._getHandlerList(type);
                         var index = handlerList.indexOf(handler);
-                        return index === -1;
+                        return index !== -1;
                     };
                     /**
                      * 派发
                      * @param type
                      * @param params
                      */
-                    // tslint:disable-next-line:no-any
                     Emitter.prototype.emit = function(
                         type,
                         arg1,
@@ -1922,6 +1929,7 @@ and limitations under the License.
                             return;
                         }
                         var img = document.createElement('img');
+                        img.crossOrigin = config.crossOrigin || 'anonymous';
                         this._image = img;
                         img.src = config.url;
                         img.onload = function() {
@@ -2066,6 +2074,619 @@ and limitations under the License.
                 /***/
             },
 
+        /***/ './test/TestAudio.ts':
+            /*!***************************!*\
+  !*** ./test/TestAudio.ts ***!
+  \***************************/
+            /*! exports provided: TestAudio */
+            /***/ function(module, __webpack_exports__, __webpack_require__) {
+                'use strict';
+                __webpack_require__.r(__webpack_exports__);
+                /* harmony export (binding) */ __webpack_require__.d(
+                    __webpack_exports__,
+                    'TestAudio',
+                    function() {
+                        return TestAudio;
+                    },
+                );
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
+                );
+                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+                    /*! ../src/index */ './src/index.ts',
+                );
+
+                function TestAudio() {
+                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](
+                        this,
+                        void 0,
+                        Promise,
+                        function() {
+                            var audio, url, button;
+                            return tslib__WEBPACK_IMPORTED_MODULE_0__[
+                                '__generator'
+                            ](this, function(_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        console.log(
+                                            '---------- TestAudio ----------',
+                                        );
+                                        console.log('\n');
+                                        audio = new _src_index__WEBPACK_IMPORTED_MODULE_1__[
+                                            'Audio'
+                                        ]();
+                                        url = './test_audio.mp3';
+                                        button = document.createElement(
+                                            'button',
+                                        );
+                                        button.textContent =
+                                            '点击按钮解锁audio标签';
+                                        document.body.append(button);
+                                        return [
+                                            4 /*yield*/,
+                                            new Promise(function(resolve) {
+                                                audio.setTagLimit(10);
+                                                button.onclick = function() {
+                                                    console.log('onclick');
+                                                    document.body.removeChild(
+                                                        button,
+                                                    );
+                                                    console.log(audio.factory);
+                                                    resolve();
+                                                };
+                                            }),
+                                        ];
+                                    case 1:
+                                        _a.sent();
+                                        return [
+                                            4 /*yield*/,
+                                            new Promise(function(resolve) {
+                                                console.log('load');
+                                                audio.load({
+                                                    url: url,
+                                                    onComplete: function(data) {
+                                                        console.log(
+                                                            'onComplete',
+                                                        );
+                                                        console.log(data);
+                                                        console.log('play');
+                                                        audio.play({
+                                                            url: url,
+                                                        });
+                                                        setTimeout(function() {
+                                                            console.log('stop');
+                                                            audio.stop(url);
+                                                            resolve();
+                                                        }, 3000);
+                                                    },
+                                                });
+                                            }),
+                                        ];
+                                    case 2:
+                                        _a.sent();
+                                        console.log('\n');
+                                        return [
+                                            4 /*yield*/,
+                                            new Promise(function(resolve) {
+                                                console.log(
+                                                    'removeSource(' + url + ')',
+                                                );
+                                                audio.removeSource(url);
+                                                console.log(
+                                                    'getSource(' +
+                                                        url +
+                                                        '):' +
+                                                        audio.getSource(url),
+                                                );
+                                                console.log('play');
+                                                audio.play({
+                                                    url: url,
+                                                });
+                                                setTimeout(function() {
+                                                    console.log('stop');
+                                                    audio.stop(url);
+                                                    resolve();
+                                                }, 10000);
+                                                setTimeout(function() {
+                                                    console.log(
+                                                        'setMuted',
+                                                        true,
+                                                    );
+                                                    audio.setMuted(true);
+                                                    setTimeout(function() {
+                                                        console.log(
+                                                            'setMuted',
+                                                            false,
+                                                        );
+                                                        audio.setMuted(false);
+                                                    }, 2000);
+                                                }, 5000);
+                                            }),
+                                        ];
+                                    case 3:
+                                        _a.sent();
+                                        console.log('\n');
+                                        console.log(
+                                            '---------- ---------- ----------',
+                                        );
+                                        console.log('\n\n');
+                                        return [2 /*return*/];
+                                }
+                            });
+                        },
+                    );
+                }
+
+                /***/
+            },
+
+        /***/ './test/TestEmitter.ts':
+            /*!*****************************!*\
+  !*** ./test/TestEmitter.ts ***!
+  \*****************************/
+            /*! exports provided: TestEmitter */
+            /***/ function(module, __webpack_exports__, __webpack_require__) {
+                'use strict';
+                __webpack_require__.r(__webpack_exports__);
+                /* harmony export (binding) */ __webpack_require__.d(
+                    __webpack_exports__,
+                    'TestEmitter',
+                    function() {
+                        return TestEmitter;
+                    },
+                );
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
+                );
+                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+                    /*! ../src/index */ './src/index.ts',
+                );
+
+                function TestEmitter() {
+                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](
+                        this,
+                        void 0,
+                        Promise,
+                        function() {
+                            var emitter, type, handler;
+                            return tslib__WEBPACK_IMPORTED_MODULE_0__[
+                                '__generator'
+                            ](this, function(_a) {
+                                console.log(
+                                    '---------- TestEmitter ----------',
+                                );
+                                console.log('\n');
+                                emitter = new _src_index__WEBPACK_IMPORTED_MODULE_1__[
+                                    'Emitter'
+                                ]();
+                                type = 'test';
+                                handler = function() {
+                                    console.log('This is handler');
+                                };
+                                console.log('on');
+                                emitter.on(type, handler);
+                                console.log('has', emitter.has(type, handler));
+                                console.log('emit ' + type);
+                                emitter.emit(type);
+                                console.log('\n');
+                                console.log('off');
+                                emitter.off(type, handler);
+                                console.log('has', emitter.has(type, handler));
+                                console.log('emit ' + type);
+                                emitter.emit(type);
+                                console.log('\n');
+                                console.log('once');
+                                emitter.once(type, handler);
+                                console.log('has', emitter.has(type, handler));
+                                console.log('emit ' + type + ' 1');
+                                emitter.emit(type);
+                                console.log('has', emitter.has(type, handler));
+                                console.log('emit ' + type + ' 2');
+                                emitter.emit(type);
+                                console.log('\n');
+                                console.log('---------- ---------- ----------');
+                                console.log('\n\n');
+                                return [2 /*return*/];
+                            });
+                        },
+                    );
+                }
+
+                /***/
+            },
+
+        /***/ './test/TestHttpLoader.ts':
+            /*!********************************!*\
+  !*** ./test/TestHttpLoader.ts ***!
+  \********************************/
+            /*! exports provided: TestHttpLoader */
+            /***/ function(module, __webpack_exports__, __webpack_require__) {
+                'use strict';
+                __webpack_require__.r(__webpack_exports__);
+                /* harmony export (binding) */ __webpack_require__.d(
+                    __webpack_exports__,
+                    'TestHttpLoader',
+                    function() {
+                        return TestHttpLoader;
+                    },
+                );
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
+                );
+                /* harmony import */ var _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+                    /*! ../src/enum/EnumEventLoader */ './src/enum/EnumEventLoader.ts',
+                );
+                /* harmony import */ var _src_enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+                    /*! ../src/enum/EnumHttpMethod */ './src/enum/EnumHttpMethod.ts',
+                );
+                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+                    /*! ../src/index */ './src/index.ts',
+                );
+
+                function TestHttpLoader() {
+                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](
+                        this,
+                        void 0,
+                        Promise,
+                        function() {
+                            var httpLoader, url, config;
+                            return tslib__WEBPACK_IMPORTED_MODULE_0__[
+                                '__generator'
+                            ](this, function(_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        console.log(
+                                            '---------- TestHttpLoader ----------',
+                                        );
+                                        console.log('\n');
+                                        httpLoader = new _src_index__WEBPACK_IMPORTED_MODULE_3__[
+                                            'HttpLoader'
+                                        ]();
+                                        url = 'http://www.baidu.com/';
+                                        config = {
+                                            url: url,
+                                            method:
+                                                _src_enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_2__[
+                                                    'EnumHttpMethod'
+                                                ].GET,
+                                        };
+                                        console.log('send', config);
+                                        return [
+                                            4 /*yield*/,
+                                            new Promise(function(resolve) {
+                                                httpLoader.load(config);
+                                                httpLoader.on(
+                                                    _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
+                                                        'EnumEventLoader'
+                                                    ].COMPLETE,
+                                                    function(data) {
+                                                        console.log(
+                                                            _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
+                                                                'EnumEventLoader'
+                                                            ].COMPLETE,
+                                                        );
+                                                        resolve();
+                                                    },
+                                                );
+                                                httpLoader.on(
+                                                    _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
+                                                        'EnumEventLoader'
+                                                    ].ERROR,
+                                                    function(err) {
+                                                        console.log(
+                                                            _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
+                                                                'EnumEventLoader'
+                                                            ].ERROR,
+                                                            err,
+                                                        );
+                                                        resolve();
+                                                    },
+                                                );
+                                            }),
+                                        ];
+                                    case 1:
+                                        _a.sent();
+                                        console.log(
+                                            '---------- ---------- ----------',
+                                        );
+                                        console.log('\n\n');
+                                        return [2 /*return*/];
+                                }
+                            });
+                        },
+                    );
+                }
+
+                /***/
+            },
+
+        /***/ './test/TestImageLoader.ts':
+            /*!*********************************!*\
+  !*** ./test/TestImageLoader.ts ***!
+  \*********************************/
+            /*! exports provided: TestImageLoader */
+            /***/ function(module, __webpack_exports__, __webpack_require__) {
+                'use strict';
+                __webpack_require__.r(__webpack_exports__);
+                /* harmony export (binding) */ __webpack_require__.d(
+                    __webpack_exports__,
+                    'TestImageLoader',
+                    function() {
+                        return TestImageLoader;
+                    },
+                );
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
+                );
+                /* harmony import */ var _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+                    /*! ../src/enum/EnumEventLoader */ './src/enum/EnumEventLoader.ts',
+                );
+                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+                    /*! ../src/index */ './src/index.ts',
+                );
+
+                function TestImageLoader() {
+                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](
+                        this,
+                        void 0,
+                        Promise,
+                        function() {
+                            var imageLoader, config;
+                            return tslib__WEBPACK_IMPORTED_MODULE_0__[
+                                '__generator'
+                            ](this, function(_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        console.log(
+                                            '---------- TestImageLoader ----------',
+                                        );
+                                        console.log('\n');
+                                        imageLoader = new _src_index__WEBPACK_IMPORTED_MODULE_2__[
+                                            'ImageLoader'
+                                        ]();
+                                        config = {
+                                            url:
+                                                'https://www.baidu.com/img/xinshouye_1aa82cd448e4c0aee0961ed6e290baaf.gif',
+                                        };
+                                        console.log('send', config);
+                                        return [
+                                            4 /*yield*/,
+                                            new Promise(function(resolve) {
+                                                imageLoader.load(config);
+                                                imageLoader.on(
+                                                    _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
+                                                        'EnumEventLoader'
+                                                    ].COMPLETE,
+                                                    function(data) {
+                                                        console.log(
+                                                            _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
+                                                                'EnumEventLoader'
+                                                            ].COMPLETE,
+                                                            data,
+                                                        );
+                                                        resolve();
+                                                    },
+                                                );
+                                                imageLoader.on(
+                                                    _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
+                                                        'EnumEventLoader'
+                                                    ].ERROR,
+                                                    function(err) {
+                                                        console.log(
+                                                            _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
+                                                                'EnumEventLoader'
+                                                            ].ERROR,
+                                                            err,
+                                                        );
+                                                        resolve();
+                                                    },
+                                                );
+                                            }),
+                                        ];
+                                    case 1:
+                                        _a.sent();
+                                        console.log(
+                                            '---------- ---------- ----------',
+                                        );
+                                        console.log('\n\n');
+                                        return [2 /*return*/];
+                                }
+                            });
+                        },
+                    );
+                }
+
+                /***/
+            },
+
+        /***/ './test/TestScriptLoader.ts':
+            /*!**********************************!*\
+  !*** ./test/TestScriptLoader.ts ***!
+  \**********************************/
+            /*! exports provided: TestScriptLoader */
+            /***/ function(module, __webpack_exports__, __webpack_require__) {
+                'use strict';
+                __webpack_require__.r(__webpack_exports__);
+                /* harmony export (binding) */ __webpack_require__.d(
+                    __webpack_exports__,
+                    'TestScriptLoader',
+                    function() {
+                        return TestScriptLoader;
+                    },
+                );
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
+                );
+                /* harmony import */ var _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+                    /*! ../src/enum/EnumEventLoader */ './src/enum/EnumEventLoader.ts',
+                );
+                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+                    /*! ../src/index */ './src/index.ts',
+                );
+
+                function TestScriptLoader() {
+                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](
+                        this,
+                        void 0,
+                        Promise,
+                        function() {
+                            var scriptLoader, config;
+                            return tslib__WEBPACK_IMPORTED_MODULE_0__[
+                                '__generator'
+                            ](this, function(_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        console.log(
+                                            '---------- TestScriptLoader ----------',
+                                        );
+                                        console.log('\n');
+                                        scriptLoader = new _src_index__WEBPACK_IMPORTED_MODULE_2__[
+                                            'ScriptLoader'
+                                        ]();
+                                        config = {
+                                            url: './test_scriptloader.js',
+                                        };
+                                        console.log('send', config);
+                                        return [
+                                            4 /*yield*/,
+                                            new Promise(function(resolve) {
+                                                scriptLoader.load(config);
+                                                scriptLoader.on(
+                                                    _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
+                                                        'EnumEventLoader'
+                                                    ].COMPLETE,
+                                                    function(data) {
+                                                        console.log(
+                                                            _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
+                                                                'EnumEventLoader'
+                                                            ].COMPLETE,
+                                                            data,
+                                                        );
+                                                        resolve();
+                                                    },
+                                                );
+                                                scriptLoader.on(
+                                                    _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
+                                                        'EnumEventLoader'
+                                                    ].ERROR,
+                                                    function(err) {
+                                                        console.log(
+                                                            _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
+                                                                'EnumEventLoader'
+                                                            ].ERROR,
+                                                            err,
+                                                        );
+                                                        resolve();
+                                                    },
+                                                );
+                                            }),
+                                        ];
+                                    case 1:
+                                        _a.sent();
+                                        console.log(
+                                            '---------- ---------- ----------',
+                                        );
+                                        console.log('\n\n');
+                                        return [2 /*return*/];
+                                }
+                            });
+                        },
+                    );
+                }
+
+                /***/
+            },
+
+        /***/ './test/TestSingleton.ts':
+            /*!*******************************!*\
+  !*** ./test/TestSingleton.ts ***!
+  \*******************************/
+            /*! exports provided: TestSingleton */
+            /***/ function(module, __webpack_exports__, __webpack_require__) {
+                'use strict';
+                __webpack_require__.r(__webpack_exports__);
+                /* harmony export (binding) */ __webpack_require__.d(
+                    __webpack_exports__,
+                    'TestSingleton',
+                    function() {
+                        return TestSingleton;
+                    },
+                );
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
+                );
+                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+                    /*! ../src/index */ './src/index.ts',
+                );
+
+                function TestSingleton() {
+                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](
+                        this,
+                        void 0,
+                        Promise,
+                        function() {
+                            var singleton;
+                            return tslib__WEBPACK_IMPORTED_MODULE_0__[
+                                '__generator'
+                            ](this, function(_a) {
+                                console.log(
+                                    '---------- TestSingleton ----------',
+                                );
+                                console.log('\n');
+                                singleton = new _src_index__WEBPACK_IMPORTED_MODULE_1__[
+                                    'Singleton'
+                                ]();
+                                console.log('map Emitter');
+                                singleton.map(
+                                    _src_index__WEBPACK_IMPORTED_MODULE_1__[
+                                        'Emitter'
+                                    ],
+                                );
+                                console.log(
+                                    'get',
+                                    singleton.get(
+                                        _src_index__WEBPACK_IMPORTED_MODULE_1__[
+                                            'Emitter'
+                                        ],
+                                    ),
+                                );
+                                console.log('\n');
+                                console.log('map Emitter -> new HttpLoader()');
+                                singleton.map(
+                                    _src_index__WEBPACK_IMPORTED_MODULE_1__[
+                                        'Emitter'
+                                    ],
+                                    new _src_index__WEBPACK_IMPORTED_MODULE_1__[
+                                        'HttpLoader'
+                                    ](),
+                                );
+                                console.log(
+                                    'get',
+                                    singleton.get(
+                                        _src_index__WEBPACK_IMPORTED_MODULE_1__[
+                                            'Emitter'
+                                        ],
+                                    ),
+                                );
+                                console.log('\n');
+                                console.log('remove Emitter');
+                                singleton.remove(
+                                    _src_index__WEBPACK_IMPORTED_MODULE_1__[
+                                        'Emitter'
+                                    ],
+                                );
+                                console.log('\n');
+                                console.log('---------- ---------- ----------');
+                                console.log('\n\n');
+                                return [2 /*return*/];
+                            });
+                        },
+                    );
+                }
+
+                /***/
+            },
+
         /***/ './test/test.ts':
             /*!**********************!*\
   !*** ./test/test.ts ***!
@@ -2074,29 +2695,106 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                    /*! ../src/index */ './src/index.ts',
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
+                );
+                /* harmony import */ var _TestAudio__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+                    /*! ./TestAudio */ './test/TestAudio.ts',
+                );
+                /* harmony import */ var _TestEmitter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+                    /*! ./TestEmitter */ './test/TestEmitter.ts',
+                );
+                /* harmony import */ var _TestHttpLoader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+                    /*! ./TestHttpLoader */ './test/TestHttpLoader.ts',
+                );
+                /* harmony import */ var _TestImageLoader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+                    /*! ./TestImageLoader */ './test/TestImageLoader.ts',
+                );
+                /* harmony import */ var _TestScriptLoader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+                    /*! ./TestScriptLoader */ './test/TestScriptLoader.ts',
+                );
+                /* harmony import */ var _TestSingleton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+                    /*! ./TestSingleton */ './test/TestSingleton.ts',
                 );
 
-                var audio = new _src_index__WEBPACK_IMPORTED_MODULE_0__[
-                    'Audio'
-                ]();
-                var emitter = new _src_index__WEBPACK_IMPORTED_MODULE_0__[
-                    'Emitter'
-                ]();
-                var httpLoader = new _src_index__WEBPACK_IMPORTED_MODULE_0__[
-                    'HttpLoader'
-                ]();
-                var scriptLoader = new _src_index__WEBPACK_IMPORTED_MODULE_0__[
-                    'ScriptLoader'
-                ]();
-                var imageLoader = new _src_index__WEBPACK_IMPORTED_MODULE_0__[
-                    'ImageLoader'
-                ]();
-                var singleton = new _src_index__WEBPACK_IMPORTED_MODULE_0__[
-                    'Singleton'
-                ]();
-                console.log(audio);
+                function runTest() {
+                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](
+                        this,
+                        void 0,
+                        Promise,
+                        function() {
+                            return tslib__WEBPACK_IMPORTED_MODULE_0__[
+                                '__generator'
+                            ](this, function(_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        return [
+                                            4 /*yield*/,
+                                            Object(
+                                                _TestAudio__WEBPACK_IMPORTED_MODULE_1__[
+                                                    'TestAudio'
+                                                ],
+                                            )(),
+                                        ];
+                                    case 1:
+                                        _a.sent();
+                                        return [
+                                            4 /*yield*/,
+                                            Object(
+                                                _TestEmitter__WEBPACK_IMPORTED_MODULE_2__[
+                                                    'TestEmitter'
+                                                ],
+                                            )(),
+                                        ];
+                                    case 2:
+                                        _a.sent();
+                                        return [
+                                            4 /*yield*/,
+                                            Object(
+                                                _TestHttpLoader__WEBPACK_IMPORTED_MODULE_3__[
+                                                    'TestHttpLoader'
+                                                ],
+                                            )(),
+                                        ];
+                                    case 3:
+                                        _a.sent();
+                                        return [
+                                            4 /*yield*/,
+                                            Object(
+                                                _TestScriptLoader__WEBPACK_IMPORTED_MODULE_5__[
+                                                    'TestScriptLoader'
+                                                ],
+                                            )(),
+                                        ];
+                                    case 4:
+                                        _a.sent();
+                                        return [
+                                            4 /*yield*/,
+                                            Object(
+                                                _TestImageLoader__WEBPACK_IMPORTED_MODULE_4__[
+                                                    'TestImageLoader'
+                                                ],
+                                            )(),
+                                        ];
+                                    case 5:
+                                        _a.sent();
+                                        return [
+                                            4 /*yield*/,
+                                            Object(
+                                                _TestSingleton__WEBPACK_IMPORTED_MODULE_6__[
+                                                    'TestSingleton'
+                                                ],
+                                            )(),
+                                        ];
+                                    case 6:
+                                        _a.sent();
+                                        return [2 /*return*/];
+                                }
+                            });
+                        },
+                    );
+                }
+                runTest();
 
                 /***/
             },

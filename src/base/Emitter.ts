@@ -68,7 +68,7 @@ export class Emitter {
     public has(type: string, handler: Handler): boolean {
         const handlerList: Array<HandlerExt> = this._getHandlerList(type);
         const index: number = handlerList.indexOf(handler as Handler);
-        return index === -1;
+        return index !== -1;
     }
 
     /**

@@ -10,7 +10,6 @@ export declare class ScriptLoader extends Emitter implements ILoader {
     /** 重置 */
     reset(): void;
 }
-interface ScriptLoaderParams {
+export interface ScriptLoaderParams {
     url: string;
 }
-export {};

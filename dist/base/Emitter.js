@@ -61,7 +61,7 @@ var Emitter = /** @class */ (function() {
     Emitter.prototype.has = function(type, handler) {
         var handlerList = this._getHandlerList(type);
         var index = handlerList.indexOf(handler);
-        return index === -1;
+        return index !== -1;
     };
     /**
      * 派发

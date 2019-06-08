@@ -11,6 +11,14 @@ var Audio = /** @class */ (function() {
         this._loadingMap = {};
         this._playingMap = {};
     }
+    Object.defineProperty(Audio.prototype, 'factory', {
+        /** 获取音频工厂，尽量不要使用 */
+        get: function() {
+            return this._factory;
+        },
+        enumerable: true,
+        configurable: true,
+    });
     /**
      * 设置标签缓存的上限
      * @param value

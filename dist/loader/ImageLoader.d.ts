@@ -10,8 +10,7 @@ export declare class ImageLoader extends Emitter implements ILoader {
     /** 重置 */
     reset(): void;
 }
-interface ImageLoaderParams {
+export interface ImageLoaderParams {
     url: string;
     crossOrigin?: string;
 }
-export {};

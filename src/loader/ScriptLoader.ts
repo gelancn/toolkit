@@ -41,6 +41,6 @@ export class ScriptLoader extends Emitter implements ILoader {
     }
 }
 
-interface ScriptLoaderParams {
+export interface ScriptLoaderParams {
     url: string;
 }
