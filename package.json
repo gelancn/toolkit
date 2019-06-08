@@ -1,6 +1,6 @@
 {
     "name": "gl-toolkit",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "gl's toolkit",
     "main": "index.js",
     "files": [
