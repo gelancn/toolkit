@@ -89,13 +89,9 @@ export class Emitter {
             return;
         }
         let needClean: boolean = false;
-        for (
-            let i: number = 0, length: number = handlerList.length;
-            i < length;
-            i += 1
-        ) {
-            const handler: HandlerExt = handlerList[i];
-            switch (arguments.length) {
+        const argLength: number = arguments.length;
+        handlerList.forEach((handler: HandlerExt) => {
+            switch (argLength) {
                 case 0:
                     handler.call(handler.context);
                     break;
@@ -119,7 +115,7 @@ export class Emitter {
             if (handler.once) {
                 needClean = true;
             }
-        }
+        });
         if (needClean) {
             const newHandlerList: Array<HandlerExt> = [];
             for (

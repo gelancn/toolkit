@@ -74,9 +74,9 @@ var Emitter = /** @class */ (function() {
             return;
         }
         var needClean = false;
-        for (var i = 0, length_1 = handlerList.length; i < length_1; i += 1) {
-            var handler = handlerList[i];
-            switch (arguments.length) {
+        var argLength = arguments.length;
+        handlerList.forEach(function(handler) {
+            switch (argLength) {
                 case 0:
                     handler.call(handler.context);
                     break;
@@ -100,12 +100,12 @@ var Emitter = /** @class */ (function() {
             if (handler.once) {
                 needClean = true;
             }
-        }
+        });
         if (needClean) {
             var newHandlerList = [];
             for (
-                var i = 0, length_2 = handlerList.length;
-                i < length_2;
+                var i = 0, length_1 = handlerList.length;
+                i < length_1;
                 i += 1
             ) {
                 var handler = handlerList[i];

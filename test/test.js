@@ -1380,13 +1380,9 @@ and limitations under the License.
                             return;
                         }
                         var needClean = false;
-                        for (
-                            var i = 0, length = handlerList.length;
-                            i < length;
-                            i += 1
-                        ) {
-                            var handler = handlerList[i];
-                            switch (arguments.length) {
+                        var argLength = arguments.length;
+                        handlerList.forEach(function(handler) {
+                            switch (argLength) {
                                 case 0:
                                     handler.call(handler.context);
                                     break;
@@ -1428,7 +1424,7 @@ and limitations under the License.
                             if (handler.once) {
                                 needClean = true;
                             }
-                        }
+                        });
                         if (needClean) {
                             var newHandlerList = [];
                             for (
