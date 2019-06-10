@@ -16,7 +16,27 @@ async function build() {
             },
         );
     });
-    await child_process.execSync('tsc -p tsconfig.json');
+    await new Promise((resolve, reject) => {
+        child_process.exec('tsc -p tsconfig.json', (err, info) => {
+            if (err) {
+                reject(err);
+            }
+            resolve();
+            console.log(info);
+        });
+    });
+    await new Promise((resolve, reject) => {
+        child_process.exec(
+            'prettier --write "**/*.{ts,js,css,json,md}"',
+            (err, info) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve();
+                console.log(info);
+            },
+        );
+    });
 }
 
 build();
