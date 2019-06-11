@@ -28,11 +28,7 @@ var HttpLoader = /** @class */ (function(_super) {
                     switch (contentType) {
                         case 'application/x-www-form-urlencoded':
                             var params = Object.keys(data).map(function(key) {
-                                return (
-                                    encodeURIComponent(key) +
-                                    '=' +
-                                    encodeURIComponent(data[key])
-                                );
+                                return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
                             });
                             sendData = params.join('&');
                             break;
@@ -113,4 +109,3 @@ var HttpLoader = /** @class */ (function(_super) {
     return HttpLoader;
 })(Emitter);
 export { HttpLoader };
-//# sourceMappingURL=HttpLoader.js.map

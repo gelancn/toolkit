@@ -7,61 +7,86 @@ var Emitter = /** @class */ (function() {
      * 监听
      * @param type
      * @param handler
-     * @param context
+     * @param target
      * @param once
      */
-    Emitter.prototype.on = function(type, handler, context, once) {
-        var handlerList = this._getHandlerList(type);
-        var handlerExt = handler;
-        var index = handlerList.indexOf(handlerExt);
-        if (index === -1) {
-            handlerExt.type = type;
-            handlerExt.once = !!once;
-            handlerExt.context = context;
-            handlerList.push(handlerExt);
+    Emitter.prototype.on = function(type, handler, target, once) {
+        if (type == null || handler == null) {
+            return;
         }
+        var handlerList = this._getHandlerList(type);
+        if (target === undefined) {
+            target = null;
+        }
+        for (var i = handlerList.length - 1; i >= 0; i -= 1) {
+            var data = handlerList[i];
+            if (data.handler === handler && data.target === target) {
+                return;
+            }
+        }
+        handlerList.push({
+            type: type,
+            handler: handler,
+            target: target,
+            once: once,
+        });
     };
     /**
      * 取消监听
      * @param type
      * @param handler
      */
-    Emitter.prototype.off = function(type, handler) {
+    Emitter.prototype.off = function(type, handler, target) {
         var handlerList = this._getHandlerList(type);
         if (handlerList.length === 0) {
             return;
         }
-        if (handler == null) {
-            handlerList.length = 0;
-        } else {
-            var index = handlerList.indexOf(handler);
-            if (index === -1) {
-                return;
-            }
-            delete handler.type;
-            delete handler.once;
-            delete handler.context;
-            handlerList.splice(index, 1);
+        if (target === undefined) {
+            target = null;
         }
+        for (var i = handlerList.length - 1; i >= 0; i -= 1) {
+            var data = handlerList[i];
+            if (data.handler === handler && data.target === target) {
+                handlerList.splice(i, 1);
+                break;
+            }
+        }
+    };
+    /**
+     * 按类型取消监听
+     * @param type
+     */
+    Emitter.prototype.offType = function(type) {
+        var handlerList = this._getHandlerList(type);
+        if (handlerList.length === 0) {
+            return;
+        }
+        handlerList.length = 0;
+    };
+    /**
+     * 按目标对象取消监听
+     * @param target
+     */
+    Emitter.prototype.offTarget = function(target) {
+        var _this = this;
+        Object.keys(this._handlerMap).forEach(function(key) {
+            var handlerList = _this._handlerMap[key];
+            for (var i = handlerList.length - 1; i >= 0; i -= 1) {
+                var data = handlerList[i];
+                if (data.target === target) {
+                    handlerList.splice(i, 1);
+                }
+            }
+        });
     };
     /**
      * 监听一次
      * @param type
      * @param handler
-     * @param context
+     * @param target
      */
-    Emitter.prototype.once = function(type, handler, context) {
-        this.on(type, handler, context, true);
-    };
-    /**
-     * 是否注册过
-     * @param type
-     * @param handler
-     */
-    Emitter.prototype.has = function(type, handler) {
-        var handlerList = this._getHandlerList(type);
-        var index = handlerList.indexOf(handler);
-        return index !== -1;
+    Emitter.prototype.once = function(type, handler, target) {
+        this.on(type, handler, target, true);
     };
     /**
      * 派发
@@ -75,39 +100,37 @@ var Emitter = /** @class */ (function() {
         }
         var needClean = false;
         var argLength = arguments.length;
-        handlerList.forEach(function(handler) {
+        handlerList.forEach(function(data) {
+            var handler = data.handler;
+            var target = data.target;
             switch (argLength) {
                 case 0:
-                    handler.call(handler.context);
+                    handler.call(target);
                     break;
                 case 1:
-                    handler.call(handler.context, arg1);
+                    handler.call(target, arg1);
                     break;
                 case 2:
-                    handler.call(handler.context, arg1, arg2);
+                    handler.call(target, arg1, arg2);
                     break;
                 case 3:
-                    handler.call(handler.context, arg1, arg2, arg3);
+                    handler.call(target, arg1, arg2, arg3);
                     break;
                 case 4:
-                    handler.call(handler.context, arg1, arg2, arg3, arg4);
+                    handler.call(target, arg1, arg2, arg3, arg4);
                     break;
                 case 5:
-                    handler.call(handler.context, arg1, arg2, arg3, arg4, arg5);
+                    handler.call(target, arg1, arg2, arg3, arg4, arg5);
                     break;
                 default:
             }
-            if (handler.once) {
+            if (data.once) {
                 needClean = true;
             }
         });
         if (needClean) {
             var newHandlerList = [];
-            for (
-                var i = 0, length_1 = handlerList.length;
-                i < length_1;
-                i += 1
-            ) {
+            for (var i = 0, length_1 = handlerList.length; i < length_1; i += 1) {
                 var handler = handlerList[i];
                 if (handler.once) {
                     continue;
@@ -128,4 +151,3 @@ var Emitter = /** @class */ (function() {
     return Emitter;
 })();
 export { Emitter };
-//# sourceMappingURL=Emitter.js.map

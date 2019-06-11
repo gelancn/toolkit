@@ -21,11 +21,7 @@ var AudioTagFactory = /** @class */ (function() {
                 var tag = _this._createTag(true);
                 _this._tagsPool.push(tag);
             }
-            for (
-                var i = 0, length_1 = _this._tagsLocked.length;
-                i < length_1;
-                i += 1
-            ) {
+            for (var i = 0, length_1 = _this._tagsLocked.length; i < length_1; i += 1) {
                 var tag = _this._tagsLocked[i];
                 var ext = tag.ext;
                 if (ext.enabled) {
@@ -127,4 +123,3 @@ var AudioTagFactory = /** @class */ (function() {
     return AudioTagFactory;
 })();
 export { AudioTagFactory };
-//# sourceMappingURL=AudioTagFactory.js.map

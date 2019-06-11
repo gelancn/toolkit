@@ -5,42 +5,39 @@ export declare class Emitter {
      * 监听
      * @param type
      * @param handler
-     * @param context
+     * @param target
      * @param once
      */
-    on(type: string, handler: Handler, context?: unknown, once?: boolean): void;
+    on(type: string, handler: Handler, target: unknown, once?: boolean): void;
     /**
      * 取消监听
      * @param type
      * @param handler
      */
-    off(type: string, handler?: Handler): void;
+    off(type: string, handler: Handler, target: unknown): void;
+    /**
+     * 按类型取消监听
+     * @param type
+     */
+    offType(type: string): void;
+    /**
+     * 按目标对象取消监听
+     * @param target
+     */
+    offTarget(target: unknown): void;
     /**
      * 监听一次
      * @param type
      * @param handler
-     * @param context
+     * @param target
      */
-    once(type: string, handler: Handler, context?: unknown): void;
-    /**
-     * 是否注册过
-     * @param type
-     * @param handler
-     */
-    has(type: string, handler: Handler): boolean;
+    once(type: string, handler: Handler, target: unknown): void;
     /**
      * 派发
      * @param type
      * @param params
      */
-    emit(
-        type: string,
-        arg1?: Any,
-        arg2?: Any,
-        arg3?: Any,
-        arg4?: Any,
-        arg5?: Any,
-    ): void;
+    emit(type: string, arg1?: Any, arg2?: Any, arg3?: Any, arg4?: Any, arg5?: Any): void;
     private _getHandlerList;
 }
 declare type Handler = (...params: Array<any>) => void;

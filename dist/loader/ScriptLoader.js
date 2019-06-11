@@ -43,4 +43,3 @@ var ScriptLoader = /** @class */ (function(_super) {
     return ScriptLoader;
 })(Emitter);
 export { ScriptLoader };
-//# sourceMappingURL=ScriptLoader.js.map

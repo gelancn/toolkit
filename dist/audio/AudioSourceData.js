@@ -79,4 +79,3 @@ var AudioSourceData = /** @class */ (function() {
     return AudioSourceData;
 })();
 export { AudioSourceData };
-//# sourceMappingURL=AudioSourceData.js.map

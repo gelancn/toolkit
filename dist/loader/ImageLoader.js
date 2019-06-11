@@ -43,4 +43,3 @@ var ImageLoader = /** @class */ (function(_super) {
     return ImageLoader;
 })(Emitter);
 export { ImageLoader };
-//# sourceMappingURL=ImageLoader.js.map

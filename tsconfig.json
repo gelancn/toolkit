@@ -4,15 +4,8 @@
         "target": "es5",
         "moduleResolution": "node",
         "importHelpers": true,
-        "sourceMap": true,
         "declaration": true,
-        "lib": [
-            "es2015.promise",
-            "es2015.collection",
-            "esnext.asynciterable",
-            "es5",
-            "dom"
-        ],
+        "lib": ["es2015.promise", "es2015.collection", "esnext.asynciterable", "es5", "dom"],
         "outDir": "./dist"
     },
     "include": ["./src"],

@@ -5,4 +5,3 @@ import { HttpLoader } from './loader/HttpLoader';
 import { ImageLoader } from './loader/ImageLoader';
 import { ScriptLoader } from './loader/ScriptLoader';
 export { Emitter, Singleton, HttpLoader, ScriptLoader, ImageLoader, Audio };
-//# sourceMappingURL=index.js.map

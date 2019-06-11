@@ -11,27 +11,23 @@ export async function TestEmitter(): Promise<void> {
     };
 
     console.log(`on`);
-    emitter.on(type, handler);
-    console.log(`has`, emitter.has(type, handler));
+    emitter.on(type, handler, null);
     console.log(`emit ${type}`);
     emitter.emit(type);
 
     console.log(`\n`);
 
     console.log(`off`);
-    emitter.off(type, handler);
-    console.log(`has`, emitter.has(type, handler));
+    emitter.off(type, handler, null);
     console.log(`emit ${type}`);
     emitter.emit(type);
 
     console.log(`\n`);
 
     console.log(`once`);
-    emitter.once(type, handler);
-    console.log(`has`, emitter.has(type, handler));
+    emitter.once(type, handler, null);
     console.log(`emit ${type} 1`);
     emitter.emit(type);
-    console.log(`has`, emitter.has(type, handler));
     console.log(`emit ${type} 2`);
     emitter.emit(type);
 

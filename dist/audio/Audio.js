@@ -114,15 +114,15 @@ var Audio = /** @class */ (function() {
             } else {
                 params.onComplete && params.onComplete(data);
             }
-            loader.off(EnumEventLoader.PROGRESS, progressHandler);
+            loader.off(EnumEventLoader.PROGRESS, progressHandler, _this);
         };
         var errorHandler = function() {
             delete _this._loadingMap[url];
             params.onError && params.onError();
         };
-        loader.on(EnumEventLoader.PROGRESS, progressHandler);
-        loader.once(EnumEventLoader.COMPLETE, completeHandler);
-        loader.once(EnumEventLoader.ERROR, errorHandler);
+        loader.on(EnumEventLoader.PROGRESS, progressHandler, this);
+        loader.once(EnumEventLoader.COMPLETE, completeHandler, this);
+        loader.once(EnumEventLoader.ERROR, errorHandler, this);
     };
     /**
      * 播放一个音频
@@ -198,4 +198,3 @@ var Audio = /** @class */ (function() {
     return Audio;
 })();
 export { Audio };
-//# sourceMappingURL=Audio.js.map

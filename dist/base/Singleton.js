@@ -41,4 +41,3 @@ var Singleton = /** @class */ (function() {
     return Singleton;
 })();
 export { Singleton };
-//# sourceMappingURL=Singleton.js.map

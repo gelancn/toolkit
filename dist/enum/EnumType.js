@@ -7,4 +7,3 @@ export var EnumType;
     EnumType['FUNCTION'] = 'function';
     EnumType['OBJECT'] = 'object';
 })(EnumType || (EnumType = {}));
-//# sourceMappingURL=EnumType.js.map

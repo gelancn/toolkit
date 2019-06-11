@@ -17,12 +17,7 @@
             /******/
         }); // Execute the module function
         /******/
-        /******/ /******/ modules[moduleId].call(
-            module.exports,
-            module,
-            module.exports,
-            __webpack_require__,
-        ); // Flag the module as loaded
+        /******/ /******/ modules[moduleId].call(module.exports, module, module.exports, __webpack_require__); // Flag the module as loaded
         /******/
         /******/ /******/ module.l = true; // Return the exports of the module
         /******/
@@ -37,10 +32,7 @@
     /******/
     /******/ /******/ __webpack_require__.d = function(exports, name, getter) {
         /******/ if (!__webpack_require__.o(exports, name)) {
-            /******/ Object.defineProperty(exports, name, {
-                enumerable: true,
-                get: getter,
-            });
+            /******/ Object.defineProperty(exports, name, { enumerable: true, get: getter });
             /******/
         }
         /******/
@@ -48,34 +40,20 @@
     /******/
     /******/ /******/ __webpack_require__.r = function(exports) {
         /******/ if (typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-            /******/ Object.defineProperty(exports, Symbol.toStringTag, {
-                value: 'Module',
-            });
+            /******/ Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
             /******/
         }
         /******/ Object.defineProperty(exports, '__esModule', { value: true });
         /******/
     }; // create a fake namespace object // mode & 1: value is a module id, require it // mode & 2: merge all properties of value into the ns // mode & 4: return value when already ns object // mode & 8|1: behave like require
     /******/
-    /******/ /******/ /******/ /******/ /******/ /******/ __webpack_require__.t = function(
-        value,
-        mode,
-    ) {
+    /******/ /******/ /******/ /******/ /******/ /******/ __webpack_require__.t = function(value, mode) {
         /******/ if (mode & 1) value = __webpack_require__(value);
         /******/ if (mode & 8) return value;
-        /******/ if (
-            mode & 4 &&
-            typeof value === 'object' &&
-            value &&
-            value.__esModule
-        )
-            return value;
+        /******/ if (mode & 4 && typeof value === 'object' && value && value.__esModule) return value;
         /******/ var ns = Object.create(null);
         /******/ __webpack_require__.r(ns);
-        /******/ Object.defineProperty(ns, 'default', {
-            enumerable: true,
-            value: value,
-        });
+        /******/ Object.defineProperty(ns, 'default', { enumerable: true, value: value });
         /******/ if (mode & 2 && typeof value != 'string')
             for (var key in value)
                 __webpack_require__.d(
@@ -110,9 +88,7 @@
     /******/ /******/ __webpack_require__.p = ''; // Load entry module and return exports
     /******/
     /******/
-    /******/ /******/ return __webpack_require__(
-        (__webpack_require__.s = './test/test.ts'),
-    );
+    /******/ /******/ return __webpack_require__((__webpack_require__.s = './test/test.ts'));
     /******/
 })(
     /************************************************************************/
@@ -125,139 +101,63 @@
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__extends',
-                    function() {
-                        return __extends;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__assign',
-                    function() {
-                        return __assign;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__rest',
-                    function() {
-                        return __rest;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__decorate',
-                    function() {
-                        return __decorate;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__param',
-                    function() {
-                        return __param;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__metadata',
-                    function() {
-                        return __metadata;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__awaiter',
-                    function() {
-                        return __awaiter;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__generator',
-                    function() {
-                        return __generator;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__exportStar',
-                    function() {
-                        return __exportStar;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__values',
-                    function() {
-                        return __values;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__read',
-                    function() {
-                        return __read;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__spread',
-                    function() {
-                        return __spread;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__await',
-                    function() {
-                        return __await;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__asyncGenerator',
-                    function() {
-                        return __asyncGenerator;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__asyncDelegator',
-                    function() {
-                        return __asyncDelegator;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__asyncValues',
-                    function() {
-                        return __asyncValues;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__makeTemplateObject',
-                    function() {
-                        return __makeTemplateObject;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__importStar',
-                    function() {
-                        return __importStar;
-                    },
-                );
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    '__importDefault',
-                    function() {
-                        return __importDefault;
-                    },
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__extends', function() {
+                    return __extends;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__assign', function() {
+                    return __assign;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__rest', function() {
+                    return __rest;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__decorate', function() {
+                    return __decorate;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__param', function() {
+                    return __param;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__metadata', function() {
+                    return __metadata;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__awaiter', function() {
+                    return __awaiter;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__generator', function() {
+                    return __generator;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__exportStar', function() {
+                    return __exportStar;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__values', function() {
+                    return __values;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__read', function() {
+                    return __read;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__spread', function() {
+                    return __spread;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__await', function() {
+                    return __await;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__asyncGenerator', function() {
+                    return __asyncGenerator;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__asyncDelegator', function() {
+                    return __asyncDelegator;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__asyncValues', function() {
+                    return __asyncValues;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__makeTemplateObject', function() {
+                    return __makeTemplateObject;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__importStar', function() {
+                    return __importStar;
+                });
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, '__importDefault', function() {
+                    return __importDefault;
+                });
                 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
@@ -282,8 +182,7 @@ and limitations under the License.
                                 d.__proto__ = b;
                             }) ||
                         function(d, b) {
-                            for (var p in b)
-                                if (b.hasOwnProperty(p)) d[p] = b[p];
+                            for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
                         };
                     return extendStatics(d, b);
                 };
@@ -293,30 +192,16 @@ and limitations under the License.
                     function __() {
                         this.constructor = d;
                     }
-                    d.prototype =
-                        b === null
-                            ? Object.create(b)
-                            : ((__.prototype = b.prototype), new __());
+                    d.prototype = b === null ? Object.create(b) : ((__.prototype = b.prototype), new __());
                 }
 
                 var __assign = function() {
                     __assign =
                         Object.assign ||
                         function __assign(t) {
-                            for (
-                                var s, i = 1, n = arguments.length;
-                                i < n;
-                                i++
-                            ) {
+                            for (var s, i = 1, n = arguments.length; i < n; i++) {
                                 s = arguments[i];
-                                for (var p in s)
-                                    if (
-                                        Object.prototype.hasOwnProperty.call(
-                                            s,
-                                            p,
-                                        )
-                                    )
-                                        t[p] = s[p];
+                                for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
                             }
                             return t;
                         };
@@ -325,54 +210,19 @@ and limitations under the License.
 
                 function __rest(s, e) {
                     var t = {};
-                    for (var p in s)
-                        if (
-                            Object.prototype.hasOwnProperty.call(s, p) &&
-                            e.indexOf(p) < 0
-                        )
-                            t[p] = s[p];
-                    if (
-                        s != null &&
-                        typeof Object.getOwnPropertySymbols === 'function'
-                    )
-                        for (
-                            var i = 0, p = Object.getOwnPropertySymbols(s);
-                            i < p.length;
-                            i++
-                        )
-                            if (e.indexOf(p[i]) < 0) t[p[i]] = s[p[i]];
+                    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+                    if (s != null && typeof Object.getOwnPropertySymbols === 'function')
+                        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0) t[p[i]] = s[p[i]];
                     return t;
                 }
 
                 function __decorate(decorators, target, key, desc) {
                     var c = arguments.length,
-                        r =
-                            c < 3
-                                ? target
-                                : desc === null
-                                ? (desc = Object.getOwnPropertyDescriptor(
-                                      target,
-                                      key,
-                                  ))
-                                : desc,
+                        r = c < 3 ? target : desc === null ? (desc = Object.getOwnPropertyDescriptor(target, key)) : desc,
                         d;
-                    if (
-                        typeof Reflect === 'object' &&
-                        typeof Reflect.decorate === 'function'
-                    )
-                        r = Reflect.decorate(decorators, target, key, desc);
-                    else
-                        for (var i = decorators.length - 1; i >= 0; i--)
-                            if ((d = decorators[i]))
-                                r =
-                                    (c < 3
-                                        ? d(r)
-                                        : c > 3
-                                        ? d(target, key, r)
-                                        : d(target, key)) || r;
-                    return (
-                        c > 3 && r && Object.defineProperty(target, key, r), r
-                    );
+                    if (typeof Reflect === 'object' && typeof Reflect.decorate === 'function') r = Reflect.decorate(decorators, target, key, desc);
+                    else for (var i = decorators.length - 1; i >= 0; i--) if ((d = decorators[i])) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+                    return c > 3 && r && Object.defineProperty(target, key, r), r;
                 }
 
                 function __param(paramIndex, decorator) {
@@ -382,11 +232,7 @@ and limitations under the License.
                 }
 
                 function __metadata(metadataKey, metadataValue) {
-                    if (
-                        typeof Reflect === 'object' &&
-                        typeof Reflect.metadata === 'function'
-                    )
-                        return Reflect.metadata(metadataKey, metadataValue);
+                    if (typeof Reflect === 'object' && typeof Reflect.metadata === 'function') return Reflect.metadata(metadataKey, metadataValue);
                 }
 
                 function __awaiter(thisArg, _arguments, P, generator) {
@@ -412,12 +258,7 @@ and limitations under the License.
                                       resolve(result.value);
                                   }).then(fulfilled, rejected);
                         }
-                        step(
-                            (generator = generator.apply(
-                                thisArg,
-                                _arguments || [],
-                            )).next(),
-                        );
+                        step((generator = generator.apply(thisArg, _arguments || [])).next());
                     });
                 }
 
@@ -436,11 +277,7 @@ and limitations under the License.
                         t,
                         g;
                     return (
-                        (g = {
-                            next: verb(0),
-                            throw: verb(1),
-                            return: verb(2),
-                        }),
+                        (g = { next: verb(0), throw: verb(1), return: verb(2) }),
                         typeof Symbol === 'function' &&
                             (g[Symbol.iterator] = function() {
                                 return this;
@@ -453,25 +290,12 @@ and limitations under the License.
                         };
                     }
                     function step(op) {
-                        if (f)
-                            throw new TypeError(
-                                'Generator is already executing.',
-                            );
+                        if (f) throw new TypeError('Generator is already executing.');
                         while (_)
                             try {
                                 if (
                                     ((f = 1),
-                                    y &&
-                                        (t =
-                                            op[0] & 2
-                                                ? y['return']
-                                                : op[0]
-                                                ? y['throw'] ||
-                                                  ((t = y['return']) &&
-                                                      t.call(y),
-                                                  0)
-                                                : y.next) &&
-                                        !(t = t.call(y, op[1])).done)
+                                    y && (t = op[0] & 2 ? y['return'] : op[0] ? y['throw'] || ((t = y['return']) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
                                 )
                                     return t;
                                 if (((y = 0), t)) op = [op[0] & 2, t.value];
@@ -493,21 +317,11 @@ and limitations under the License.
                                         _.trys.pop();
                                         continue;
                                     default:
-                                        if (
-                                            !((t = _.trys),
-                                            (t =
-                                                t.length > 0 &&
-                                                t[t.length - 1])) &&
-                                            (op[0] === 6 || op[0] === 2)
-                                        ) {
+                                        if (!((t = _.trys), (t = t.length > 0 && t[t.length - 1])) && (op[0] === 6 || op[0] === 2)) {
                                             _ = 0;
                                             continue;
                                         }
-                                        if (
-                                            op[0] === 3 &&
-                                            (!t ||
-                                                (op[1] > t[0] && op[1] < t[3]))
-                                        ) {
+                                        if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) {
                                             _.label = op[1];
                                             break;
                                         }
@@ -538,8 +352,7 @@ and limitations under the License.
                 }
 
                 function __exportStar(m, exports) {
-                    for (var p in m)
-                        if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+                    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
                 }
 
                 function __values(o) {
@@ -562,11 +375,7 @@ and limitations under the License.
                         ar = [],
                         e;
                     try {
-                        while (
-                            (n === void 0 || n-- > 0) &&
-                            !(r = i.next()).done
-                        )
-                            ar.push(r.value);
+                        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
                     } catch (error) {
                         e = { error: error };
                     } finally {
@@ -580,22 +389,16 @@ and limitations under the License.
                 }
 
                 function __spread() {
-                    for (var ar = [], i = 0; i < arguments.length; i++)
-                        ar = ar.concat(__read(arguments[i]));
+                    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
                     return ar;
                 }
 
                 function __await(v) {
-                    return this instanceof __await
-                        ? ((this.v = v), this)
-                        : new __await(v);
+                    return this instanceof __await ? ((this.v = v), this) : new __await(v);
                 }
 
                 function __asyncGenerator(thisArg, _arguments, generator) {
-                    if (!Symbol.asyncIterator)
-                        throw new TypeError(
-                            'Symbol.asyncIterator is not defined.',
-                        );
+                    if (!Symbol.asyncIterator) throw new TypeError('Symbol.asyncIterator is not defined.');
                     var g = generator.apply(thisArg, _arguments || []),
                         i,
                         q = [];
@@ -625,9 +428,7 @@ and limitations under the License.
                         }
                     }
                     function step(r) {
-                        r.value instanceof __await
-                            ? Promise.resolve(r.value.v).then(fulfill, reject)
-                            : settle(q[0][2], r);
+                        r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);
                     }
                     function fulfill(value) {
                         resume('next', value);
@@ -636,8 +437,7 @@ and limitations under the License.
                         resume('throw', value);
                     }
                     function settle(f, v) {
-                        if ((f(v), q.shift(), q.length))
-                            resume(q[0][0], q[0][1]);
+                        if ((f(v), q.shift(), q.length)) resume(q[0][0], q[0][1]);
                     }
                 }
 
@@ -658,32 +458,19 @@ and limitations under the License.
                     function verb(n, f) {
                         i[n] = o[n]
                             ? function(v) {
-                                  return (p = !p)
-                                      ? {
-                                            value: __await(o[n](v)),
-                                            done: n === 'return',
-                                        }
-                                      : f
-                                      ? f(v)
-                                      : v;
+                                  return (p = !p) ? { value: __await(o[n](v)), done: n === 'return' } : f ? f(v) : v;
                               }
                             : f;
                     }
                 }
 
                 function __asyncValues(o) {
-                    if (!Symbol.asyncIterator)
-                        throw new TypeError(
-                            'Symbol.asyncIterator is not defined.',
-                        );
+                    if (!Symbol.asyncIterator) throw new TypeError('Symbol.asyncIterator is not defined.');
                     var m = o[Symbol.asyncIterator],
                         i;
                     return m
                         ? m.call(o)
-                        : ((o =
-                              typeof __values === 'function'
-                                  ? __values(o)
-                                  : o[Symbol.iterator]()),
+                        : ((o = typeof __values === 'function' ? __values(o) : o[Symbol.iterator]()),
                           (i = {}),
                           verb('next'),
                           verb('throw'),
@@ -697,13 +484,7 @@ and limitations under the License.
                             o[n] &&
                             function(v) {
                                 return new Promise(function(resolve, reject) {
-                                    (v = o[n](v)),
-                                        settle(
-                                            resolve,
-                                            reject,
-                                            v.done,
-                                            v.value,
-                                        );
+                                    (v = o[n](v)), settle(resolve, reject, v.done, v.value);
                                 });
                             };
                     }
@@ -726,10 +507,7 @@ and limitations under the License.
                 function __importStar(mod) {
                     if (mod && mod.__esModule) return mod;
                     var result = {};
-                    if (mod != null)
-                        for (var k in mod)
-                            if (Object.hasOwnProperty.call(mod, k))
-                                result[k] = mod[k];
+                    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
                     result.default = mod;
                     return result;
                 }
@@ -749,35 +527,19 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'Audio',
-                    function() {
-                        return Audio;
-                    },
-                );
-                /* harmony import */ var _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                    /*! ../enum/EnumEventLoader */ './src/enum/EnumEventLoader.ts',
-                );
-                /* harmony import */ var _enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
-                    /*! ../enum/EnumHttpMethod */ './src/enum/EnumHttpMethod.ts',
-                );
-                /* harmony import */ var _loader_HttpLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
-                    /*! ../loader/HttpLoader */ './src/loader/HttpLoader.ts',
-                );
-                /* harmony import */ var _AudioSourceData__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
-                    /*! ./AudioSourceData */ './src/audio/AudioSourceData.ts',
-                );
-                /* harmony import */ var _AudioTagFactory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
-                    /*! ./AudioTagFactory */ './src/audio/AudioTagFactory.ts',
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'Audio', function() {
+                    return Audio;
+                });
+                /* harmony import */ var _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enum/EnumEventLoader */ './src/enum/EnumEventLoader.ts');
+                /* harmony import */ var _enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enum/EnumHttpMethod */ './src/enum/EnumHttpMethod.ts');
+                /* harmony import */ var _loader_HttpLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../loader/HttpLoader */ './src/loader/HttpLoader.ts');
+                /* harmony import */ var _AudioSourceData__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AudioSourceData */ './src/audio/AudioSourceData.ts');
+                /* harmony import */ var _AudioTagFactory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./AudioTagFactory */ './src/audio/AudioTagFactory.ts');
 
                 /** 音频管理器 */
                 var Audio = /** @class */ (function() {
                     function Audio() {
-                        this._factory = new _AudioTagFactory__WEBPACK_IMPORTED_MODULE_4__[
-                            'AudioTagFactory'
-                        ]();
+                        this._factory = new _AudioTagFactory__WEBPACK_IMPORTED_MODULE_4__['AudioTagFactory']();
                         this._sourceMap = {};
                         this._loadingMap = {};
                         this._playingMap = {};
@@ -857,73 +619,43 @@ and limitations under the License.
                         }
                         var loader = this._loadingMap[url];
                         if (loader == null) {
-                            loader = new _loader_HttpLoader__WEBPACK_IMPORTED_MODULE_2__[
-                                'HttpLoader'
-                            ]();
+                            loader = new _loader_HttpLoader__WEBPACK_IMPORTED_MODULE_2__['HttpLoader']();
                             this._loadingMap[url] = loader;
                             loader.load({
                                 url: url,
-                                method:
-                                    _enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_1__[
-                                        'EnumHttpMethod'
-                                    ].GET,
+                                method: _enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_1__['EnumHttpMethod'].GET,
                                 responseType: 'blob',
                                 withCredentials: true,
                                 requestHeader: {
-                                    'Content-Type':
-                                        'application/x-www-form-urlencoded',
+                                    'Content-Type': 'application/x-www-form-urlencoded',
                                 },
                             });
                         }
                         var progressHandler = function(loaded, total) {
-                            params.onProgress &&
-                                params.onProgress(loaded, total);
+                            params.onProgress && params.onProgress(loaded, total);
                         };
                         var completeHandler = function(response) {
                             var data = _this._sourceMap[url];
                             if (data == null) {
                                 delete _this._loadingMap[url];
                                 var blob = response;
-                                data = new _AudioSourceData__WEBPACK_IMPORTED_MODULE_3__[
-                                    'AudioSourceData'
-                                ](url, blob);
+                                data = new _AudioSourceData__WEBPACK_IMPORTED_MODULE_3__['AudioSourceData'](url, blob);
                                 _this._sourceMap[url] = data;
                                 data.readAsDataURL(function() {
-                                    params.onComplete &&
-                                        params.onComplete(data);
+                                    params.onComplete && params.onComplete(data);
                                 });
                             } else {
                                 params.onComplete && params.onComplete(data);
                             }
-                            loader.off(
-                                _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_0__[
-                                    'EnumEventLoader'
-                                ].PROGRESS,
-                                progressHandler,
-                            );
+                            loader.off(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_0__['EnumEventLoader'].PROGRESS, progressHandler, _this);
                         };
                         var errorHandler = function() {
                             delete _this._loadingMap[url];
                             params.onError && params.onError();
                         };
-                        loader.on(
-                            _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_0__[
-                                'EnumEventLoader'
-                            ].PROGRESS,
-                            progressHandler,
-                        );
-                        loader.once(
-                            _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_0__[
-                                'EnumEventLoader'
-                            ].COMPLETE,
-                            completeHandler,
-                        );
-                        loader.once(
-                            _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_0__[
-                                'EnumEventLoader'
-                            ].ERROR,
-                            errorHandler,
-                        );
+                        loader.on(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_0__['EnumEventLoader'].PROGRESS, progressHandler, this);
+                        loader.once(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_0__['EnumEventLoader'].COMPLETE, completeHandler, this);
+                        loader.once(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_0__['EnumEventLoader'].ERROR, errorHandler, this);
                     };
                     /**
                      * 播放一个音频
@@ -1010,13 +742,9 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'AudioSourceData',
-                    function() {
-                        return AudioSourceData;
-                    },
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'AudioSourceData', function() {
+                    return AudioSourceData;
+                });
                 /** 音频源数据 */
                 var AudioSourceData = /** @class */ (function() {
                     function AudioSourceData(url, blob) {
@@ -1059,9 +787,7 @@ and limitations under the License.
                      * 转化成base64
                      * @param onComplete
                      */
-                    AudioSourceData.prototype.readAsDataURL = function(
-                        onComplete,
-                    ) {
+                    AudioSourceData.prototype.readAsDataURL = function(onComplete) {
                         var _this = this;
                         if (this._blob == null) {
                             return;
@@ -1081,9 +807,7 @@ and limitations under the License.
                      * 转化成ArrayBuffer
                      * @param onComplete
                      */
-                    AudioSourceData.prototype.readAsArrayBuffer = function(
-                        onComplete,
-                    ) {
+                    AudioSourceData.prototype.readAsArrayBuffer = function(onComplete) {
                         var _this = this;
                         if (this._blob == null) {
                             return;
@@ -1113,16 +837,10 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'AudioTagFactory',
-                    function() {
-                        return AudioTagFactory;
-                    },
-                );
-                /* harmony import */ var _enum_EnumType__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                    /*! ../enum/EnumType */ './src/enum/EnumType.ts',
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'AudioTagFactory', function() {
+                    return AudioTagFactory;
+                });
+                /* harmony import */ var _enum_EnumType__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enum/EnumType */ './src/enum/EnumType.ts');
 
                 /** 音频标签工厂 */
                 var AudioTagFactory = /** @class */ (function() {
@@ -1146,11 +864,7 @@ and limitations under the License.
                                 var tag = _this._createTag(true);
                                 _this._tagsPool.push(tag);
                             }
-                            for (
-                                var i = 0, length = _this._tagsLocked.length;
-                                i < length;
-                                i += 1
-                            ) {
+                            for (var i = 0, length = _this._tagsLocked.length; i < length; i += 1) {
                                 var tag = _this._tagsLocked[i];
                                 var ext = tag.ext;
                                 if (ext.enabled) {
@@ -1195,13 +909,7 @@ and limitations under the License.
                     };
                     /** 设置限制数量 */
                     AudioTagFactory.prototype.setLimit = function(value) {
-                        if (
-                            typeof value ===
-                                _enum_EnumType__WEBPACK_IMPORTED_MODULE_0__[
-                                    'EnumType'
-                                ].NUMBER &&
-                            value > 0
-                        ) {
+                        if (typeof value === _enum_EnumType__WEBPACK_IMPORTED_MODULE_0__['EnumType'].NUMBER && value > 0) {
                             this._limit = value;
                         }
                     };
@@ -1247,29 +955,13 @@ and limitations under the License.
                     };
                     /** 开启解锁监听 */
                     AudioTagFactory.prototype.listen = function() {
-                        window.addEventListener(
-                            'mousedown',
-                            this._onTouch,
-                            false,
-                        );
-                        window.addEventListener(
-                            'touchstart',
-                            this._onTouch,
-                            false,
-                        );
+                        window.addEventListener('mousedown', this._onTouch, false);
+                        window.addEventListener('touchstart', this._onTouch, false);
                     };
                     /** 关闭解锁监听 */
                     AudioTagFactory.prototype.unlisten = function() {
-                        window.removeEventListener(
-                            'mousedown',
-                            this._onTouch,
-                            false,
-                        );
-                        window.removeEventListener(
-                            'touchstart',
-                            this._onTouch,
-                            false,
-                        );
+                        window.removeEventListener('mousedown', this._onTouch, false);
+                        window.removeEventListener('touchstart', this._onTouch, false);
                     };
                     return AudioTagFactory;
                 })();
@@ -1285,13 +977,9 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'Emitter',
-                    function() {
-                        return Emitter;
-                    },
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'Emitter', function() {
+                    return Emitter;
+                });
                 /** 派发器 */
                 var Emitter = /** @class */ (function() {
                     function Emitter() {
@@ -1301,137 +989,130 @@ and limitations under the License.
                      * 监听
                      * @param type
                      * @param handler
-                     * @param context
+                     * @param target
                      * @param once
                      */
-                    Emitter.prototype.on = function(
-                        type,
-                        handler,
-                        context,
-                        once,
-                    ) {
-                        var handlerList = this._getHandlerList(type);
-                        var handlerExt = handler;
-                        var index = handlerList.indexOf(handlerExt);
-                        if (index === -1) {
-                            handlerExt.type = type;
-                            handlerExt.once = !!once;
-                            handlerExt.context = context;
-                            handlerList.push(handlerExt);
+                    Emitter.prototype.on = function(type, handler, target, once) {
+                        if (type == null || handler == null) {
+                            return;
                         }
+                        var handlerList = this._getHandlerList(type);
+                        if (target === undefined) {
+                            target = null;
+                        }
+                        for (var i = handlerList.length - 1; i >= 0; i -= 1) {
+                            var data = handlerList[i];
+                            if (data.handler === handler && data.target === target) {
+                                return;
+                            }
+                        }
+                        handlerList.push({
+                            type: type,
+                            handler: handler,
+                            target: target,
+                            once: once,
+                        });
                     };
                     /**
                      * 取消监听
                      * @param type
                      * @param handler
                      */
-                    Emitter.prototype.off = function(type, handler) {
+                    Emitter.prototype.off = function(type, handler, target) {
                         var handlerList = this._getHandlerList(type);
                         if (handlerList.length === 0) {
                             return;
                         }
-                        if (handler == null) {
-                            handlerList.length = 0;
-                        } else {
-                            var index = handlerList.indexOf(handler);
-                            if (index === -1) {
-                                return;
-                            }
-                            delete handler.type;
-                            delete handler.once;
-                            delete handler.context;
-                            handlerList.splice(index, 1);
+                        if (target === undefined) {
+                            target = null;
                         }
+                        for (var i = handlerList.length - 1; i >= 0; i -= 1) {
+                            var data = handlerList[i];
+                            if (data.handler === handler && data.target === target) {
+                                handlerList.splice(i, 1);
+                                break;
+                            }
+                        }
+                    };
+                    /**
+                     * 按类型取消监听
+                     * @param type
+                     */
+                    Emitter.prototype.offType = function(type) {
+                        var handlerList = this._getHandlerList(type);
+                        if (handlerList.length === 0) {
+                            return;
+                        }
+                        handlerList.length = 0;
+                    };
+                    /**
+                     * 按目标对象取消监听
+                     * @param target
+                     */
+                    Emitter.prototype.offTarget = function(target) {
+                        var _this = this;
+                        Object.keys(this._handlerMap).forEach(function(key) {
+                            var handlerList = _this._handlerMap[key];
+                            for (var i = handlerList.length - 1; i >= 0; i -= 1) {
+                                var data = handlerList[i];
+                                if (data.target === target) {
+                                    handlerList.splice(i, 1);
+                                }
+                            }
+                        });
                     };
                     /**
                      * 监听一次
                      * @param type
                      * @param handler
-                     * @param context
+                     * @param target
                      */
-                    Emitter.prototype.once = function(type, handler, context) {
-                        this.on(type, handler, context, true);
-                    };
-                    /**
-                     * 是否注册过
-                     * @param type
-                     * @param handler
-                     */
-                    Emitter.prototype.has = function(type, handler) {
-                        var handlerList = this._getHandlerList(type);
-                        var index = handlerList.indexOf(handler);
-                        return index !== -1;
+                    Emitter.prototype.once = function(type, handler, target) {
+                        this.on(type, handler, target, true);
                     };
                     /**
                      * 派发
                      * @param type
                      * @param params
                      */
-                    Emitter.prototype.emit = function(
-                        type,
-                        arg1,
-                        arg2,
-                        arg3,
-                        arg4,
-                        arg5,
-                    ) {
+                    Emitter.prototype.emit = function(type, arg1, arg2, arg3, arg4, arg5) {
                         var handlerList = this._getHandlerList(type);
                         if (handlerList.length === 0) {
                             return;
                         }
                         var needClean = false;
                         var argLength = arguments.length;
-                        handlerList.forEach(function(handler) {
+                        handlerList.forEach(function(data) {
+                            var handler = data.handler;
+                            var target = data.target;
                             switch (argLength) {
                                 case 0:
-                                    handler.call(handler.context);
+                                    handler.call(target);
                                     break;
                                 case 1:
-                                    handler.call(handler.context, arg1);
+                                    handler.call(target, arg1);
                                     break;
                                 case 2:
-                                    handler.call(handler.context, arg1, arg2);
+                                    handler.call(target, arg1, arg2);
                                     break;
                                 case 3:
-                                    handler.call(
-                                        handler.context,
-                                        arg1,
-                                        arg2,
-                                        arg3,
-                                    );
+                                    handler.call(target, arg1, arg2, arg3);
                                     break;
                                 case 4:
-                                    handler.call(
-                                        handler.context,
-                                        arg1,
-                                        arg2,
-                                        arg3,
-                                        arg4,
-                                    );
+                                    handler.call(target, arg1, arg2, arg3, arg4);
                                     break;
                                 case 5:
-                                    handler.call(
-                                        handler.context,
-                                        arg1,
-                                        arg2,
-                                        arg3,
-                                        arg4,
-                                        arg5,
-                                    );
+                                    handler.call(target, arg1, arg2, arg3, arg4, arg5);
                                     break;
                                 default:
                             }
-                            if (handler.once) {
+                            if (data.once) {
                                 needClean = true;
                             }
                         });
                         if (needClean) {
                             var newHandlerList = [];
-                            for (
-                                var i = 0, length = handlerList.length;
-                                i < length;
-                                i += 1
-                            ) {
+                            for (var i = 0, length = handlerList.length; i < length; i += 1) {
                                 var handler = handlerList[i];
                                 if (handler.once) {
                                     continue;
@@ -1463,13 +1144,9 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'Singleton',
-                    function() {
-                        return Singleton;
-                    },
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'Singleton', function() {
+                    return Singleton;
+                });
                 /** 单例 */
                 var Singleton = /** @class */ (function() {
                     function Singleton() {
@@ -1524,13 +1201,9 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'EnumEventLoader',
-                    function() {
-                        return EnumEventLoader;
-                    },
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'EnumEventLoader', function() {
+                    return EnumEventLoader;
+                });
                 /** 加载事件 */
                 var EnumEventLoader;
                 (function(EnumEventLoader) {
@@ -1551,13 +1224,9 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'EnumHttpMethod',
-                    function() {
-                        return EnumHttpMethod;
-                    },
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'EnumHttpMethod', function() {
+                    return EnumHttpMethod;
+                });
                 /** http method */
                 var EnumHttpMethod;
                 (function(EnumHttpMethod) {
@@ -1583,13 +1252,9 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'EnumType',
-                    function() {
-                        return EnumType;
-                    },
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'EnumType', function() {
+                    return EnumType;
+                });
                 /** js类型 */
                 var EnumType;
                 (function(EnumType) {
@@ -1611,83 +1276,35 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony import */ var _audio_Audio__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                    /*! ./audio/Audio */ './src/audio/Audio.ts',
-                );
-                /* harmony reexport (safe) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'Audio',
-                    function() {
-                        return _audio_Audio__WEBPACK_IMPORTED_MODULE_0__[
-                            'Audio'
-                        ];
-                    },
-                );
+                /* harmony import */ var _audio_Audio__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./audio/Audio */ './src/audio/Audio.ts');
+                /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, 'Audio', function() {
+                    return _audio_Audio__WEBPACK_IMPORTED_MODULE_0__['Audio'];
+                });
 
-                /* harmony import */ var _base_Emitter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
-                    /*! ./base/Emitter */ './src/base/Emitter.ts',
-                );
-                /* harmony reexport (safe) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'Emitter',
-                    function() {
-                        return _base_Emitter__WEBPACK_IMPORTED_MODULE_1__[
-                            'Emitter'
-                        ];
-                    },
-                );
+                /* harmony import */ var _base_Emitter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./base/Emitter */ './src/base/Emitter.ts');
+                /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, 'Emitter', function() {
+                    return _base_Emitter__WEBPACK_IMPORTED_MODULE_1__['Emitter'];
+                });
 
-                /* harmony import */ var _base_Singleton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
-                    /*! ./base/Singleton */ './src/base/Singleton.ts',
-                );
-                /* harmony reexport (safe) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'Singleton',
-                    function() {
-                        return _base_Singleton__WEBPACK_IMPORTED_MODULE_2__[
-                            'Singleton'
-                        ];
-                    },
-                );
+                /* harmony import */ var _base_Singleton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base/Singleton */ './src/base/Singleton.ts');
+                /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, 'Singleton', function() {
+                    return _base_Singleton__WEBPACK_IMPORTED_MODULE_2__['Singleton'];
+                });
 
-                /* harmony import */ var _loader_HttpLoader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
-                    /*! ./loader/HttpLoader */ './src/loader/HttpLoader.ts',
-                );
-                /* harmony reexport (safe) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'HttpLoader',
-                    function() {
-                        return _loader_HttpLoader__WEBPACK_IMPORTED_MODULE_3__[
-                            'HttpLoader'
-                        ];
-                    },
-                );
+                /* harmony import */ var _loader_HttpLoader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./loader/HttpLoader */ './src/loader/HttpLoader.ts');
+                /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, 'HttpLoader', function() {
+                    return _loader_HttpLoader__WEBPACK_IMPORTED_MODULE_3__['HttpLoader'];
+                });
 
-                /* harmony import */ var _loader_ImageLoader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
-                    /*! ./loader/ImageLoader */ './src/loader/ImageLoader.ts',
-                );
-                /* harmony reexport (safe) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'ImageLoader',
-                    function() {
-                        return _loader_ImageLoader__WEBPACK_IMPORTED_MODULE_4__[
-                            'ImageLoader'
-                        ];
-                    },
-                );
+                /* harmony import */ var _loader_ImageLoader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./loader/ImageLoader */ './src/loader/ImageLoader.ts');
+                /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, 'ImageLoader', function() {
+                    return _loader_ImageLoader__WEBPACK_IMPORTED_MODULE_4__['ImageLoader'];
+                });
 
-                /* harmony import */ var _loader_ScriptLoader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
-                    /*! ./loader/ScriptLoader */ './src/loader/ScriptLoader.ts',
-                );
-                /* harmony reexport (safe) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'ScriptLoader',
-                    function() {
-                        return _loader_ScriptLoader__WEBPACK_IMPORTED_MODULE_5__[
-                            'ScriptLoader'
-                        ];
-                    },
-                );
+                /* harmony import */ var _loader_ScriptLoader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./loader/ScriptLoader */ './src/loader/ScriptLoader.ts');
+                /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, 'ScriptLoader', function() {
+                    return _loader_ScriptLoader__WEBPACK_IMPORTED_MODULE_5__['ScriptLoader'];
+                });
 
                 /***/
             },
@@ -1700,37 +1317,18 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'HttpLoader',
-                    function() {
-                        return HttpLoader;
-                    },
-                );
-                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
-                );
-                /* harmony import */ var _base_Emitter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
-                    /*! ../base/Emitter */ './src/base/Emitter.ts',
-                );
-                /* harmony import */ var _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
-                    /*! ../enum/EnumEventLoader */ './src/enum/EnumEventLoader.ts',
-                );
-                /* harmony import */ var _enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
-                    /*! ../enum/EnumHttpMethod */ './src/enum/EnumHttpMethod.ts',
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'HttpLoader', function() {
+                    return HttpLoader;
+                });
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ './node_modules/tslib/tslib.es6.js');
+                /* harmony import */ var _base_Emitter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../base/Emitter */ './src/base/Emitter.ts');
+                /* harmony import */ var _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../enum/EnumEventLoader */ './src/enum/EnumEventLoader.ts');
+                /* harmony import */ var _enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../enum/EnumHttpMethod */ './src/enum/EnumHttpMethod.ts');
 
                 var HttpLoader = /** @class */ (function(_super) {
-                    tslib__WEBPACK_IMPORTED_MODULE_0__['__extends'](
-                        HttpLoader,
-                        _super,
-                    );
+                    tslib__WEBPACK_IMPORTED_MODULE_0__['__extends'](HttpLoader, _super);
                     function HttpLoader() {
-                        return (
-                            (_super !== null &&
-                                _super.apply(this, arguments)) ||
-                            this
-                        );
+                        return (_super !== null && _super.apply(this, arguments)) || this;
                     }
                     /**
                      * 加载
@@ -1742,43 +1340,24 @@ and limitations under the License.
                             return;
                         }
                         var url = config.url;
-                        var method =
-                            config.method ||
-                            _enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_3__[
-                                'EnumHttpMethod'
-                            ].GET;
+                        var method = config.method || _enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_3__['EnumHttpMethod'].GET;
                         var data = config.data;
                         var requestHeader = config.requestHeader;
                         var sendData = null;
                         if (data != null) {
-                            var contentType =
-                                requestHeader && requestHeader['Content-Type'];
+                            var contentType = requestHeader && requestHeader['Content-Type'];
                             switch (method) {
-                                case _enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_3__[
-                                    'EnumHttpMethod'
-                                ].POST:
+                                case _enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_3__['EnumHttpMethod'].POST:
                                     switch (contentType) {
                                         case 'application/x-www-form-urlencoded':
-                                            var params = Object.keys(data).map(
-                                                function(key) {
-                                                    return (
-                                                        encodeURIComponent(
-                                                            key,
-                                                        ) +
-                                                        '=' +
-                                                        encodeURIComponent(
-                                                            data[key],
-                                                        )
-                                                    );
-                                                },
-                                            );
+                                            var params = Object.keys(data).map(function(key) {
+                                                return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
+                                            });
                                             sendData = params.join('&');
                                             break;
                                         case 'multipart/form-data':
                                             sendData = new FormData();
-                                            Object.keys(data).forEach(function(
-                                                key,
-                                            ) {
+                                            Object.keys(data).forEach(function(key) {
                                                 sendData.append(key, data[key]);
                                             });
                                             break;
@@ -1787,9 +1366,7 @@ and limitations under the License.
                                             break;
                                     }
                                     break;
-                                case _enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_3__[
-                                    'EnumHttpMethod'
-                                ].GET:
+                                case _enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_3__['EnumHttpMethod'].GET:
                                     // TODO 支持data变量变为参数拼接至url后面
                                     break;
                                 default:
@@ -1813,25 +1390,15 @@ and limitations under the License.
                         }
                         var onError = function() {
                             _this.reset();
-                            _this.emit(
-                                _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__[
-                                    'EnumEventLoader'
-                                ].ERROR,
-                            );
+                            _this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].ERROR);
                         };
                         xhr.onreadystatechange = function() {
                             var readyState = xhr.readyState;
                             var status = xhr.status;
                             if (readyState === 4) {
                                 if (status === 200) {
-                                    var data_1 =
-                                        xhr.response || xhr.responseText;
-                                    _this.emit(
-                                        _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__[
-                                            'EnumEventLoader'
-                                        ].COMPLETE,
-                                        data_1,
-                                    );
+                                    var data_1 = xhr.response || xhr.responseText;
+                                    _this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].COMPLETE, data_1);
                                 } else {
                                     onError();
                                 }
@@ -1844,23 +1411,13 @@ and limitations under the License.
                         xhr.onprogress = function(evt) {
                             var total = evt.total;
                             var loaded = evt.loaded;
-                            _this.emit(
-                                _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__[
-                                    'EnumEventLoader'
-                                ].PROGRESS,
-                                loaded,
-                                total,
-                            );
+                            _this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].PROGRESS, loaded, total);
                         };
                         xhr.onerror = function(evt) {
                             onError();
                         };
                         xhr.send(sendData);
-                        this.emit(
-                            _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__[
-                                'EnumEventLoader'
-                            ].START,
-                        );
+                        this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].START);
                     };
                     /** 重置 */
                     HttpLoader.prototype.reset = function() {
@@ -1886,34 +1443,17 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'ImageLoader',
-                    function() {
-                        return ImageLoader;
-                    },
-                );
-                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
-                );
-                /* harmony import */ var _base_Emitter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
-                    /*! ../base/Emitter */ './src/base/Emitter.ts',
-                );
-                /* harmony import */ var _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
-                    /*! ../enum/EnumEventLoader */ './src/enum/EnumEventLoader.ts',
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'ImageLoader', function() {
+                    return ImageLoader;
+                });
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ './node_modules/tslib/tslib.es6.js');
+                /* harmony import */ var _base_Emitter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../base/Emitter */ './src/base/Emitter.ts');
+                /* harmony import */ var _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../enum/EnumEventLoader */ './src/enum/EnumEventLoader.ts');
 
                 var ImageLoader = /** @class */ (function(_super) {
-                    tslib__WEBPACK_IMPORTED_MODULE_0__['__extends'](
-                        ImageLoader,
-                        _super,
-                    );
+                    tslib__WEBPACK_IMPORTED_MODULE_0__['__extends'](ImageLoader, _super);
                     function ImageLoader() {
-                        return (
-                            (_super !== null &&
-                                _super.apply(this, arguments)) ||
-                            this
-                        );
+                        return (_super !== null && _super.apply(this, arguments)) || this;
                     }
                     /**
                      * 加载
@@ -1929,37 +1469,18 @@ and limitations under the License.
                         this._image = img;
                         img.src = config.url;
                         img.onload = function() {
-                            _this.emit(
-                                _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__[
-                                    'EnumEventLoader'
-                                ].COMPLETE,
-                                _this._image,
-                            );
+                            _this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].COMPLETE, _this._image);
                         };
                         img.onprogress = function(evt) {
                             var total = evt.total;
                             var loaded = evt.loaded;
-                            _this.emit(
-                                _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__[
-                                    'EnumEventLoader'
-                                ].PROGRESS,
-                                loaded,
-                                total,
-                            );
+                            _this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].PROGRESS, loaded, total);
                         };
                         img.onerror = function() {
                             _this.reset();
-                            _this.emit(
-                                _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__[
-                                    'EnumEventLoader'
-                                ].ERROR,
-                            );
+                            _this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].ERROR);
                         };
-                        this.emit(
-                            _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__[
-                                'EnumEventLoader'
-                            ].START,
-                        );
+                        this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].START);
                     };
                     /** 重置 */
                     ImageLoader.prototype.reset = function() {
@@ -1982,34 +1503,17 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'ScriptLoader',
-                    function() {
-                        return ScriptLoader;
-                    },
-                );
-                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
-                );
-                /* harmony import */ var _base_Emitter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
-                    /*! ../base/Emitter */ './src/base/Emitter.ts',
-                );
-                /* harmony import */ var _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
-                    /*! ../enum/EnumEventLoader */ './src/enum/EnumEventLoader.ts',
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'ScriptLoader', function() {
+                    return ScriptLoader;
+                });
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ './node_modules/tslib/tslib.es6.js');
+                /* harmony import */ var _base_Emitter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../base/Emitter */ './src/base/Emitter.ts');
+                /* harmony import */ var _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../enum/EnumEventLoader */ './src/enum/EnumEventLoader.ts');
 
                 var ScriptLoader = /** @class */ (function(_super) {
-                    tslib__WEBPACK_IMPORTED_MODULE_0__['__extends'](
-                        ScriptLoader,
-                        _super,
-                    );
+                    tslib__WEBPACK_IMPORTED_MODULE_0__['__extends'](ScriptLoader, _super);
                     function ScriptLoader() {
-                        return (
-                            (_super !== null &&
-                                _super.apply(this, arguments)) ||
-                            this
-                        );
+                        return (_super !== null && _super.apply(this, arguments)) || this;
                     }
                     /**
                      * 加载
@@ -2024,38 +1528,19 @@ and limitations under the License.
                         this._script = script;
                         script.src = config.url;
                         script.onload = function() {
-                            _this.emit(
-                                _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__[
-                                    'EnumEventLoader'
-                                ].COMPLETE,
-                                _this._script,
-                            );
+                            _this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].COMPLETE, _this._script);
                         };
                         script.onprogress = function(evt) {
                             var total = evt.total;
                             var loaded = evt.loaded;
-                            _this.emit(
-                                _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__[
-                                    'EnumEventLoader'
-                                ].PROGRESS,
-                                loaded,
-                                total,
-                            );
+                            _this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].PROGRESS, loaded, total);
                         };
                         script.onerror = function() {
                             _this.reset();
-                            _this.emit(
-                                _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__[
-                                    'EnumEventLoader'
-                                ].ERROR,
-                            );
+                            _this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].ERROR);
                         };
                         document.body.appendChild(script);
-                        this.emit(
-                            _enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__[
-                                'EnumEventLoader'
-                            ].START,
-                        );
+                        this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].START);
                     };
                     /** 重置 */
                     ScriptLoader.prototype.reset = function() {
@@ -2078,139 +1563,98 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'TestAudio',
-                    function() {
-                        return TestAudio;
-                    },
-                );
-                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
-                );
-                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
-                    /*! ../src/index */ './src/index.ts',
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'TestAudio', function() {
+                    return TestAudio;
+                });
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ './node_modules/tslib/tslib.es6.js');
+                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../src/index */ './src/index.ts');
 
                 function TestAudio() {
-                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](
-                        this,
-                        void 0,
-                        Promise,
-                        function() {
-                            var audio, url, button;
-                            return tslib__WEBPACK_IMPORTED_MODULE_0__[
-                                '__generator'
-                            ](this, function(_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        console.log(
-                                            '---------- TestAudio ----------',
-                                        );
-                                        console.log('\n');
-                                        audio = new _src_index__WEBPACK_IMPORTED_MODULE_1__[
-                                            'Audio'
-                                        ]();
-                                        url = './test_audio.mp3';
-                                        button = document.createElement(
-                                            'button',
-                                        );
-                                        button.textContent =
-                                            '点击按钮解锁audio标签';
-                                        document.body.append(button);
-                                        return [
-                                            4 /*yield*/,
-                                            new Promise(function(resolve) {
-                                                audio.setTagLimit(10);
-                                                button.onclick = function() {
-                                                    console.log('onclick');
-                                                    document.body.removeChild(
-                                                        button,
-                                                    );
-                                                    console.log(audio.factory);
-                                                    resolve();
-                                                };
-                                            }),
-                                        ];
-                                    case 1:
-                                        _a.sent();
-                                        return [
-                                            4 /*yield*/,
-                                            new Promise(function(resolve) {
-                                                console.log('load');
-                                                audio.load({
-                                                    url: url,
-                                                    onComplete: function(data) {
-                                                        console.log(
-                                                            'onComplete',
-                                                        );
-                                                        console.log(data);
-                                                        console.log('play');
-                                                        audio.play({
-                                                            url: url,
-                                                        });
-                                                        setTimeout(function() {
-                                                            console.log('stop');
-                                                            audio.stop(url);
-                                                            resolve();
-                                                        }, 3000);
-                                                    },
-                                                });
-                                            }),
-                                        ];
-                                    case 2:
-                                        _a.sent();
-                                        console.log('\n');
-                                        return [
-                                            4 /*yield*/,
-                                            new Promise(function(resolve) {
-                                                console.log(
-                                                    'removeSource(' + url + ')',
-                                                );
-                                                audio.removeSource(url);
-                                                console.log(
-                                                    'getSource(' +
-                                                        url +
-                                                        '):' +
-                                                        audio.getSource(url),
-                                                );
-                                                console.log('play');
-                                                audio.play({
-                                                    url: url,
-                                                });
-                                                setTimeout(function() {
-                                                    console.log('stop');
-                                                    audio.stop(url);
-                                                    resolve();
-                                                }, 10000);
-                                                setTimeout(function() {
-                                                    console.log(
-                                                        'setMuted',
-                                                        true,
-                                                    );
-                                                    audio.setMuted(true);
+                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](this, void 0, Promise, function() {
+                        var audio, url, button;
+                        return tslib__WEBPACK_IMPORTED_MODULE_0__['__generator'](this, function(_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    console.log('---------- TestAudio ----------');
+                                    console.log('\n');
+                                    audio = new _src_index__WEBPACK_IMPORTED_MODULE_1__['Audio']();
+                                    url = './test_audio.mp3';
+                                    button = document.createElement('button');
+                                    button.textContent = '点击按钮解锁audio标签';
+                                    document.body.append(button);
+                                    return [
+                                        4 /*yield*/,
+                                        new Promise(function(resolve) {
+                                            audio.setTagLimit(10);
+                                            button.onclick = function() {
+                                                console.log('onclick');
+                                                document.body.removeChild(button);
+                                                console.log(audio.factory);
+                                                resolve();
+                                            };
+                                        }),
+                                    ];
+                                case 1:
+                                    _a.sent();
+                                    return [
+                                        4 /*yield*/,
+                                        new Promise(function(resolve) {
+                                            console.log('load');
+                                            audio.load({
+                                                url: url,
+                                                onComplete: function(data) {
+                                                    console.log('onComplete');
+                                                    console.log(data);
+                                                    console.log('play');
+                                                    audio.play({
+                                                        url: url,
+                                                    });
                                                     setTimeout(function() {
-                                                        console.log(
-                                                            'setMuted',
-                                                            false,
-                                                        );
-                                                        audio.setMuted(false);
-                                                    }, 2000);
-                                                }, 5000);
-                                            }),
-                                        ];
-                                    case 3:
-                                        _a.sent();
-                                        console.log('\n');
-                                        console.log(
-                                            '---------- ---------- ----------',
-                                        );
-                                        console.log('\n\n');
-                                        return [2 /*return*/];
-                                }
-                            });
-                        },
-                    );
+                                                        console.log('stop');
+                                                        audio.stop(url);
+                                                        resolve();
+                                                    }, 3000);
+                                                },
+                                            });
+                                        }),
+                                    ];
+                                case 2:
+                                    _a.sent();
+                                    console.log('\n');
+                                    return [
+                                        4 /*yield*/,
+                                        new Promise(function(resolve) {
+                                            console.log('removeSource(' + url + ')');
+                                            audio.removeSource(url);
+                                            console.log('getSource(' + url + '):' + audio.getSource(url));
+                                            console.log('play');
+                                            audio.play({
+                                                url: url,
+                                            });
+                                            setTimeout(function() {
+                                                console.log('stop');
+                                                audio.stop(url);
+                                                resolve();
+                                            }, 10000);
+                                            setTimeout(function() {
+                                                console.log('setMuted', true);
+                                                audio.setMuted(true);
+                                                setTimeout(function() {
+                                                    console.log('setMuted', false);
+                                                    audio.setMuted(false);
+                                                }, 2000);
+                                            }, 5000);
+                                        }),
+                                    ];
+                                case 3:
+                                    _a.sent();
+                                    console.log('\n');
+                                    console.log('---------- ---------- ----------');
+                                    console.log('\n\n');
+                                    return [2 /*return*/];
+                            }
+                        });
+                    });
                 }
 
                 /***/
@@ -2224,68 +1668,45 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'TestEmitter',
-                    function() {
-                        return TestEmitter;
-                    },
-                );
-                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
-                );
-                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
-                    /*! ../src/index */ './src/index.ts',
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'TestEmitter', function() {
+                    return TestEmitter;
+                });
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ './node_modules/tslib/tslib.es6.js');
+                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../src/index */ './src/index.ts');
 
                 function TestEmitter() {
-                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](
-                        this,
-                        void 0,
-                        Promise,
-                        function() {
-                            var emitter, type, handler;
-                            return tslib__WEBPACK_IMPORTED_MODULE_0__[
-                                '__generator'
-                            ](this, function(_a) {
-                                console.log(
-                                    '---------- TestEmitter ----------',
-                                );
-                                console.log('\n');
-                                emitter = new _src_index__WEBPACK_IMPORTED_MODULE_1__[
-                                    'Emitter'
-                                ]();
-                                type = 'test';
-                                handler = function() {
-                                    console.log('This is handler');
-                                };
-                                console.log('on');
-                                emitter.on(type, handler);
-                                console.log('has', emitter.has(type, handler));
-                                console.log('emit ' + type);
-                                emitter.emit(type);
-                                console.log('\n');
-                                console.log('off');
-                                emitter.off(type, handler);
-                                console.log('has', emitter.has(type, handler));
-                                console.log('emit ' + type);
-                                emitter.emit(type);
-                                console.log('\n');
-                                console.log('once');
-                                emitter.once(type, handler);
-                                console.log('has', emitter.has(type, handler));
-                                console.log('emit ' + type + ' 1');
-                                emitter.emit(type);
-                                console.log('has', emitter.has(type, handler));
-                                console.log('emit ' + type + ' 2');
-                                emitter.emit(type);
-                                console.log('\n');
-                                console.log('---------- ---------- ----------');
-                                console.log('\n\n');
-                                return [2 /*return*/];
-                            });
-                        },
-                    );
+                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](this, void 0, Promise, function() {
+                        var emitter, type, handler;
+                        return tslib__WEBPACK_IMPORTED_MODULE_0__['__generator'](this, function(_a) {
+                            console.log('---------- TestEmitter ----------');
+                            console.log('\n');
+                            emitter = new _src_index__WEBPACK_IMPORTED_MODULE_1__['Emitter']();
+                            type = 'test';
+                            handler = function() {
+                                console.log('This is handler');
+                            };
+                            console.log('on');
+                            emitter.on(type, handler, null);
+                            console.log('emit ' + type);
+                            emitter.emit(type);
+                            console.log('\n');
+                            console.log('off');
+                            emitter.off(type, handler, null);
+                            console.log('emit ' + type);
+                            emitter.emit(type);
+                            console.log('\n');
+                            console.log('once');
+                            emitter.once(type, handler, null);
+                            console.log('emit ' + type + ' 1');
+                            emitter.emit(type);
+                            console.log('emit ' + type + ' 2');
+                            emitter.emit(type);
+                            console.log('\n');
+                            console.log('---------- ---------- ----------');
+                            console.log('\n\n');
+                            return [2 /*return*/];
+                        });
+                    });
                 }
 
                 /***/
@@ -2299,98 +1720,65 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'TestHttpLoader',
-                    function() {
-                        return TestHttpLoader;
-                    },
-                );
-                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'TestHttpLoader', function() {
+                    return TestHttpLoader;
+                });
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ './node_modules/tslib/tslib.es6.js');
                 /* harmony import */ var _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
                     /*! ../src/enum/EnumEventLoader */ './src/enum/EnumEventLoader.ts',
                 );
                 /* harmony import */ var _src_enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
                     /*! ../src/enum/EnumHttpMethod */ './src/enum/EnumHttpMethod.ts',
                 );
-                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
-                    /*! ../src/index */ './src/index.ts',
-                );
+                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../src/index */ './src/index.ts');
 
                 function TestHttpLoader() {
-                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](
-                        this,
-                        void 0,
-                        Promise,
-                        function() {
-                            var httpLoader, url, config;
-                            return tslib__WEBPACK_IMPORTED_MODULE_0__[
-                                '__generator'
-                            ](this, function(_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        console.log(
-                                            '---------- TestHttpLoader ----------',
-                                        );
-                                        console.log('\n');
-                                        httpLoader = new _src_index__WEBPACK_IMPORTED_MODULE_3__[
-                                            'HttpLoader'
-                                        ]();
-                                        url = 'http://www.baidu.com/';
-                                        config = {
-                                            url: url,
-                                            method:
-                                                _src_enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_2__[
-                                                    'EnumHttpMethod'
-                                                ].GET,
-                                        };
-                                        console.log('send', config);
-                                        return [
-                                            4 /*yield*/,
-                                            new Promise(function(resolve) {
-                                                httpLoader.load(config);
-                                                httpLoader.on(
-                                                    _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
-                                                        'EnumEventLoader'
-                                                    ].COMPLETE,
-                                                    function(data) {
-                                                        console.log(
-                                                            _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
-                                                                'EnumEventLoader'
-                                                            ].COMPLETE,
-                                                        );
-                                                        resolve();
-                                                    },
-                                                );
-                                                httpLoader.on(
-                                                    _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
-                                                        'EnumEventLoader'
-                                                    ].ERROR,
-                                                    function(err) {
-                                                        console.log(
-                                                            _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
-                                                                'EnumEventLoader'
-                                                            ].ERROR,
-                                                            err,
-                                                        );
-                                                        resolve();
-                                                    },
-                                                );
-                                            }),
-                                        ];
-                                    case 1:
-                                        _a.sent();
-                                        console.log(
-                                            '---------- ---------- ----------',
-                                        );
-                                        console.log('\n\n');
-                                        return [2 /*return*/];
-                                }
-                            });
-                        },
-                    );
+                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](this, void 0, Promise, function() {
+                        var httpLoader, url, config;
+                        return tslib__WEBPACK_IMPORTED_MODULE_0__['__generator'](this, function(_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    console.log('---------- TestHttpLoader ----------');
+                                    console.log('\n');
+                                    httpLoader = new _src_index__WEBPACK_IMPORTED_MODULE_3__['HttpLoader']();
+                                    url = 'http://www.test.17zuoye.net/resources/apps/student/megrez/assets/full_reading_loading_ske-7f463979.json';
+                                    config = {
+                                        url: url,
+                                        method: _src_enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_2__['EnumHttpMethod'].GET,
+                                        responseType: 'json',
+                                        withCredentials: true,
+                                    };
+                                    console.log('send', config);
+                                    return [
+                                        4 /*yield*/,
+                                        new Promise(function(resolve) {
+                                            httpLoader.load(config);
+                                            httpLoader.on(
+                                                _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__['EnumEventLoader'].COMPLETE,
+                                                function(data) {
+                                                    console.log(_src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__['EnumEventLoader'].COMPLETE);
+                                                    resolve();
+                                                },
+                                                null,
+                                            );
+                                            httpLoader.on(
+                                                _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__['EnumEventLoader'].ERROR,
+                                                function(err) {
+                                                    console.log(_src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__['EnumEventLoader'].ERROR, err);
+                                                    resolve();
+                                                },
+                                                null,
+                                            );
+                                        }),
+                                    ];
+                                case 1:
+                                    _a.sent();
+                                    console.log('---------- ---------- ----------');
+                                    console.log('\n\n');
+                                    return [2 /*return*/];
+                            }
+                        });
+                    });
                 }
 
                 /***/
@@ -2404,92 +1792,50 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'TestImageLoader',
-                    function() {
-                        return TestImageLoader;
-                    },
-                );
-                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'TestImageLoader', function() {
+                    return TestImageLoader;
+                });
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ './node_modules/tslib/tslib.es6.js');
                 /* harmony import */ var _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
                     /*! ../src/enum/EnumEventLoader */ './src/enum/EnumEventLoader.ts',
                 );
-                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
-                    /*! ../src/index */ './src/index.ts',
-                );
+                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../src/index */ './src/index.ts');
 
                 function TestImageLoader() {
-                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](
-                        this,
-                        void 0,
-                        Promise,
-                        function() {
-                            var imageLoader, config;
-                            return tslib__WEBPACK_IMPORTED_MODULE_0__[
-                                '__generator'
-                            ](this, function(_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        console.log(
-                                            '---------- TestImageLoader ----------',
-                                        );
-                                        console.log('\n');
-                                        imageLoader = new _src_index__WEBPACK_IMPORTED_MODULE_2__[
-                                            'ImageLoader'
-                                        ]();
-                                        config = {
-                                            url:
-                                                'https://www.baidu.com/img/xinshouye_1aa82cd448e4c0aee0961ed6e290baaf.gif',
-                                        };
-                                        console.log('send', config);
-                                        return [
-                                            4 /*yield*/,
-                                            new Promise(function(resolve) {
-                                                imageLoader.load(config);
-                                                imageLoader.on(
-                                                    _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
-                                                        'EnumEventLoader'
-                                                    ].COMPLETE,
-                                                    function(data) {
-                                                        console.log(
-                                                            _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
-                                                                'EnumEventLoader'
-                                                            ].COMPLETE,
-                                                            data,
-                                                        );
-                                                        resolve();
-                                                    },
-                                                );
-                                                imageLoader.on(
-                                                    _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
-                                                        'EnumEventLoader'
-                                                    ].ERROR,
-                                                    function(err) {
-                                                        console.log(
-                                                            _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
-                                                                'EnumEventLoader'
-                                                            ].ERROR,
-                                                            err,
-                                                        );
-                                                        resolve();
-                                                    },
-                                                );
-                                            }),
-                                        ];
-                                    case 1:
-                                        _a.sent();
-                                        console.log(
-                                            '---------- ---------- ----------',
-                                        );
-                                        console.log('\n\n');
-                                        return [2 /*return*/];
-                                }
-                            });
-                        },
-                    );
+                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](this, void 0, Promise, function() {
+                        var imageLoader, config;
+                        return tslib__WEBPACK_IMPORTED_MODULE_0__['__generator'](this, function(_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    console.log('---------- TestImageLoader ----------');
+                                    console.log('\n');
+                                    imageLoader = new _src_index__WEBPACK_IMPORTED_MODULE_2__['ImageLoader']();
+                                    config = {
+                                        url: 'https://www.baidu.com/img/xinshouye_1aa82cd448e4c0aee0961ed6e290baaf.gif',
+                                    };
+                                    console.log('send', config);
+                                    return [
+                                        4 /*yield*/,
+                                        new Promise(function(resolve) {
+                                            imageLoader.load(config);
+                                            imageLoader.on(_src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__['EnumEventLoader'].COMPLETE, function(data) {
+                                                console.log(_src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__['EnumEventLoader'].COMPLETE, data);
+                                                resolve();
+                                            });
+                                            imageLoader.on(_src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__['EnumEventLoader'].ERROR, function(err) {
+                                                console.log(_src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__['EnumEventLoader'].ERROR, err);
+                                                resolve();
+                                            });
+                                        }),
+                                    ];
+                                case 1:
+                                    _a.sent();
+                                    console.log('---------- ---------- ----------');
+                                    console.log('\n\n');
+                                    return [2 /*return*/];
+                            }
+                        });
+                    });
                 }
 
                 /***/
@@ -2503,91 +1849,50 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'TestScriptLoader',
-                    function() {
-                        return TestScriptLoader;
-                    },
-                );
-                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'TestScriptLoader', function() {
+                    return TestScriptLoader;
+                });
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ './node_modules/tslib/tslib.es6.js');
                 /* harmony import */ var _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
                     /*! ../src/enum/EnumEventLoader */ './src/enum/EnumEventLoader.ts',
                 );
-                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
-                    /*! ../src/index */ './src/index.ts',
-                );
+                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../src/index */ './src/index.ts');
 
                 function TestScriptLoader() {
-                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](
-                        this,
-                        void 0,
-                        Promise,
-                        function() {
-                            var scriptLoader, config;
-                            return tslib__WEBPACK_IMPORTED_MODULE_0__[
-                                '__generator'
-                            ](this, function(_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        console.log(
-                                            '---------- TestScriptLoader ----------',
-                                        );
-                                        console.log('\n');
-                                        scriptLoader = new _src_index__WEBPACK_IMPORTED_MODULE_2__[
-                                            'ScriptLoader'
-                                        ]();
-                                        config = {
-                                            url: './test_scriptloader.js',
-                                        };
-                                        console.log('send', config);
-                                        return [
-                                            4 /*yield*/,
-                                            new Promise(function(resolve) {
-                                                scriptLoader.load(config);
-                                                scriptLoader.on(
-                                                    _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
-                                                        'EnumEventLoader'
-                                                    ].COMPLETE,
-                                                    function(data) {
-                                                        console.log(
-                                                            _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
-                                                                'EnumEventLoader'
-                                                            ].COMPLETE,
-                                                            data,
-                                                        );
-                                                        resolve();
-                                                    },
-                                                );
-                                                scriptLoader.on(
-                                                    _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
-                                                        'EnumEventLoader'
-                                                    ].ERROR,
-                                                    function(err) {
-                                                        console.log(
-                                                            _src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__[
-                                                                'EnumEventLoader'
-                                                            ].ERROR,
-                                                            err,
-                                                        );
-                                                        resolve();
-                                                    },
-                                                );
-                                            }),
-                                        ];
-                                    case 1:
-                                        _a.sent();
-                                        console.log(
-                                            '---------- ---------- ----------',
-                                        );
-                                        console.log('\n\n');
-                                        return [2 /*return*/];
-                                }
-                            });
-                        },
-                    );
+                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](this, void 0, Promise, function() {
+                        var scriptLoader, config;
+                        return tslib__WEBPACK_IMPORTED_MODULE_0__['__generator'](this, function(_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    console.log('---------- TestScriptLoader ----------');
+                                    console.log('\n');
+                                    scriptLoader = new _src_index__WEBPACK_IMPORTED_MODULE_2__['ScriptLoader']();
+                                    config = {
+                                        url: './test_scriptloader.js',
+                                    };
+                                    console.log('send', config);
+                                    return [
+                                        4 /*yield*/,
+                                        new Promise(function(resolve) {
+                                            scriptLoader.load(config);
+                                            scriptLoader.on(_src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__['EnumEventLoader'].COMPLETE, function(data) {
+                                                console.log(_src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__['EnumEventLoader'].COMPLETE, data);
+                                                resolve();
+                                            });
+                                            scriptLoader.on(_src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__['EnumEventLoader'].ERROR, function(err) {
+                                                console.log(_src_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_1__['EnumEventLoader'].ERROR, err);
+                                                resolve();
+                                            });
+                                        }),
+                                    ];
+                                case 1:
+                                    _a.sent();
+                                    console.log('---------- ---------- ----------');
+                                    console.log('\n\n');
+                                    return [2 /*return*/];
+                            }
+                        });
+                    });
                 }
 
                 /***/
@@ -2601,83 +1906,35 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony export (binding) */ __webpack_require__.d(
-                    __webpack_exports__,
-                    'TestSingleton',
-                    function() {
-                        return TestSingleton;
-                    },
-                );
-                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
-                );
-                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
-                    /*! ../src/index */ './src/index.ts',
-                );
+                /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'TestSingleton', function() {
+                    return TestSingleton;
+                });
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ './node_modules/tslib/tslib.es6.js');
+                /* harmony import */ var _src_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../src/index */ './src/index.ts');
 
                 function TestSingleton() {
-                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](
-                        this,
-                        void 0,
-                        Promise,
-                        function() {
-                            var singleton;
-                            return tslib__WEBPACK_IMPORTED_MODULE_0__[
-                                '__generator'
-                            ](this, function(_a) {
-                                console.log(
-                                    '---------- TestSingleton ----------',
-                                );
-                                console.log('\n');
-                                singleton = new _src_index__WEBPACK_IMPORTED_MODULE_1__[
-                                    'Singleton'
-                                ]();
-                                console.log('map Emitter');
-                                singleton.map(
-                                    _src_index__WEBPACK_IMPORTED_MODULE_1__[
-                                        'Emitter'
-                                    ],
-                                );
-                                console.log(
-                                    'get',
-                                    singleton.get(
-                                        _src_index__WEBPACK_IMPORTED_MODULE_1__[
-                                            'Emitter'
-                                        ],
-                                    ),
-                                );
-                                console.log('\n');
-                                console.log('map Emitter -> new HttpLoader()');
-                                singleton.map(
-                                    _src_index__WEBPACK_IMPORTED_MODULE_1__[
-                                        'Emitter'
-                                    ],
-                                    new _src_index__WEBPACK_IMPORTED_MODULE_1__[
-                                        'HttpLoader'
-                                    ](),
-                                );
-                                console.log(
-                                    'get',
-                                    singleton.get(
-                                        _src_index__WEBPACK_IMPORTED_MODULE_1__[
-                                            'Emitter'
-                                        ],
-                                    ),
-                                );
-                                console.log('\n');
-                                console.log('remove Emitter');
-                                singleton.remove(
-                                    _src_index__WEBPACK_IMPORTED_MODULE_1__[
-                                        'Emitter'
-                                    ],
-                                );
-                                console.log('\n');
-                                console.log('---------- ---------- ----------');
-                                console.log('\n\n');
-                                return [2 /*return*/];
-                            });
-                        },
-                    );
+                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](this, void 0, Promise, function() {
+                        var singleton;
+                        return tslib__WEBPACK_IMPORTED_MODULE_0__['__generator'](this, function(_a) {
+                            console.log('---------- TestSingleton ----------');
+                            console.log('\n');
+                            singleton = new _src_index__WEBPACK_IMPORTED_MODULE_1__['Singleton']();
+                            console.log('map Emitter');
+                            singleton.map(_src_index__WEBPACK_IMPORTED_MODULE_1__['Emitter']);
+                            console.log('get', singleton.get(_src_index__WEBPACK_IMPORTED_MODULE_1__['Emitter']));
+                            console.log('\n');
+                            console.log('map Emitter -> new HttpLoader()');
+                            singleton.map(_src_index__WEBPACK_IMPORTED_MODULE_1__['Emitter'], new _src_index__WEBPACK_IMPORTED_MODULE_1__['HttpLoader']());
+                            console.log('get', singleton.get(_src_index__WEBPACK_IMPORTED_MODULE_1__['Emitter']));
+                            console.log('\n');
+                            console.log('remove Emitter');
+                            singleton.remove(_src_index__WEBPACK_IMPORTED_MODULE_1__['Emitter']);
+                            console.log('\n');
+                            console.log('---------- ---------- ----------');
+                            console.log('\n\n');
+                            return [2 /*return*/];
+                        });
+                    });
                 }
 
                 /***/
@@ -2691,104 +1948,41 @@ and limitations under the License.
             /***/ function(module, __webpack_exports__, __webpack_require__) {
                 'use strict';
                 __webpack_require__.r(__webpack_exports__);
-                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
-                    /*! tslib */ './node_modules/tslib/tslib.es6.js',
-                );
-                /* harmony import */ var _TestAudio__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
-                    /*! ./TestAudio */ './test/TestAudio.ts',
-                );
-                /* harmony import */ var _TestEmitter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
-                    /*! ./TestEmitter */ './test/TestEmitter.ts',
-                );
-                /* harmony import */ var _TestHttpLoader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
-                    /*! ./TestHttpLoader */ './test/TestHttpLoader.ts',
-                );
-                /* harmony import */ var _TestImageLoader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
-                    /*! ./TestImageLoader */ './test/TestImageLoader.ts',
-                );
-                /* harmony import */ var _TestScriptLoader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
-                    /*! ./TestScriptLoader */ './test/TestScriptLoader.ts',
-                );
-                /* harmony import */ var _TestSingleton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
-                    /*! ./TestSingleton */ './test/TestSingleton.ts',
-                );
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ './node_modules/tslib/tslib.es6.js');
+                /* harmony import */ var _TestAudio__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TestAudio */ './test/TestAudio.ts');
+                /* harmony import */ var _TestEmitter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TestEmitter */ './test/TestEmitter.ts');
+                /* harmony import */ var _TestHttpLoader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TestHttpLoader */ './test/TestHttpLoader.ts');
+                /* harmony import */ var _TestImageLoader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TestImageLoader */ './test/TestImageLoader.ts');
+                /* harmony import */ var _TestScriptLoader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TestScriptLoader */ './test/TestScriptLoader.ts');
+                /* harmony import */ var _TestSingleton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TestSingleton */ './test/TestSingleton.ts');
 
                 function runTest() {
-                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](
-                        this,
-                        void 0,
-                        Promise,
-                        function() {
-                            return tslib__WEBPACK_IMPORTED_MODULE_0__[
-                                '__generator'
-                            ](this, function(_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        return [
-                                            4 /*yield*/,
-                                            Object(
-                                                _TestAudio__WEBPACK_IMPORTED_MODULE_1__[
-                                                    'TestAudio'
-                                                ],
-                                            )(),
-                                        ];
-                                    case 1:
-                                        _a.sent();
-                                        return [
-                                            4 /*yield*/,
-                                            Object(
-                                                _TestEmitter__WEBPACK_IMPORTED_MODULE_2__[
-                                                    'TestEmitter'
-                                                ],
-                                            )(),
-                                        ];
-                                    case 2:
-                                        _a.sent();
-                                        return [
-                                            4 /*yield*/,
-                                            Object(
-                                                _TestHttpLoader__WEBPACK_IMPORTED_MODULE_3__[
-                                                    'TestHttpLoader'
-                                                ],
-                                            )(),
-                                        ];
-                                    case 3:
-                                        _a.sent();
-                                        return [
-                                            4 /*yield*/,
-                                            Object(
-                                                _TestScriptLoader__WEBPACK_IMPORTED_MODULE_5__[
-                                                    'TestScriptLoader'
-                                                ],
-                                            )(),
-                                        ];
-                                    case 4:
-                                        _a.sent();
-                                        return [
-                                            4 /*yield*/,
-                                            Object(
-                                                _TestImageLoader__WEBPACK_IMPORTED_MODULE_4__[
-                                                    'TestImageLoader'
-                                                ],
-                                            )(),
-                                        ];
-                                    case 5:
-                                        _a.sent();
-                                        return [
-                                            4 /*yield*/,
-                                            Object(
-                                                _TestSingleton__WEBPACK_IMPORTED_MODULE_6__[
-                                                    'TestSingleton'
-                                                ],
-                                            )(),
-                                        ];
-                                    case 6:
-                                        _a.sent();
-                                        return [2 /*return*/];
-                                }
-                            });
-                        },
-                    );
+                    return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](this, void 0, Promise, function() {
+                        return tslib__WEBPACK_IMPORTED_MODULE_0__['__generator'](this, function(_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    return [4 /*yield*/, Object(_TestAudio__WEBPACK_IMPORTED_MODULE_1__['TestAudio'])()];
+                                case 1:
+                                    _a.sent();
+                                    return [4 /*yield*/, Object(_TestEmitter__WEBPACK_IMPORTED_MODULE_2__['TestEmitter'])()];
+                                case 2:
+                                    _a.sent();
+                                    return [4 /*yield*/, Object(_TestHttpLoader__WEBPACK_IMPORTED_MODULE_3__['TestHttpLoader'])()];
+                                case 3:
+                                    _a.sent();
+                                    return [4 /*yield*/, Object(_TestScriptLoader__WEBPACK_IMPORTED_MODULE_5__['TestScriptLoader'])()];
+                                case 4:
+                                    _a.sent();
+                                    return [4 /*yield*/, Object(_TestImageLoader__WEBPACK_IMPORTED_MODULE_4__['TestImageLoader'])()];
+                                case 5:
+                                    _a.sent();
+                                    return [4 /*yield*/, Object(_TestSingleton__WEBPACK_IMPORTED_MODULE_6__['TestSingleton'])()];
+                                case 6:
+                                    _a.sent();
+                                    return [2 /*return*/];
+                            }
+                        });
+                    });
                 }
                 runTest();
 

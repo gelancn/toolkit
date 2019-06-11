@@ -7,8 +7,7 @@ export async function TestImageLoader(): Promise<void> {
     console.log(`\n`);
     const imageLoader: ImageLoader = new ImageLoader();
     const config: ImageLoaderParams = {
-        url:
-            'https://www.baidu.com/img/xinshouye_1aa82cd448e4c0aee0961ed6e290baaf.gif',
+        url: 'https://www.baidu.com/img/xinshouye_1aa82cd448e4c0aee0961ed6e290baaf.gif',
     };
 
     console.log(`send`, config);

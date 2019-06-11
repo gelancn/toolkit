@@ -1,29 +1,34 @@
 /** 派发器 */
 export class Emitter {
-    private _handlerMap: { [key: string]: Array<HandlerExt> } = {};
+    private _handlerMap: { [key: string]: Array<HandlerData> } = {};
 
     /**
      * 监听
      * @param type
      * @param handler
-     * @param context
+     * @param target
      * @param once
      */
-    public on(
-        type: string,
-        handler: Handler,
-        context?: unknown,
-        once?: boolean,
-    ): void {
-        const handlerList: Array<HandlerExt> = this._getHandlerList(type);
-        const handlerExt: HandlerExt = handler as HandlerExt;
-        const index: number = handlerList.indexOf(handlerExt);
-        if (index === -1) {
-            handlerExt.type = type;
-            handlerExt.once = !!once;
-            handlerExt.context = context;
-            handlerList.push(handlerExt);
+    public on(type: string, handler: Handler, target: unknown, once?: boolean): void {
+        if (type == null || handler == null) {
+            return;
         }
+        const handlerList: Array<HandlerData> = this._getHandlerList(type);
+        if (target === undefined) {
+            target = null;
+        }
+        for (let i: number = handlerList.length - 1; i >= 0; i -= 1) {
+            const data: HandlerData = handlerList[i];
+            if (data.handler === handler && data.target === target) {
+                return;
+            }
+        }
+        handlerList.push({
+            type,
+            handler,
+            target,
+            once,
+        });
     }
 
     /**
@@ -31,44 +36,59 @@ export class Emitter {
      * @param type
      * @param handler
      */
-    public off(type: string, handler?: Handler): void {
-        const handlerList: Array<HandlerExt> = this._getHandlerList(type);
+    public off(type: string, handler: Handler, target: unknown): void {
+        const handlerList: Array<HandlerData> = this._getHandlerList(type);
         if (handlerList.length === 0) {
             return;
         }
-        if (handler == null) {
-            handlerList.length = 0;
-        } else {
-            const index: number = handlerList.indexOf(handler as HandlerExt);
-            if (index === -1) {
-                return;
-            }
-            delete (handler as HandlerExt).type;
-            delete (handler as HandlerExt).once;
-            delete (handler as HandlerExt).context;
-            handlerList.splice(index, 1);
+        if (target === undefined) {
+            target = null;
         }
+        for (let i: number = handlerList.length - 1; i >= 0; i -= 1) {
+            const data: HandlerData = handlerList[i];
+            if (data.handler === handler && data.target === target) {
+                handlerList.splice(i, 1);
+                break;
+            }
+        }
+    }
+
+    /**
+     * 按类型取消监听
+     * @param type
+     */
+    public offType(type: string): void {
+        const handlerList: Array<HandlerData> = this._getHandlerList(type);
+        if (handlerList.length === 0) {
+            return;
+        }
+        handlerList.length = 0;
+    }
+
+    /**
+     * 按目标对象取消监听
+     * @param target
+     */
+    public offTarget(target: unknown): void {
+        Object.keys(this._handlerMap).forEach((key: string) => {
+            const handlerList: Array<HandlerData> = this._handlerMap[key];
+            for (let i: number = handlerList.length - 1; i >= 0; i -= 1) {
+                const data: HandlerData = handlerList[i];
+                if (data.target === target) {
+                    handlerList.splice(i, 1);
+                }
+            }
+        });
     }
 
     /**
      * 监听一次
      * @param type
      * @param handler
-     * @param context
+     * @param target
      */
-    public once(type: string, handler: Handler, context?: unknown): void {
-        this.on(type, handler, context, true);
-    }
-
-    /**
-     * 是否注册过
-     * @param type
-     * @param handler
-     */
-    public has(type: string, handler: Handler): boolean {
-        const handlerList: Array<HandlerExt> = this._getHandlerList(type);
-        const index: number = handlerList.indexOf(handler as Handler);
-        return index !== -1;
+    public once(type: string, handler: Handler, target: unknown): void {
+        this.on(type, handler, target, true);
     }
 
     /**
@@ -76,54 +96,45 @@ export class Emitter {
      * @param type
      * @param params
      */
-    public emit(
-        type: string,
-        arg1?: Any,
-        arg2?: Any,
-        arg3?: Any,
-        arg4?: Any,
-        arg5?: Any,
-    ): void {
-        const handlerList: Array<HandlerExt> = this._getHandlerList(type);
+    public emit(type: string, arg1?: Any, arg2?: Any, arg3?: Any, arg4?: Any, arg5?: Any): void {
+        const handlerList: Array<HandlerData> = this._getHandlerList(type);
         if (handlerList.length === 0) {
             return;
         }
         let needClean: boolean = false;
         const argLength: number = arguments.length;
-        handlerList.forEach((handler: HandlerExt) => {
+        handlerList.forEach((data: HandlerData) => {
+            const handler: Handler = data.handler;
+            const target: unknown = data.target;
             switch (argLength) {
                 case 0:
-                    handler.call(handler.context);
+                    handler.call(target);
                     break;
                 case 1:
-                    handler.call(handler.context, arg1);
+                    handler.call(target, arg1);
                     break;
                 case 2:
-                    handler.call(handler.context, arg1, arg2);
+                    handler.call(target, arg1, arg2);
                     break;
                 case 3:
-                    handler.call(handler.context, arg1, arg2, arg3);
+                    handler.call(target, arg1, arg2, arg3);
                     break;
                 case 4:
-                    handler.call(handler.context, arg1, arg2, arg3, arg4);
+                    handler.call(target, arg1, arg2, arg3, arg4);
                     break;
                 case 5:
-                    handler.call(handler.context, arg1, arg2, arg3, arg4, arg5);
+                    handler.call(target, arg1, arg2, arg3, arg4, arg5);
                     break;
                 default:
             }
-            if (handler.once) {
+            if (data.once) {
                 needClean = true;
             }
         });
         if (needClean) {
-            const newHandlerList: Array<HandlerExt> = [];
-            for (
-                let i: number = 0, length: number = handlerList.length;
-                i < length;
-                i += 1
-            ) {
-                const handler: HandlerExt = handlerList[i];
+            const newHandlerList: Array<HandlerData> = [];
+            for (let i: number = 0, length: number = handlerList.length; i < length; i += 1) {
+                const handler: HandlerData = handlerList[i];
                 if (handler.once) {
                     continue;
                 }
@@ -133,8 +144,8 @@ export class Emitter {
         }
     }
 
-    private _getHandlerList(type: string): Array<HandlerExt> {
-        let list: Array<HandlerExt> = this._handlerMap[type];
+    private _getHandlerList(type: string): Array<HandlerData> {
+        let list: Array<HandlerData> = this._handlerMap[type];
         if (list == null) {
             list = [];
             this._handlerMap[type] = list;
@@ -143,13 +154,14 @@ export class Emitter {
     }
 }
 
+interface HandlerData {
+    type: string;
+    handler: Handler;
+    target?: unknown;
+    once?: boolean;
+}
+
 // tslint:disable-next-line:no-any
 type Handler = (...params: Array<any>) => void;
 // tslint:disable-next-line:no-any
 type Any = any;
-
-interface HandlerExt extends Handler {
-    context?: unknown;
-    once?: boolean;
-    type?: string;
-}

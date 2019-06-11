@@ -67,12 +67,7 @@
         },
         "strict-boolean-expressions": {
             "severity": "off",
-            "options": [
-                "allow-null-union",
-                "allow-undefined-union",
-                "allow-string",
-                "allow-number"
-            ]
+            "options": ["allow-null-union", "allow-undefined-union", "allow-string", "allow-number"]
         },
         "strict-type-predicates": {
             "severity": "off"
@@ -184,13 +179,7 @@
         },
         "one-line": {
             "severity": "warning",
-            "options": [
-                "check-catch",
-                "check-finally",
-                "check-else",
-                "check-open-brace",
-                "check-whitespace"
-            ]
+            "options": ["check-catch", "check-finally", "check-else", "check-open-brace", "check-whitespace"]
         },
         "one-variable-per-declaration": {
             "severity": "error",
@@ -223,16 +212,7 @@
         },
         "whitespace": {
             "severity": "warning",
-            "options": [
-                "check-branch",
-                "check-decl",
-                "check-operator",
-                "check-module",
-                "check-separator",
-                "check-type",
-                "check-typecast",
-                "check-preblock"
-            ]
+            "options": ["check-branch", "check-decl", "check-operator", "check-module", "check-separator", "check-type", "check-typecast", "check-preblock"]
         },
         "no-irregular-whitespace": true,
         "deprecation": true,

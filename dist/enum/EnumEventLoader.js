@@ -6,4 +6,3 @@ export var EnumEventLoader;
     EnumEventLoader['COMPLETE'] = 'complete';
     EnumEventLoader['ERROR'] = 'error';
 })(EnumEventLoader || (EnumEventLoader = {}));
-//# sourceMappingURL=EnumEventLoader.js.map

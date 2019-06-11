@@ -11,4 +11,3 @@ export var EnumHttpMethod;
     EnumHttpMethod['TRACE'] = 'TRACE';
     EnumHttpMethod['CONNECT'] = 'CONNECT';
 })(EnumHttpMethod || (EnumHttpMethod = {}));
-//# sourceMappingURL=EnumHttpMethod.js.map

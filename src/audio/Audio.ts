@@ -115,15 +115,15 @@ export class Audio {
             } else {
                 params.onComplete && params.onComplete(data);
             }
-            loader.off(EnumEventLoader.PROGRESS, progressHandler);
+            loader.off(EnumEventLoader.PROGRESS, progressHandler, this);
         };
         const errorHandler = () => {
             delete this._loadingMap[url];
             params.onError && params.onError();
         };
-        loader.on(EnumEventLoader.PROGRESS, progressHandler);
-        loader.once(EnumEventLoader.COMPLETE, completeHandler);
-        loader.once(EnumEventLoader.ERROR, errorHandler);
+        loader.on(EnumEventLoader.PROGRESS, progressHandler, this);
+        loader.once(EnumEventLoader.COMPLETE, completeHandler, this);
+        loader.once(EnumEventLoader.ERROR, errorHandler, this);
     }
 
     private _playingMap: { [key: string]: HTMLAudioElement } = {};

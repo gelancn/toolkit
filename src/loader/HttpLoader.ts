@@ -23,29 +23,20 @@ export class HttpLoader extends Emitter implements ILoader {
         } = config.requestHeader as { [key: string]: string };
         let sendData: unknown = null;
         if (data != null) {
-            const contentType: string =
-                requestHeader && requestHeader['Content-Type'];
+            const contentType: string = requestHeader && requestHeader['Content-Type'];
             switch (method) {
                 case EnumHttpMethod.POST:
                     switch (contentType) {
                         case 'application/x-www-form-urlencoded':
-                            const params: Array<string> = Object.keys(data).map(
-                                (key: string) => {
-                                    return (
-                                        encodeURIComponent(key) +
-                                        '=' +
-                                        encodeURIComponent(data[key] as string)
-                                    );
-                                },
-                            );
+                            const params: Array<string> = Object.keys(data).map((key: string) => {
+                                return encodeURIComponent(key) + '=' + encodeURIComponent(data[key] as string);
+                            });
                             sendData = params.join('&');
                             break;
                         case 'multipart/form-data':
                             sendData = new FormData();
                             Object.keys(data).forEach((key: string) => {
-                                (sendData as FormData).append(key, data[
-                                    key
-                                ] as string);
+                                (sendData as FormData).append(key, data[key] as string);
                             });
                             break;
                         default:

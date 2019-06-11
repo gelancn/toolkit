@@ -12,11 +12,7 @@ export class AudioTagFactory {
                 const tag: AudioTag = this._createTag(true);
                 this._tagsPool.push(tag);
             }
-            for (
-                let i: number = 0, length: number = this._tagsLocked.length;
-                i < length;
-                i += 1
-            ) {
+            for (let i: number = 0, length: number = this._tagsLocked.length; i < length; i += 1) {
                 const tag: AudioTag = this._tagsLocked[i];
                 const ext = tag.ext;
                 if (ext.enabled) {
