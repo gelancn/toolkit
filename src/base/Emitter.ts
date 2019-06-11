@@ -9,13 +9,13 @@ export class Emitter {
      * @param target
      * @param once
      */
-    public on(type: string, handler: Handler, target: unknown, once?: boolean): void {
+    public on(type: string, handler: Handler, target?: unknown, once?: boolean): void {
         if (type == null || handler == null) {
             return;
         }
         const handlerList: Array<HandlerData> = this._getHandlerList(type);
-        if (target === undefined) {
-            target = null;
+        if (target == null) {
+            target = this;
         }
         for (let i: number = handlerList.length - 1; i >= 0; i -= 1) {
             const data: HandlerData = handlerList[i];
@@ -36,13 +36,13 @@ export class Emitter {
      * @param type
      * @param handler
      */
-    public off(type: string, handler: Handler, target: unknown): void {
+    public off(type: string, handler: Handler, target?: unknown): void {
         const handlerList: Array<HandlerData> = this._getHandlerList(type);
         if (handlerList.length === 0) {
             return;
         }
-        if (target === undefined) {
-            target = null;
+        if (target == null) {
+            target = this;
         }
         for (let i: number = handlerList.length - 1; i >= 0; i -= 1) {
             const data: HandlerData = handlerList[i];
@@ -57,7 +57,7 @@ export class Emitter {
      * 按类型取消监听
      * @param type
      */
-    public offType(type: string): void {
+    public offByType(type: string): void {
         const handlerList: Array<HandlerData> = this._getHandlerList(type);
         if (handlerList.length === 0) {
             return;
@@ -69,12 +69,28 @@ export class Emitter {
      * 按目标对象取消监听
      * @param target
      */
-    public offTarget(target: unknown): void {
+    public offByTarget(target: unknown): void {
         Object.keys(this._handlerMap).forEach((key: string) => {
             const handlerList: Array<HandlerData> = this._handlerMap[key];
             for (let i: number = handlerList.length - 1; i >= 0; i -= 1) {
                 const data: HandlerData = handlerList[i];
                 if (data.target === target) {
+                    handlerList.splice(i, 1);
+                }
+            }
+        });
+    }
+
+    /**
+     * 按监听函数取消监听
+     * @param handler
+     */
+    public offByHandler(handler: Handler): void {
+        Object.keys(this._handlerMap).forEach((key: string) => {
+            const handlerList: Array<HandlerData> = this._handlerMap[key];
+            for (let i: number = handlerList.length - 1; i >= 0; i -= 1) {
+                const data: HandlerData = handlerList[i];
+                if (data.handler === handler) {
                     handlerList.splice(i, 1);
                 }
             }
