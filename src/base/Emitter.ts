@@ -103,7 +103,7 @@ export class Emitter {
      * @param handler
      * @param target
      */
-    public once(type: string, handler: Handler, target: unknown): void {
+    public once(type: string, handler: Handler, target?: unknown): void {
         this.on(type, handler, target, true);
     }
 
