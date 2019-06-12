@@ -15,8 +15,8 @@ var Emitter = /** @class */ (function() {
             return;
         }
         var handlerList = this._getHandlerList(type);
-        if (target === undefined) {
-            target = null;
+        if (target == null) {
+            target = this;
         }
         for (var i = handlerList.length - 1; i >= 0; i -= 1) {
             var data = handlerList[i];
@@ -41,8 +41,8 @@ var Emitter = /** @class */ (function() {
         if (handlerList.length === 0) {
             return;
         }
-        if (target === undefined) {
-            target = null;
+        if (target == null) {
+            target = this;
         }
         for (var i = handlerList.length - 1; i >= 0; i -= 1) {
             var data = handlerList[i];
@@ -56,7 +56,7 @@ var Emitter = /** @class */ (function() {
      * 按类型取消监听
      * @param type
      */
-    Emitter.prototype.offType = function(type) {
+    Emitter.prototype.offByType = function(type) {
         var handlerList = this._getHandlerList(type);
         if (handlerList.length === 0) {
             return;
@@ -67,13 +67,29 @@ var Emitter = /** @class */ (function() {
      * 按目标对象取消监听
      * @param target
      */
-    Emitter.prototype.offTarget = function(target) {
+    Emitter.prototype.offByTarget = function(target) {
         var _this = this;
         Object.keys(this._handlerMap).forEach(function(key) {
             var handlerList = _this._handlerMap[key];
             for (var i = handlerList.length - 1; i >= 0; i -= 1) {
                 var data = handlerList[i];
                 if (data.target === target) {
+                    handlerList.splice(i, 1);
+                }
+            }
+        });
+    };
+    /**
+     * 按监听函数取消监听
+     * @param handler
+     */
+    Emitter.prototype.offByHandler = function(handler) {
+        var _this = this;
+        Object.keys(this._handlerMap).forEach(function(key) {
+            var handlerList = _this._handlerMap[key];
+            for (var i = handlerList.length - 1; i >= 0; i -= 1) {
+                var data = handlerList[i];
+                if (data.handler === handler) {
                     handlerList.splice(i, 1);
                 }
             }

@@ -8,23 +8,28 @@ export declare class Emitter {
      * @param target
      * @param once
      */
-    on(type: string, handler: Handler, target: unknown, once?: boolean): void;
+    on(type: string, handler: Handler, target?: unknown, once?: boolean): void;
     /**
      * 取消监听
      * @param type
      * @param handler
      */
-    off(type: string, handler: Handler, target: unknown): void;
+    off(type: string, handler: Handler, target?: unknown): void;
     /**
      * 按类型取消监听
      * @param type
      */
-    offType(type: string): void;
+    offByType(type: string): void;
     /**
      * 按目标对象取消监听
      * @param target
      */
-    offTarget(target: unknown): void;
+    offByTarget(target: unknown): void;
+    /**
+     * 按监听函数取消监听
+     * @param handler
+     */
+    offByHandler(handler: Handler): void;
     /**
      * 监听一次
      * @param type
