@@ -23,7 +23,7 @@ export class HttpLoader extends Emitter implements ILoader {
         } = config.requestHeader as { [key: string]: string };
         let sendData: unknown = null;
         if (data != null) {
-            const contentType: string = requestHeader && requestHeader['Content-Type'];
+            const contentType: string = config.contentType || (requestHeader && requestHeader['Content-Type']);
             switch (method) {
                 case EnumHttpMethod.POST:
                     switch (contentType) {
@@ -65,6 +65,9 @@ export class HttpLoader extends Emitter implements ILoader {
             Object.keys(dict).forEach((key: string) => {
                 xhr.setRequestHeader(key, dict[key]);
             });
+        }
+        if (config.contentType != null) {
+            xhr.overrideMimeType(config.contentType);
         }
         const onError = () => {
             this.reset();
@@ -117,4 +120,5 @@ export interface HttpLoaderParams {
     requestHeader?: Object;
     data?: Object;
     responseType?: XMLHttpRequestResponseType;
+    contentType?: string;
 }
