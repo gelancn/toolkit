@@ -14,7 +14,9 @@ export class ImageLoader extends Emitter implements ILoader {
             return;
         }
         const img: HTMLImageElement = document.createElement('img');
-        img.crossOrigin = config.crossOrigin || 'anonymous';
+        if (config.crossOrigin != null) {
+            img.crossOrigin = config.crossOrigin;
+        }
         this._image = img;
         img.src = config.url;
         img.onload = () => {
@@ -43,5 +45,5 @@ export class ImageLoader extends Emitter implements ILoader {
 
 export interface ImageLoaderParams {
     url: string;
-    crossOrigin?: string;
+    crossOrigin?: string; // anonymous
 }

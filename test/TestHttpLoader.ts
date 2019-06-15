@@ -12,7 +12,6 @@ export async function TestHttpLoader(): Promise<void> {
         url,
         method: EnumHttpMethod.GET,
         responseType: 'json',
-        withCredentials: true,
     };
 
     console.log(`send`, config);

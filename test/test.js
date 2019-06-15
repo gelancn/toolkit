@@ -625,7 +625,6 @@ and limitations under the License.
                                 url: url,
                                 method: _enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_1__['EnumHttpMethod'].GET,
                                 responseType: 'blob',
-                                withCredentials: true,
                                 requestHeader: {
                                     'Content-Type': 'application/x-www-form-urlencoded',
                                 },
@@ -997,8 +996,8 @@ and limitations under the License.
                             return;
                         }
                         var handlerList = this._getHandlerList(type);
-                        if (target === undefined) {
-                            target = null;
+                        if (target == null) {
+                            target = this;
                         }
                         for (var i = handlerList.length - 1; i >= 0; i -= 1) {
                             var data = handlerList[i];
@@ -1023,8 +1022,8 @@ and limitations under the License.
                         if (handlerList.length === 0) {
                             return;
                         }
-                        if (target === undefined) {
-                            target = null;
+                        if (target == null) {
+                            target = this;
                         }
                         for (var i = handlerList.length - 1; i >= 0; i -= 1) {
                             var data = handlerList[i];
@@ -1038,7 +1037,7 @@ and limitations under the License.
                      * 按类型取消监听
                      * @param type
                      */
-                    Emitter.prototype.offType = function(type) {
+                    Emitter.prototype.offByType = function(type) {
                         var handlerList = this._getHandlerList(type);
                         if (handlerList.length === 0) {
                             return;
@@ -1049,13 +1048,29 @@ and limitations under the License.
                      * 按目标对象取消监听
                      * @param target
                      */
-                    Emitter.prototype.offTarget = function(target) {
+                    Emitter.prototype.offByTarget = function(target) {
                         var _this = this;
                         Object.keys(this._handlerMap).forEach(function(key) {
                             var handlerList = _this._handlerMap[key];
                             for (var i = handlerList.length - 1; i >= 0; i -= 1) {
                                 var data = handlerList[i];
                                 if (data.target === target) {
+                                    handlerList.splice(i, 1);
+                                }
+                            }
+                        });
+                    };
+                    /**
+                     * 按监听函数取消监听
+                     * @param handler
+                     */
+                    Emitter.prototype.offByHandler = function(handler) {
+                        var _this = this;
+                        Object.keys(this._handlerMap).forEach(function(key) {
+                            var handlerList = _this._handlerMap[key];
+                            for (var i = handlerList.length - 1; i >= 0; i -= 1) {
+                                var data = handlerList[i];
+                                if (data.handler === handler) {
                                     handlerList.splice(i, 1);
                                 }
                             }
@@ -1345,7 +1360,7 @@ and limitations under the License.
                         var requestHeader = config.requestHeader;
                         var sendData = null;
                         if (data != null) {
-                            var contentType = requestHeader && requestHeader['Content-Type'];
+                            var contentType = config.contentType || (requestHeader && requestHeader['Content-Type']);
                             switch (method) {
                                 case _enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_3__['EnumHttpMethod'].POST:
                                     switch (contentType) {
@@ -1387,6 +1402,9 @@ and limitations under the License.
                             Object.keys(dict_1).forEach(function(key) {
                                 xhr.setRequestHeader(key, dict_1[key]);
                             });
+                        }
+                        if (config.contentType != null) {
+                            xhr.overrideMimeType(config.contentType);
                         }
                         var onError = function() {
                             _this.reset();
@@ -1465,7 +1483,9 @@ and limitations under the License.
                             return;
                         }
                         var img = document.createElement('img');
-                        img.crossOrigin = config.crossOrigin || 'anonymous';
+                        if (config.crossOrigin != null) {
+                            img.crossOrigin = config.crossOrigin;
+                        }
                         this._image = img;
                         img.src = config.url;
                         img.onload = function() {
@@ -1539,7 +1559,11 @@ and limitations under the License.
                             _this.reset();
                             _this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].ERROR);
                         };
-                        document.body.appendChild(script);
+                        if (config.appendTo == null) {
+                            document.body.appendChild(script);
+                        } else {
+                            config.appendTo.appendChild(script);
+                        }
                         this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].START);
                     };
                     /** 重置 */
@@ -1746,7 +1770,6 @@ and limitations under the License.
                                         url: url,
                                         method: _src_enum_EnumHttpMethod__WEBPACK_IMPORTED_MODULE_2__['EnumHttpMethod'].GET,
                                         responseType: 'json',
-                                        withCredentials: true,
                                     };
                                     console.log('send', config);
                                     return [

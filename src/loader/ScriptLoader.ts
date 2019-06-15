@@ -28,7 +28,11 @@ export class ScriptLoader extends Emitter implements ILoader {
             this.reset();
             this.emit(EnumEventLoader.ERROR);
         };
-        document.body.appendChild(script);
+        if (config.appendTo == null) {
+            document.body.appendChild(script);
+        } else {
+            config.appendTo.appendChild(script);
+        }
         this.emit(EnumEventLoader.START);
     }
 
@@ -43,4 +47,5 @@ export class ScriptLoader extends Emitter implements ILoader {
 
 export interface ScriptLoaderParams {
     url: string;
+    appendTo?: HTMLElement;
 }

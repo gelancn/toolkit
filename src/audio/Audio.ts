@@ -93,7 +93,6 @@ export class Audio {
                 url,
                 method: EnumHttpMethod.GET,
                 responseType: 'blob',
-                withCredentials: true,
                 requestHeader: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
