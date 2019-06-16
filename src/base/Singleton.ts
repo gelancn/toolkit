@@ -1,5 +1,8 @@
 /** 单例 */
 export class Singleton {
+    /** 单例的实例 */
+    public static instance: Singleton = new Singleton();
+
     private _singletonMap: Map<Function, Object> = new Map();
 
     /**
