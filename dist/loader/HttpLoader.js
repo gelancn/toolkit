@@ -22,7 +22,7 @@ var HttpLoader = /** @class */ (function(_super) {
         var requestHeader = config.requestHeader;
         var sendData = null;
         if (data != null) {
-            var contentType = requestHeader && requestHeader['Content-Type'];
+            var contentType = config.contentType || (requestHeader && requestHeader['Content-Type']);
             switch (method) {
                 case EnumHttpMethod.POST:
                     switch (contentType) {
@@ -64,6 +64,9 @@ var HttpLoader = /** @class */ (function(_super) {
             Object.keys(dict_1).forEach(function(key) {
                 xhr.setRequestHeader(key, dict_1[key]);
             });
+        }
+        if (config.contentType != null) {
+            xhr.overrideMimeType(config.contentType);
         }
         var onError = function() {
             _this.reset();

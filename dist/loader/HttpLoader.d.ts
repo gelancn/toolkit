@@ -18,4 +18,5 @@ export interface HttpLoaderParams {
     requestHeader?: Object;
     data?: Object;
     responseType?: XMLHttpRequestResponseType;
+    contentType?: string;
 }

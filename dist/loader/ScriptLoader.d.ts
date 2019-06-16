@@ -12,4 +12,5 @@ export declare class ScriptLoader extends Emitter implements ILoader {
 }
 export interface ScriptLoaderParams {
     url: string;
+    appendTo?: HTMLElement;
 }

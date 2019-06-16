@@ -38,6 +38,8 @@ var Singleton = /** @class */ (function() {
     Singleton.prototype.remove = function(value) {
         this._singletonMap.delete(value);
     };
+    /** 单例的实例 */
+    Singleton.instance = new Singleton();
     return Singleton;
 })();
 export { Singleton };

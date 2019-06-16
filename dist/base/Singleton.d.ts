@@ -1,5 +1,7 @@
 /** 单例 */
 export declare class Singleton {
+    /** 单例的实例 */
+    static instance: Singleton;
     private _singletonMap;
     /**
      * 添加一个单例

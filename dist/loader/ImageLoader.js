@@ -16,7 +16,9 @@ var ImageLoader = /** @class */ (function(_super) {
             return;
         }
         var img = document.createElement('img');
-        img.crossOrigin = config.crossOrigin || 'anonymous';
+        if (config.crossOrigin != null) {
+            img.crossOrigin = config.crossOrigin;
+        }
         this._image = img;
         img.src = config.url;
         img.onload = function() {

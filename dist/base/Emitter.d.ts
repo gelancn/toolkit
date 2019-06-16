@@ -36,7 +36,7 @@ export declare class Emitter {
      * @param handler
      * @param target
      */
-    once(type: string, handler: Handler, target: unknown): void;
+    once(type: string, handler: Handler, target?: unknown): void;
     /**
      * 派发
      * @param type

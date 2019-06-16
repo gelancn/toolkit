@@ -30,7 +30,11 @@ var ScriptLoader = /** @class */ (function(_super) {
             _this.reset();
             _this.emit(EnumEventLoader.ERROR);
         };
-        document.body.appendChild(script);
+        if (config.appendTo == null) {
+            document.body.appendChild(script);
+        } else {
+            config.appendTo.appendChild(script);
+        }
         this.emit(EnumEventLoader.START);
     };
     /** 重置 */
