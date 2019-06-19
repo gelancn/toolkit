@@ -73,20 +73,29 @@ export class HttpLoader extends Emitter implements ILoader {
             this.reset();
             this.emit(EnumEventLoader.ERROR);
         };
-        xhr.onreadystatechange = () => {
-            const readyState: number = xhr.readyState;
+        // xhr.onreadystatechange = () => {
+        //     const readyState: number = xhr.readyState;
+        //     const status: number = xhr.status;
+        //     if (readyState === 4) {
+        //         if (status === 200) {
+        //             const data: unknown = xhr.response || xhr.responseText;
+        //             this.emit(EnumEventLoader.COMPLETE, data);
+        //         } else {
+        //             onError();
+        //         }
+        //     } else {
+        //         if (status >= 400) {
+        //             onError();
+        //         }
+        //     }
+        // };
+        xhr.onload = () => {
             const status: number = xhr.status;
-            if (readyState === 4) {
-                if (status === 200) {
-                    const data: unknown = xhr.response || xhr.responseText;
-                    this.emit(EnumEventLoader.COMPLETE, data);
-                } else {
-                    onError();
-                }
+            if (status === 200) {
+                const data: unknown = xhr.response || xhr.responseText;
+                this.emit(EnumEventLoader.COMPLETE, data);
             } else {
-                if (status >= 400) {
-                    onError();
-                }
+                onError();
             }
         };
         xhr.onprogress = (evt: ProgressEvent) => {
@@ -107,6 +116,7 @@ export class HttpLoader extends Emitter implements ILoader {
             return;
         }
         this._xhr.onreadystatechange = null;
+        this._xhr.onload = null;
         this._xhr.onprogress = null;
         this._xhr.onerror = null;
         this._xhr = null;

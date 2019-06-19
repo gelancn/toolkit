@@ -72,20 +72,29 @@ var HttpLoader = /** @class */ (function(_super) {
             _this.reset();
             _this.emit(EnumEventLoader.ERROR);
         };
-        xhr.onreadystatechange = function() {
-            var readyState = xhr.readyState;
+        // xhr.onreadystatechange = () => {
+        //     const readyState: number = xhr.readyState;
+        //     const status: number = xhr.status;
+        //     if (readyState === 4) {
+        //         if (status === 200) {
+        //             const data: unknown = xhr.response || xhr.responseText;
+        //             this.emit(EnumEventLoader.COMPLETE, data);
+        //         } else {
+        //             onError();
+        //         }
+        //     } else {
+        //         if (status >= 400) {
+        //             onError();
+        //         }
+        //     }
+        // };
+        xhr.onload = function() {
             var status = xhr.status;
-            if (readyState === 4) {
-                if (status === 200) {
-                    var data_1 = xhr.response || xhr.responseText;
-                    _this.emit(EnumEventLoader.COMPLETE, data_1);
-                } else {
-                    onError();
-                }
+            if (status === 200) {
+                var data_1 = xhr.response || xhr.responseText;
+                _this.emit(EnumEventLoader.COMPLETE, data_1);
             } else {
-                if (status >= 400) {
-                    onError();
-                }
+                onError();
             }
         };
         xhr.onprogress = function(evt) {
@@ -105,6 +114,7 @@ var HttpLoader = /** @class */ (function(_super) {
             return;
         }
         this._xhr.onreadystatechange = null;
+        this._xhr.onload = null;
         this._xhr.onprogress = null;
         this._xhr.onerror = null;
         this._xhr = null;

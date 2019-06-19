@@ -1202,6 +1202,8 @@ and limitations under the License.
                     Singleton.prototype.remove = function(value) {
                         this._singletonMap.delete(value);
                     };
+                    /** 单例的实例 */
+                    Singleton.instance = new Singleton();
                     return Singleton;
                 })();
 
@@ -1410,20 +1412,29 @@ and limitations under the License.
                             _this.reset();
                             _this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].ERROR);
                         };
-                        xhr.onreadystatechange = function() {
-                            var readyState = xhr.readyState;
+                        // xhr.onreadystatechange = () => {
+                        //     const readyState: number = xhr.readyState;
+                        //     const status: number = xhr.status;
+                        //     if (readyState === 4) {
+                        //         if (status === 200) {
+                        //             const data: unknown = xhr.response || xhr.responseText;
+                        //             this.emit(EnumEventLoader.COMPLETE, data);
+                        //         } else {
+                        //             onError();
+                        //         }
+                        //     } else {
+                        //         if (status >= 400) {
+                        //             onError();
+                        //         }
+                        //     }
+                        // };
+                        xhr.onload = function() {
                             var status = xhr.status;
-                            if (readyState === 4) {
-                                if (status === 200) {
-                                    var data_1 = xhr.response || xhr.responseText;
-                                    _this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].COMPLETE, data_1);
-                                } else {
-                                    onError();
-                                }
+                            if (status === 200) {
+                                var data_1 = xhr.response || xhr.responseText;
+                                _this.emit(_enum_EnumEventLoader__WEBPACK_IMPORTED_MODULE_2__['EnumEventLoader'].COMPLETE, data_1);
                             } else {
-                                if (status >= 400) {
-                                    onError();
-                                }
+                                onError();
                             }
                         };
                         xhr.onprogress = function(evt) {
@@ -1443,6 +1454,7 @@ and limitations under the License.
                             return;
                         }
                         this._xhr.onreadystatechange = null;
+                        this._xhr.onload = null;
                         this._xhr.onprogress = null;
                         this._xhr.onerror = null;
                         this._xhr = null;
