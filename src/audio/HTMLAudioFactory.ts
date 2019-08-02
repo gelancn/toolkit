@@ -23,8 +23,7 @@ export class HTMLAudioFactory {
                 this._audiosUnLocked.length = 0;
             }
         };
-        window.addEventListener('mousedown', this._onTouch, false);
-        window.addEventListener('touchstart', this._onTouch, false);
+        this.listen();
     }
 
     /** 所有标签的map */
@@ -92,6 +91,16 @@ export class HTMLAudioFactory {
     }
 
     private _onTouch: (evt: MouseEvent | TouchEvent) => void;
+
+    public listen(): void {
+        window.addEventListener('mousedown', this._onTouch, false);
+        window.addEventListener('touchstart', this._onTouch, false);
+    }
+
+    public unListen(): void {
+        window.removeEventListener('mousedown', this._onTouch, false);
+        window.removeEventListener('touchstart', this._onTouch, false);
+    }
 }
 
 export interface AudioTag extends HTMLAudioElement {

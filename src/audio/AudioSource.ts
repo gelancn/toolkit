@@ -17,20 +17,19 @@ export class AudioSource {
      * @param url
      * @param cache
      */
-    public static load(url: string, cache: boolean = true): Promise<AudioSource> {
-        return new Promise((resolve: (data: AudioSource) => void) => {
-            let data: AudioSource = AudioSource._sourceMap[url];
-            if (data == null) {
-                data = new AudioSource(url);
-                AudioSource._sourceMap[url] = data;
+    public static async load(url: string, cache: boolean = true): Promise<AudioSource> {
+        let data: AudioSource = AudioSource._sourceMap[url];
+        if (data == null) {
+            data = new AudioSource(url);
+            AudioSource._sourceMap[url] = data;
+        }
+        if (data.getLoadState() !== EnumLoadState.LOADED) {
+            await data.load();
+            if (!cache) {
+                delete AudioSource._sourceMap[url];
             }
-            data.load().then(() => {
-                if (!cache) {
-                    delete AudioSource._sourceMap[url];
-                }
-                resolve(data);
-            });
-        });
+        }
+        return data;
     }
     /**
      * 获取音频数据
@@ -38,7 +37,7 @@ export class AudioSource {
      */
     public static get(url: string): AudioSource | null {
         let data: AudioSource = AudioSource._sourceMap[url];
-        if (data != null && data.loadState === EnumLoadState.LOADED) {
+        if (data != null && data._loadState === EnumLoadState.LOADED) {
             return data;
         } else {
             return null;
@@ -51,28 +50,28 @@ export class AudioSource {
 
     private _url: string;
     /** url */
-    public get url(): string {
+    public getUrl(): string {
         return this._url;
     }
     private _blob: Blob;
     /** blob数据 */
-    public get blob(): Blob {
+    public getBlob(): Blob {
         return this._blob;
     }
     private _base64: string;
     /** base64数据 */
-    public get base64(): string {
+    public getBase64(): string {
         return this._base64;
     }
     private _arrayBuffer: ArrayBuffer;
     /** ArrayBuffer数据 */
-    public get arrayBuffer(): ArrayBuffer {
+    public getArrayBuffer(): ArrayBuffer {
         return this._arrayBuffer;
     }
 
     private _loadState: EnumLoadState = EnumLoadState.UNLOAD;
     /** 是否加载完成 */
-    public get loadState(): EnumLoadState {
+    public getLoadState(): EnumLoadState {
         return this._loadState;
     }
 
@@ -106,6 +105,7 @@ export class AudioSource {
                 resolve(this);
             };
             const errorHandler = () => {
+                this._loader.reset();
                 this._loadState = EnumLoadState.ERROR;
                 reject();
             };
@@ -122,7 +122,7 @@ export class AudioSource {
                 return;
             }
             const stringReader: FileReader = new FileReader();
-            stringReader.readAsDataURL(this.blob);
+            stringReader.readAsDataURL(this._blob);
             stringReader.onload = () => {
                 this._base64 = stringReader.result as string;
                 resolve(this._base64);
