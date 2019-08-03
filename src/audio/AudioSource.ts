@@ -1,7 +1,7 @@
 import { HttpLoader } from '..';
-import { EnumEventLoader } from '../enum/EnumEventLoader';
 import { EnumHttpMethod } from '../enum/EnumHttpMethod';
 import { EnumLoadState } from '../enum/EnumLoadState';
+import { EnumProcess } from '../enum/EnumProcess';
 
 /** 音频源数据 */
 export class AudioSource {
@@ -23,7 +23,7 @@ export class AudioSource {
             data = new AudioSource(url);
             AudioSource._sourceMap[url] = data;
         }
-        if (data.getLoadState() !== EnumLoadState.LOADED) {
+        if (data.loadState !== EnumLoadState.LOADED) {
             await data.load();
             if (!cache) {
                 delete AudioSource._sourceMap[url];
@@ -50,28 +50,28 @@ export class AudioSource {
 
     private _url: string;
     /** url */
-    public getUrl(): string {
+    public get url(): string {
         return this._url;
     }
     private _blob: Blob;
     /** blob数据 */
-    public getBlob(): Blob {
+    public get blob(): Blob {
         return this._blob;
     }
     private _base64: string;
     /** base64数据 */
-    public getBase64(): string {
+    public get base64(): string {
         return this._base64;
     }
     private _arrayBuffer: ArrayBuffer;
     /** ArrayBuffer数据 */
-    public getArrayBuffer(): ArrayBuffer {
+    public get arrayBuffer(): ArrayBuffer {
         return this._arrayBuffer;
     }
 
     private _loadState: EnumLoadState = EnumLoadState.UNLOAD;
     /** 是否加载完成 */
-    public getLoadState(): EnumLoadState {
+    public get loadState(): EnumLoadState {
         return this._loadState;
     }
 
@@ -89,7 +89,6 @@ export class AudioSource {
                     url: this._url,
                     method: EnumHttpMethod.GET,
                     responseType: 'blob',
-                    contentType: 'application/x-www-form-urlencoded',
                 });
             }
             const completeHandler = async (response: unknown) => {
@@ -109,8 +108,8 @@ export class AudioSource {
                 this._loadState = EnumLoadState.ERROR;
                 reject();
             };
-            this._loader.once(EnumEventLoader.COMPLETE, completeHandler, this);
-            this._loader.once(EnumEventLoader.ERROR, errorHandler, this);
+            this._loader.once(EnumProcess.END, completeHandler, this);
+            this._loader.once(EnumProcess.ERROR, errorHandler, this);
         });
     }
 

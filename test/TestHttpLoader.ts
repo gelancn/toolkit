@@ -1,5 +1,5 @@
-import { EnumEventLoader } from '../src/enum/EnumEventLoader';
 import { EnumHttpMethod } from '../src/enum/EnumHttpMethod';
+import { EnumProcess } from '../src/enum/EnumProcess';
 import { HttpLoader } from '../src/index';
 import { HttpLoaderParams } from '../src/loader/HttpLoader';
 
@@ -18,17 +18,17 @@ export async function TestHttpLoader(): Promise<void> {
     await new Promise((resolve: Function) => {
         httpLoader.load(config);
         httpLoader.on(
-            EnumEventLoader.COMPLETE,
+            EnumProcess.END,
             (data: unknown) => {
-                console.log(EnumEventLoader.COMPLETE);
+                console.log(EnumProcess.END);
                 resolve();
             },
             null,
         );
         httpLoader.on(
-            EnumEventLoader.ERROR,
+            EnumProcess.ERROR,
             (err: Error) => {
-                console.log(EnumEventLoader.ERROR, err);
+                console.log(EnumProcess.ERROR, err);
                 resolve();
             },
             null,

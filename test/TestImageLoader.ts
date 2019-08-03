@@ -1,4 +1,4 @@
-import { EnumEventLoader } from '../src/enum/EnumEventLoader';
+import { EnumProcess } from '../src/enum/EnumProcess';
 import { ImageLoader } from '../src/index';
 import { ImageLoaderParams } from '../src/loader/ImageLoader';
 
@@ -13,12 +13,12 @@ export async function TestImageLoader(): Promise<void> {
     console.log(`send`, config);
     await new Promise((resolve: Function) => {
         imageLoader.load(config);
-        imageLoader.on(EnumEventLoader.COMPLETE, (data: unknown) => {
-            console.log(EnumEventLoader.COMPLETE, data);
+        imageLoader.on(EnumProcess.END, (data: unknown) => {
+            console.log(EnumProcess.END, data);
             resolve();
         });
-        imageLoader.on(EnumEventLoader.ERROR, (err: Error) => {
-            console.log(EnumEventLoader.ERROR, err);
+        imageLoader.on(EnumProcess.ERROR, (err: Error) => {
+            console.log(EnumProcess.ERROR, err);
             resolve();
         });
     });

@@ -1,5 +1,5 @@
 import { Emitter } from '../base/Emitter';
-import { EnumEventLoader } from '../enum/EnumEventLoader';
+import { EnumProcess } from '../enum/EnumProcess';
 import { ILoader } from './ILoader';
 
 export class ScriptLoader extends Emitter implements ILoader {
@@ -17,23 +17,23 @@ export class ScriptLoader extends Emitter implements ILoader {
         this._script = script;
         script.src = config.url;
         script.onload = () => {
-            this.emit(EnumEventLoader.COMPLETE, this._script);
+            this.emit(EnumProcess.END, this._script);
         };
         script.onprogress = (evt: ProgressEvent) => {
             const total = evt.total;
             const loaded = evt.loaded;
-            this.emit(EnumEventLoader.PROGRESS, loaded, total);
+            this.emit(EnumProcess.PROGRESS, loaded, total);
         };
         script.onerror = () => {
             this.reset();
-            this.emit(EnumEventLoader.ERROR);
+            this.emit(EnumProcess.ERROR);
         };
         if (config.appendTo == null) {
             document.body.appendChild(script);
         } else {
             config.appendTo.appendChild(script);
         }
-        this.emit(EnumEventLoader.START);
+        this.emit(EnumProcess.START);
     }
 
     /** 重置 */

@@ -1,5 +1,5 @@
 import { Emitter } from '../base/Emitter';
-import { EnumEventLoader } from '../enum/EnumEventLoader';
+import { EnumProcess } from '../enum/EnumProcess';
 import { ILoader } from './ILoader';
 
 export class ImageLoader extends Emitter implements ILoader {
@@ -20,18 +20,18 @@ export class ImageLoader extends Emitter implements ILoader {
         this._image = img;
         img.src = config.url;
         img.onload = () => {
-            this.emit(EnumEventLoader.COMPLETE, this._image);
+            this.emit(EnumProcess.END, this._image);
         };
         img.onprogress = (evt: ProgressEvent) => {
             const total = evt.total;
             const loaded = evt.loaded;
-            this.emit(EnumEventLoader.PROGRESS, loaded, total);
+            this.emit(EnumProcess.PROGRESS, loaded, total);
         };
         img.onerror = () => {
             this.reset();
-            this.emit(EnumEventLoader.ERROR);
+            this.emit(EnumProcess.ERROR);
         };
-        this.emit(EnumEventLoader.START);
+        this.emit(EnumProcess.START);
     }
 
     /** 重置 */

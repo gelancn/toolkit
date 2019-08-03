@@ -1,4 +1,5 @@
-export class HTMLAudioFactory {
+/** 音频标签工厂 */
+export class AudioTagFactory {
     constructor() {
         this._onTouch = () => {
             if (this._audiosPool.length < this._poolLimit) {
@@ -92,11 +93,13 @@ export class HTMLAudioFactory {
 
     private _onTouch: (evt: MouseEvent | TouchEvent) => void;
 
+    /** 监听 */
     public listen(): void {
         window.addEventListener('mousedown', this._onTouch, false);
         window.addEventListener('touchstart', this._onTouch, false);
     }
 
+    /** 取消监听 */
     public unListen(): void {
         window.removeEventListener('mousedown', this._onTouch, false);
         window.removeEventListener('touchstart', this._onTouch, false);

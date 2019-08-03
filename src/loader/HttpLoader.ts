@@ -1,6 +1,6 @@
 import { Emitter } from '../base/Emitter';
-import { EnumEventLoader } from '../enum/EnumEventLoader';
 import { EnumHttpMethod } from '../enum/EnumHttpMethod';
+import { EnumProcess } from '../enum/EnumProcess';
 import { ILoader } from './ILoader';
 
 export class HttpLoader extends Emitter implements ILoader {
@@ -71,29 +71,13 @@ export class HttpLoader extends Emitter implements ILoader {
         }
         const onError = () => {
             this.reset();
-            this.emit(EnumEventLoader.ERROR);
+            this.emit(EnumProcess.ERROR);
         };
-        // xhr.onreadystatechange = () => {
-        //     const readyState: number = xhr.readyState;
-        //     const status: number = xhr.status;
-        //     if (readyState === 4) {
-        //         if (status === 200) {
-        //             const data: unknown = xhr.response || xhr.responseText;
-        //             this.emit(EnumEventLoader.COMPLETE, data);
-        //         } else {
-        //             onError();
-        //         }
-        //     } else {
-        //         if (status >= 400) {
-        //             onError();
-        //         }
-        //     }
-        // };
         xhr.onload = () => {
             const status: number = xhr.status;
             if (status === 200) {
                 const data: unknown = xhr.response || xhr.responseText;
-                this.emit(EnumEventLoader.COMPLETE, data);
+                this.emit(EnumProcess.END, data);
             } else {
                 onError();
             }
@@ -101,13 +85,13 @@ export class HttpLoader extends Emitter implements ILoader {
         xhr.onprogress = (evt: ProgressEvent) => {
             const total = evt.total;
             const loaded = evt.loaded;
-            this.emit(EnumEventLoader.PROGRESS, loaded, total);
+            this.emit(EnumProcess.PROGRESS, loaded, total);
         };
         xhr.onerror = (evt: ProgressEvent) => {
             onError();
         };
         xhr.send(sendData as Document);
-        this.emit(EnumEventLoader.START);
+        this.emit(EnumProcess.START);
     }
 
     /** 重置 */

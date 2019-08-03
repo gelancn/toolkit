@@ -1,6 +1,5 @@
 import { Singleton } from '../base/Singleton';
-import { AudioController } from './AudioController';
-import { AudioTag, HTMLAudioFactory } from './HTMLAudioFactory';
+import { AudioTag, AudioTagFactory } from './AudioTagFactory';
 
 /** 音频管理器 */
 export class Audio {
@@ -9,7 +8,7 @@ export class Audio {
      * @param value
      */
     public setMuted(value: boolean) {
-        const factory: HTMLAudioFactory = Singleton.instance.get(HTMLAudioFactory);
+        const factory: AudioTagFactory = Singleton.instance.get(AudioTagFactory);
         const audioList: Array<AudioTag> = factory.getAudioList() as Array<AudioTag>;
         if (value) {
             audioList.forEach((tag: AudioTag) => {

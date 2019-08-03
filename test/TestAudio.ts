@@ -1,71 +1,42 @@
-import { AudioSourceData } from '../src/audio/AudioSourceData';
-import { Audio } from '../src/index';
+import { AudioController } from '../src/audio/AudioController';
+import { AudioSource } from '../src/audio/AudioSource';
+import { AudioTagFactory } from '../src/audio/AudioTagFactory';
+import { Singleton } from '../src/base/Singleton';
+import { EnumProcess } from '../src/enum/EnumProcess';
 
+const singleton: Singleton = Singleton.instance;
+singleton.get(AudioTagFactory);
 export async function TestAudio(): Promise<void> {
     console.log(`---------- TestAudio ----------`);
     console.log(`\n`);
-    const audio: Audio = new Audio();
     const url: string = './test_audio.mp3';
 
-    const button: HTMLButtonElement = document.createElement('button');
-    button.textContent = '点击按钮解锁audio标签';
-    document.body.append(button);
+    const source: AudioSource = await AudioSource.load(url);
+    console.log(source);
 
-    await new Promise((resolve: Function) => {
-        audio.setTagLimit(10);
-        button.onclick = () => {
-            console.log(`onclick`);
-            document.body.removeChild(button);
-            console.log(audio.factory);
-            resolve();
-        };
+    const controller: AudioController = new AudioController();
+    controller.play(source.base64);
+    controller.on(EnumProcess.START, () => {
+        console.log(EnumProcess.START);
     });
-
-    await new Promise((resolve: Function) => {
-        console.log(`load`);
-        audio.load({
-            url,
-            onComplete: (data: AudioSourceData) => {
-                console.log(`onComplete`);
-                console.log(data);
-                console.log(`play`);
-                audio.play({
-                    url,
-                });
-
-                setTimeout(() => {
-                    console.log(`stop`);
-                    audio.stop(url);
-                    resolve();
-                }, 3000);
-            },
-        });
+    controller.on(EnumProcess.STOP, () => {
+        console.log(EnumProcess.STOP);
     });
-
-    console.log(`\n`);
-
-    await new Promise((resolve: Function) => {
-        console.log(`removeSource(${url})`);
-        audio.removeSource(url);
-        console.log(`getSource(${url}):${audio.getSource(url)}`);
-        console.log(`play`);
-        audio.play({
-            url,
-        });
+    controller.on(EnumProcess.PAUSE, () => {
+        console.log(EnumProcess.PAUSE);
+    });
+    controller.on(EnumProcess.END, () => {
+        console.log(EnumProcess.END);
+    });
+    controller.on(EnumProcess.PROGRESS, (cur: number, total: number) => {
+        // console.log(EnumProcess.PROGRESS, cur, total);
+    });
+    setTimeout(() => {
+        controller.pause();
         setTimeout(() => {
-            console.log(`stop`);
-            audio.stop(url);
-            resolve();
-        }, 10000);
-        setTimeout(() => {
-            console.log(`setMuted`, true);
-            audio.setMuted(true);
-            setTimeout(() => {
-                console.log(`setMuted`, false);
-                audio.setMuted(false);
-            }, 2000);
-        }, 5000);
-    });
+            controller.play();
+        }, 3000);
+    }, 3000);
 
     console.log(`\n`);
 
