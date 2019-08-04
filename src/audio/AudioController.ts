@@ -4,11 +4,16 @@ import { EnumProcess } from '../enum/EnumProcess';
 import { EnumType } from '../enum/EnumType';
 import { AudioTag, AudioTagFactory } from './AudioTagFactory';
 
+/** 音频控制器 */
 export class AudioController extends Emitter {
     constructor() {
         super();
         this.onplay = (evt: Event) => {
             this._playing = true;
+            const el: AudioTag = evt.target as AudioTag;
+            if (this._currentTime > el.currentTime) {
+                el.currentTime = this._currentTime;
+            }
             this.emit(EnumProcess.START);
         };
         this.onpause = (evt: Event) => {
@@ -30,6 +35,7 @@ export class AudioController extends Emitter {
             this.emit(EnumProcess.PROGRESS, el.currentTime, el.duration);
         };
         this.onended = (evt: Event) => {
+            this._currentTime = 0;
             this._playing = false;
             this.emit(EnumProcess.END);
             this._recoveryTag();
@@ -139,6 +145,7 @@ export class AudioController extends Emitter {
             if (this._source === source) {
                 el.play();
             } else {
+                this._currentTime = el.currentTime = 0;
                 this._source = source;
                 el.src = this._source;
                 el.play();
@@ -191,6 +198,7 @@ export class AudioController extends Emitter {
             return;
         }
         this._audioTag = null;
+        el.currentTime = 0;
         el.loop = false;
         el.volume = 1;
         el.muted = false;

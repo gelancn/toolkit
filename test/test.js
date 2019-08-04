@@ -530,18 +530,24 @@ and limitations under the License.
                 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, 'Audio', function() {
                     return Audio;
                 });
-                /* harmony import */ var _base_Singleton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../base/Singleton */ './src/base/Singleton.ts');
-                /* harmony import */ var _AudioTagFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AudioTagFactory */ './src/audio/AudioTagFactory.ts');
+                /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ './node_modules/tslib/tslib.es6.js');
+                /* harmony import */ var _base_Singleton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../base/Singleton */ './src/base/Singleton.ts');
+                /* harmony import */ var _enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../enum/EnumProcess */ './src/enum/EnumProcess.ts');
+                /* harmony import */ var _AudioController__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AudioController */ './src/audio/AudioController.ts');
+                /* harmony import */ var _AudioSource__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./AudioSource */ './src/audio/AudioSource.ts');
+                /* harmony import */ var _AudioTagFactory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AudioTagFactory */ './src/audio/AudioTagFactory.ts');
 
                 /** 音频管理器 */
                 var Audio = /** @class */ (function() {
-                    function Audio() {}
+                    function Audio() {
+                        this._playingQueueMap = {};
+                    }
                     /**
                      * 设置静音
                      * @param value
                      */
                     Audio.prototype.setMuted = function(value) {
-                        var factory = _base_Singleton__WEBPACK_IMPORTED_MODULE_0__['Singleton'].instance.get(_AudioTagFactory__WEBPACK_IMPORTED_MODULE_1__['AudioTagFactory']);
+                        var factory = _base_Singleton__WEBPACK_IMPORTED_MODULE_1__['Singleton'].instance.get(_AudioTagFactory__WEBPACK_IMPORTED_MODULE_5__['AudioTagFactory']);
                         var audioList = factory.getAudioList();
                         if (value) {
                             audioList.forEach(function(tag) {
@@ -558,6 +564,123 @@ and limitations under the License.
                                 }
                             });
                         }
+                    };
+                    /**
+                     * 预加载音频
+                     * @param list
+                     * @param cache
+                     */
+                    Audio.prototype.load = function(list, cache) {
+                        return new Promise(function(resolve) {
+                            var tempList = list.concat();
+                            var resultMap = {};
+                            var checkLoaded = function(source) {
+                                var url;
+                                if (source instanceof _AudioSource__WEBPACK_IMPORTED_MODULE_4__['AudioSource']) {
+                                    url = source.url;
+                                    resultMap[source.url] = source;
+                                } else {
+                                    url = source;
+                                    resultMap[source] = null;
+                                }
+                                var index = tempList.indexOf(url);
+                                if (index >= 0) {
+                                    tempList.splice(index, 1);
+                                }
+                                if (tempList.length === 0) {
+                                    resolve(resultMap);
+                                }
+                            };
+                            var _loop_1 = function(i, length) {
+                                var url = tempList[i];
+                                var src = _AudioSource__WEBPACK_IMPORTED_MODULE_4__['AudioSource'].get(url);
+                                if (src == null) {
+                                    _AudioSource__WEBPACK_IMPORTED_MODULE_4__['AudioSource']
+                                        .load(url, cache)
+                                        .then(function(source) {
+                                            checkLoaded(source);
+                                        })
+                                        .catch(function() {
+                                            checkLoaded(url);
+                                        });
+                                } else {
+                                    checkLoaded(src);
+                                }
+                            };
+                            for (var i = 0, length = tempList.length; i < length; i += 1) {
+                                _loop_1(i, length);
+                            }
+                        });
+                    };
+                    /**
+                     * 按队列播放声音
+                     * @param list
+                     * @param id
+                     */
+                    Audio.prototype.playQueue = function(list, id) {
+                        return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](this, void 0, Promise, function() {
+                            var controller, _loop_2, i, length;
+                            return tslib__WEBPACK_IMPORTED_MODULE_0__['__generator'](this, function(_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        controller = new _AudioController__WEBPACK_IMPORTED_MODULE_3__['AudioController']();
+                                        if (id != null) {
+                                            this._playingQueueMap[id] = controller;
+                                        }
+                                        _loop_2 = function(i, length) {
+                                            var url, source, audioSource;
+                                            return tslib__WEBPACK_IMPORTED_MODULE_0__['__generator'](this, function(_a) {
+                                                switch (_a.label) {
+                                                    case 0:
+                                                        url = list[i];
+                                                        audioSource = _AudioSource__WEBPACK_IMPORTED_MODULE_4__['AudioSource'].get(url);
+                                                        if (audioSource == null) {
+                                                            source = url;
+                                                        } else {
+                                                            source = audioSource.base64;
+                                                        }
+                                                        return [
+                                                            4 /*yield*/,
+                                                            new Promise(function(resolve) {
+                                                                controller.play(source);
+                                                                controller.once(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].END, resolve);
+                                                            }),
+                                                        ];
+                                                    case 1:
+                                                        _a.sent();
+                                                        return [2 /*return*/];
+                                                }
+                                            });
+                                        };
+                                        (i = 0), (length = list.length);
+                                        _a.label = 1;
+                                    case 1:
+                                        if (!(i < length)) return [3 /*break*/, 4];
+                                        return [5 /*yield**/, _loop_2(i, length)];
+                                    case 2:
+                                        _a.sent();
+                                        _a.label = 3;
+                                    case 3:
+                                        i += 1;
+                                        return [3 /*break*/, 1];
+                                    case 4:
+                                        return [2 /*return*/];
+                                }
+                            });
+                        });
+                    };
+                    /**
+                     * 停止播放队列声音
+                     * @param id
+                     */
+                    Audio.prototype.stopQueue = function(id) {
+                        var controller = this._playingQueueMap[id];
+                        if (controller == null) {
+                            return;
+                        }
+                        delete this._playingQueueMap[id];
+                        controller.offByType(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].END);
+                        controller.stop();
                     };
                     return Audio;
                 })();
@@ -583,6 +706,7 @@ and limitations under the License.
                 /* harmony import */ var _enum_EnumType__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../enum/EnumType */ './src/enum/EnumType.ts');
                 /* harmony import */ var _AudioTagFactory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AudioTagFactory */ './src/audio/AudioTagFactory.ts');
 
+                /** 音频控制器 */
                 var AudioController = /** @class */ (function(_super) {
                     tslib__WEBPACK_IMPORTED_MODULE_0__['__extends'](AudioController, _super);
                     function AudioController() {
@@ -595,11 +719,19 @@ and limitations under the License.
                         _this._currentTime = 0;
                         _this.onplay = function(evt) {
                             _this._playing = true;
+                            var el = evt.target;
+                            if (_this._currentTime > el.currentTime) {
+                                el.currentTime = _this._currentTime;
+                            }
                             _this.emit(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_3__['EnumProcess'].START);
                         };
                         _this.onpause = function(evt) {
-                            console.log(_this._currentTime);
                             _this._playing = false;
+                            if (_this._currentTime === 0) {
+                                _this.emit(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_3__['EnumProcess'].STOP);
+                            } else {
+                                _this.emit(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_3__['EnumProcess'].PAUSE);
+                            }
                             _this._recoveryTag();
                         };
                         _this.ontimeupdate = function(evt) {
@@ -612,6 +744,7 @@ and limitations under the License.
                             _this.emit(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_3__['EnumProcess'].PROGRESS, el.currentTime, el.duration);
                         };
                         _this.onended = function(evt) {
+                            _this._currentTime = 0;
                             _this._playing = false;
                             _this.emit(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_3__['EnumProcess'].END);
                             _this._recoveryTag();
@@ -730,6 +863,7 @@ and limitations under the License.
                             if (this._source === source) {
                                 el.play();
                             } else {
+                                this._currentTime = el.currentTime = 0;
                                 this._source = source;
                                 el.src = this._source;
                                 el.play();
@@ -778,6 +912,7 @@ and limitations under the License.
                             return;
                         }
                         this._audioTag = null;
+                        el.currentTime = 0;
                         el.loop = false;
                         el.volume = 1;
                         el.muted = false;
@@ -1769,7 +1904,7 @@ and limitations under the License.
                 /* harmony import */ var _src_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../src/enum/EnumProcess */ './src/enum/EnumProcess.ts');
 
                 var singleton = _src_base_Singleton__WEBPACK_IMPORTED_MODULE_4__['Singleton'].instance;
-                singleton.get(_src_audio_AudioTagFactory__WEBPACK_IMPORTED_MODULE_3__['AudioTagFactory']);
+                var factory = singleton.get(_src_audio_AudioTagFactory__WEBPACK_IMPORTED_MODULE_3__['AudioTagFactory']);
                 function TestAudio() {
                     return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](this, void 0, Promise, function() {
                         var url, source, controller;
@@ -1784,6 +1919,7 @@ and limitations under the License.
                                     source = _a.sent();
                                     console.log(source);
                                     controller = new _src_audio_AudioController__WEBPACK_IMPORTED_MODULE_1__['AudioController']();
+                                    controller.loop = true;
                                     controller.play(source.base64);
                                     controller.on(_src_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_5__['EnumProcess'].START, function() {
                                         console.log(_src_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_5__['EnumProcess'].START);
@@ -1801,7 +1937,8 @@ and limitations under the License.
                                         // console.log(EnumProcess.PROGRESS, cur, total);
                                     });
                                     setTimeout(function() {
-                                        controller.stop();
+                                        controller.pause();
+                                        factory.get();
                                         setTimeout(function() {
                                             controller.play();
                                         }, 3000);
