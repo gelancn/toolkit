@@ -1,57 +1,31 @@
-import { EnumEventLoader } from '../enum/EnumEventLoader';
-import { EnumHttpMethod } from '../enum/EnumHttpMethod';
-import { HttpLoader } from '../loader/HttpLoader';
-import { AudioSourceData } from './AudioSourceData';
+import * as tslib_1 from 'tslib';
+import { Singleton } from '../base/Singleton';
+import { EnumProcess } from '../enum/EnumProcess';
+import { AudioController } from './AudioController';
+import { AudioSource } from './AudioSource';
 import { AudioTagFactory } from './AudioTagFactory';
 /** 音频管理器 */
 var Audio = /** @class */ (function() {
     function Audio() {
-        this._factory = new AudioTagFactory();
-        this._sourceMap = {};
-        this._loadingMap = {};
-        this._playingMap = {};
+        this._playingQueueMap = {};
     }
-    Object.defineProperty(Audio.prototype, 'factory', {
-        /** 获取音频工厂，尽量不要使用 */
-        get: function() {
-            return this._factory;
-        },
-        enumerable: true,
-        configurable: true,
-    });
-    /**
-     * 设置标签缓存的上限
-     * @param value
-     */
-    Audio.prototype.setTagLimit = function(value) {
-        this._factory.setLimit(value);
-    };
-    /** 获取一个audio标签 */
-    Audio.prototype.getTag = function() {
-        return this._factory.get();
-    };
-    /**
-     * 回收一个audio标签
-     * @param value
-     */
-    Audio.prototype.recoveryTag = function(value) {
-        this._factory.recovery(value);
-    };
     /**
      * 设置静音
      * @param value
      */
     Audio.prototype.setMuted = function(value) {
+        var factory = Singleton.instance.get(AudioTagFactory);
+        var audioList = factory.getAudioList();
         if (value) {
-            this._factory.getTagsList().forEach(function(tag) {
-                tag.ext.mutedState = !!tag.muted;
+            audioList.forEach(function(tag) {
+                tag.cacheMuted = tag.muted;
                 tag.muted = true;
             });
         } else {
-            this._factory.getTagsList().forEach(function(tag) {
-                if (tag.ext.mutedState != null) {
-                    tag.muted = tag.ext.mutedState;
-                    tag.ext.mutedState = null;
+            audioList.forEach(function(tag) {
+                if (tag.cacheMuted != null) {
+                    tag.muted = tag.cacheMuted;
+                    tag.cacheMuted = null;
                 } else {
                     tag.muted = false;
                 }
@@ -59,140 +33,120 @@ var Audio = /** @class */ (function() {
         }
     };
     /**
-     * 通过url获取一个音频资源数据
-     * @param url
+     * 预加载音频
+     * @param list
+     * @param cache
      */
-    Audio.prototype.getSource = function(url) {
-        return this._sourceMap[url];
+    Audio.prototype.load = function(list, cache) {
+        return new Promise(function(resolve) {
+            var tempList = list.concat();
+            var resultMap = {};
+            var checkLoaded = function(source) {
+                var url;
+                if (source instanceof AudioSource) {
+                    url = source.url;
+                    resultMap[source.url] = source;
+                } else {
+                    url = source;
+                    resultMap[source] = null;
+                }
+                var index = tempList.indexOf(url);
+                if (index >= 0) {
+                    tempList.splice(index, 1);
+                }
+                if (tempList.length === 0) {
+                    resolve(resultMap);
+                }
+            };
+            var _loop_1 = function(i, length_1) {
+                var url = tempList[i];
+                var src = AudioSource.get(url);
+                if (src == null) {
+                    AudioSource.load(url, cache)
+                        .then(function(source) {
+                            checkLoaded(source);
+                        })
+                        .catch(function() {
+                            checkLoaded(url);
+                        });
+                } else {
+                    checkLoaded(src);
+                }
+            };
+            for (var i = 0, length_1 = tempList.length; i < length_1; i += 1) {
+                _loop_1(i, length_1);
+            }
+        });
     };
     /**
-     * 移除一个音频资源数据
-     * @param url
+     * 按队列播放声音
+     * @param list
+     * @param id
      */
-    Audio.prototype.removeSource = function(url) {
-        delete this._sourceMap[url];
-    };
-    /**
-     * 加载一个音频
-     * @param params
-     */
-    Audio.prototype.load = function(params) {
-        var _this = this;
-        var url = params.url;
-        var data = this._sourceMap[url];
-        if (data != null) {
-            params.onComplete && params.onComplete(data);
-            return;
-        }
-        var loader = this._loadingMap[url];
-        if (loader == null) {
-            loader = new HttpLoader();
-            this._loadingMap[url] = loader;
-            loader.load({
-                url: url,
-                method: EnumHttpMethod.GET,
-                responseType: 'blob',
-                requestHeader: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
+    Audio.prototype.playQueue = function(list, id) {
+        return tslib_1.__awaiter(this, void 0, void 0, function() {
+            var controller, _loop_2, i, length_2;
+            return tslib_1.__generator(this, function(_a) {
+                switch (_a.label) {
+                    case 0:
+                        controller = new AudioController();
+                        if (id != null) {
+                            this._playingQueueMap[id] = controller;
+                        }
+                        _loop_2 = function(i, length_2) {
+                            var url, source, audioSource;
+                            return tslib_1.__generator(this, function(_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        url = list[i];
+                                        audioSource = AudioSource.get(url);
+                                        if (audioSource == null) {
+                                            source = url;
+                                        } else {
+                                            source = audioSource.base64;
+                                        }
+                                        return [
+                                            4 /*yield*/,
+                                            new Promise(function(resolve) {
+                                                controller.play(source);
+                                                controller.once(EnumProcess.END, resolve);
+                                            }),
+                                        ];
+                                    case 1:
+                                        _a.sent();
+                                        return [2 /*return*/];
+                                }
+                            });
+                        };
+                        (i = 0), (length_2 = list.length);
+                        _a.label = 1;
+                    case 1:
+                        if (!(i < length_2)) return [3 /*break*/, 4];
+                        return [5 /*yield**/, _loop_2(i, length_2)];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        i += 1;
+                        return [3 /*break*/, 1];
+                    case 4:
+                        return [2 /*return*/];
+                }
             });
-        }
-        var progressHandler = function(loaded, total) {
-            params.onProgress && params.onProgress(loaded, total);
-        };
-        var completeHandler = function(response) {
-            var data = _this._sourceMap[url];
-            if (data == null) {
-                delete _this._loadingMap[url];
-                var blob = response;
-                data = new AudioSourceData(url, blob);
-                _this._sourceMap[url] = data;
-                data.readAsDataURL(function() {
-                    params.onComplete && params.onComplete(data);
-                });
-            } else {
-                params.onComplete && params.onComplete(data);
-            }
-            loader.off(EnumEventLoader.PROGRESS, progressHandler, _this);
-        };
-        var errorHandler = function() {
-            delete _this._loadingMap[url];
-            params.onError && params.onError();
-        };
-        loader.on(EnumEventLoader.PROGRESS, progressHandler, this);
-        loader.once(EnumEventLoader.COMPLETE, completeHandler, this);
-        loader.once(EnumEventLoader.ERROR, errorHandler, this);
+        });
     };
     /**
-     * 播放一个音频
-     * @param params
+     * 停止播放队列声音
+     * @param id
      */
-    Audio.prototype.play = function(params) {
-        var _this = this;
-        var url = params.url;
-        if (this._playingMap[url] != null) {
+    Audio.prototype.stopQueue = function(id) {
+        var controller = this._playingQueueMap[id];
+        if (controller == null) {
             return;
         }
-        var tag = this.getTag();
-        var sourceData = this.getSource(url);
-        var base64 = sourceData && sourceData.base64;
-        if (base64 == null) {
-            tag.src = url;
-        } else {
-            tag.src = base64;
-        }
-        var onProgress = function() {
-            if (params.progressHandler != null) {
-                var currentTime = tag.currentTime || 0;
-                var duration = tag.duration || 0;
-                params.progressHandler(currentTime, duration);
-            }
-        };
-        tag.ontimeupdate = function() {
-            onProgress();
-        };
-        tag.onseeked = function() {
-            onProgress();
-        };
-        tag.onerror = function() {
-            if (params.errorHandler != null) {
-                params.errorHandler();
-            }
-        };
-        tag.onended = function() {
-            _this._disposeTag(url);
-            if (params.endedHandler != null) {
-                params.endedHandler();
-            }
-        };
-        tag.loop = !!params.loop;
-        tag.play();
-        this._playingMap[url] = tag;
-    };
-    /**
-     * 停止一个音频
-     * @param url
-     */
-    Audio.prototype.stop = function(url) {
-        var tag = this._playingMap[url];
-        if (tag == null) {
-            return;
-        }
-        tag.pause();
-        tag.currentTime = 0;
-        this._disposeTag(url);
-    };
-    Audio.prototype._disposeTag = function(url) {
-        var tag = this._playingMap[url];
-        if (tag == null) {
-            return;
-        }
-        tag.ontimeupdate = null;
-        tag.onseeked = null;
-        tag.onerror = null;
-        tag.onended = null;
-        delete this._playingMap[url];
-        this.recoveryTag(tag);
+        delete this._playingQueueMap[id];
+        controller.offByType(EnumProcess.END);
+        controller.stop();
     };
     return Audio;
 })();

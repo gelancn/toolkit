@@ -1,7 +1,7 @@
 import * as tslib_1 from 'tslib';
 import { Emitter } from '../base/Emitter';
-import { EnumEventLoader } from '../enum/EnumEventLoader';
 import { EnumHttpMethod } from '../enum/EnumHttpMethod';
+import { EnumProcess } from '../enum/EnumProcess';
 var HttpLoader = /** @class */ (function(_super) {
     tslib_1.__extends(HttpLoader, _super);
     function HttpLoader() {
@@ -70,29 +70,13 @@ var HttpLoader = /** @class */ (function(_super) {
         }
         var onError = function() {
             _this.reset();
-            _this.emit(EnumEventLoader.ERROR);
+            _this.emit(EnumProcess.ERROR);
         };
-        // xhr.onreadystatechange = () => {
-        //     const readyState: number = xhr.readyState;
-        //     const status: number = xhr.status;
-        //     if (readyState === 4) {
-        //         if (status === 200) {
-        //             const data: unknown = xhr.response || xhr.responseText;
-        //             this.emit(EnumEventLoader.COMPLETE, data);
-        //         } else {
-        //             onError();
-        //         }
-        //     } else {
-        //         if (status >= 400) {
-        //             onError();
-        //         }
-        //     }
-        // };
         xhr.onload = function() {
             var status = xhr.status;
             if (status === 200) {
                 var data_1 = xhr.response || xhr.responseText;
-                _this.emit(EnumEventLoader.COMPLETE, data_1);
+                _this.emit(EnumProcess.END, data_1);
             } else {
                 onError();
             }
@@ -100,13 +84,13 @@ var HttpLoader = /** @class */ (function(_super) {
         xhr.onprogress = function(evt) {
             var total = evt.total;
             var loaded = evt.loaded;
-            _this.emit(EnumEventLoader.PROGRESS, loaded, total);
+            _this.emit(EnumProcess.PROGRESS, loaded, total);
         };
         xhr.onerror = function(evt) {
             onError();
         };
         xhr.send(sendData);
-        this.emit(EnumEventLoader.START);
+        this.emit(EnumProcess.START);
     };
     /** 重置 */
     HttpLoader.prototype.reset = function() {

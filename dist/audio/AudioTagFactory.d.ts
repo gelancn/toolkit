@@ -2,43 +2,34 @@
 export declare class AudioTagFactory {
     constructor();
     /** 所有标签的map */
-    private _tagsMap;
+    private _audiosMap;
     /** 获取标签列表 */
-    getTagsList(): Array<AudioTag>;
-    /** 记录id */
-    private _mark;
+    getAudioList(): Array<HTMLAudioElement>;
     /** 音频标签池子 */
-    private _tagsPool;
+    private _audiosPool;
     /** 被锁定的标签 */
-    private _tagsLocked;
-    private _createTag;
-    private _limit;
-    /** 设置限制数量 */
-    setLimit(value: number): void;
-    /** 获取限制数量 */
-    getLimit(): number;
+    private _audiosUnLocked;
+    /** 记录id */
+    private _markUid;
+    /** 池子容量 */
+    private _poolLimit;
     /** 生成一个audio */
-    get(): AudioTag;
+    get(): HTMLAudioElement;
     /**
-     * 回收一个audio,回收前请移除各种事件监听让audio标签回到初始状态
+     * 回收一个audio
      * @param value
      */
     recovery(value: HTMLAudioElement): void;
+    private _createTag;
     private _onTouch;
-    /** 开启解锁监听 */
+    /** 监听 */
     listen(): void;
-    /** 关闭解锁监听 */
-    unlisten(): void;
+    /** 取消监听 */
+    unListen(): void;
 }
 export interface AudioTag extends HTMLAudioElement {
-    ext: {
-        /** id */
-        id: number;
-        /** 是否启用 */
-        enabled: boolean;
-        /** 是否使用中 */
-        inUse: boolean;
-        /** 记录静音状态 */
-        mutedState?: boolean;
-    };
+    uid: number;
+    unLocked: boolean;
+    inUse: boolean;
+    cacheMuted: boolean;
 }

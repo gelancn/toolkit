@@ -1,6 +1,6 @@
 import * as tslib_1 from 'tslib';
 import { Emitter } from '../base/Emitter';
-import { EnumEventLoader } from '../enum/EnumEventLoader';
+import { EnumProcess } from '../enum/EnumProcess';
 var ImageLoader = /** @class */ (function(_super) {
     tslib_1.__extends(ImageLoader, _super);
     function ImageLoader() {
@@ -22,18 +22,18 @@ var ImageLoader = /** @class */ (function(_super) {
         this._image = img;
         img.src = config.url;
         img.onload = function() {
-            _this.emit(EnumEventLoader.COMPLETE, _this._image);
+            _this.emit(EnumProcess.END, _this._image);
         };
         img.onprogress = function(evt) {
             var total = evt.total;
             var loaded = evt.loaded;
-            _this.emit(EnumEventLoader.PROGRESS, loaded, total);
+            _this.emit(EnumProcess.PROGRESS, loaded, total);
         };
         img.onerror = function() {
             _this.reset();
-            _this.emit(EnumEventLoader.ERROR);
+            _this.emit(EnumProcess.ERROR);
         };
-        this.emit(EnumEventLoader.START);
+        this.emit(EnumProcess.START);
     };
     /** 重置 */
     ImageLoader.prototype.reset = function() {

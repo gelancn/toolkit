@@ -1,67 +1,32 @@
-import { AudioSourceData } from './AudioSourceData';
-import { AudioTagFactory } from './AudioTagFactory';
+import { AudioSource } from './AudioSource';
 /** 音频管理器 */
 export declare class Audio {
-    private _factory;
-    /** 获取音频工厂，尽量不要使用 */
-    readonly factory: AudioTagFactory;
-    /**
-     * 设置标签缓存的上限
-     * @param value
-     */
-    setTagLimit(value: number): void;
-    /** 获取一个audio标签 */
-    getTag(): HTMLAudioElement;
-    /**
-     * 回收一个audio标签
-     * @param value
-     */
-    recoveryTag(value: HTMLAudioElement): void;
     /**
      * 设置静音
      * @param value
      */
     setMuted(value: boolean): void;
-    private _sourceMap;
     /**
-     * 通过url获取一个音频资源数据
-     * @param url
+     * 预加载音频
+     * @param list
+     * @param cache
      */
-    getSource(url: string): AudioSourceData;
+    load(
+        list: Array<string>,
+        cache?: boolean,
+    ): Promise<{
+        [key: string]: AudioSource;
+    }>;
+    private _playingQueueMap;
     /**
-     * 移除一个音频资源数据
-     * @param url
+     * 按队列播放声音
+     * @param list
+     * @param id
      */
-    removeSource(url: string): void;
-    private _loadingMap;
+    playQueue(list: Array<string>, id?: string): Promise<void>;
     /**
-     * 加载一个音频
-     * @param params
+     * 停止播放队列声音
+     * @param id
      */
-    load(params: LoadAudioParams): void;
-    private _playingMap;
-    /**
-     * 播放一个音频
-     * @param params
-     */
-    play(params: PlayAudioParams): void;
-    /**
-     * 停止一个音频
-     * @param url
-     */
-    stop(url: string): void;
-    private _disposeTag;
-}
-export interface LoadAudioParams {
-    url: string;
-    onComplete?(data: AudioSourceData): void;
-    onProgress?(loaded: number, total: number): void;
-    onError?(): void;
-}
-export interface PlayAudioParams {
-    url: string;
-    loop?: boolean;
-    progressHandler?(current: number, duration: number): void;
-    endedHandler?(): void;
-    errorHandler?(): void;
+    stopQueue(id: string): void;
 }

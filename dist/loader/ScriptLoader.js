@@ -1,6 +1,6 @@
 import * as tslib_1 from 'tslib';
 import { Emitter } from '../base/Emitter';
-import { EnumEventLoader } from '../enum/EnumEventLoader';
+import { EnumProcess } from '../enum/EnumProcess';
 var ScriptLoader = /** @class */ (function(_super) {
     tslib_1.__extends(ScriptLoader, _super);
     function ScriptLoader() {
@@ -19,23 +19,23 @@ var ScriptLoader = /** @class */ (function(_super) {
         this._script = script;
         script.src = config.url;
         script.onload = function() {
-            _this.emit(EnumEventLoader.COMPLETE, _this._script);
+            _this.emit(EnumProcess.END, _this._script);
         };
         script.onprogress = function(evt) {
             var total = evt.total;
             var loaded = evt.loaded;
-            _this.emit(EnumEventLoader.PROGRESS, loaded, total);
+            _this.emit(EnumProcess.PROGRESS, loaded, total);
         };
         script.onerror = function() {
             _this.reset();
-            _this.emit(EnumEventLoader.ERROR);
+            _this.emit(EnumProcess.ERROR);
         };
         if (config.appendTo == null) {
             document.body.appendChild(script);
         } else {
             config.appendTo.appendChild(script);
         }
-        this.emit(EnumEventLoader.START);
+        this.emit(EnumProcess.START);
     };
     /** 重置 */
     ScriptLoader.prototype.reset = function() {
