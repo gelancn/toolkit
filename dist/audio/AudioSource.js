@@ -55,6 +55,52 @@ var AudioSource = /** @class */ (function() {
             return null;
         }
     };
+    /**
+     * 预加载音频列表
+     * @param list
+     * @param cache
+     */
+    AudioSource.loadList = function(list, cache) {
+        return new Promise(function(resolve) {
+            var tempList = list.concat();
+            var resultMap = {};
+            var checkLoaded = function(source) {
+                var url;
+                if (source instanceof AudioSource) {
+                    url = source.url;
+                    resultMap[source.url] = source;
+                } else {
+                    url = source;
+                    resultMap[source] = null;
+                }
+                var index = tempList.indexOf(url);
+                if (index >= 0) {
+                    tempList.splice(index, 1);
+                }
+                if (tempList.length === 0) {
+                    resolve(resultMap);
+                }
+            };
+            var _loop_1 = function(i, length_1) {
+                var url = tempList[i];
+                var src = AudioSource.get(url);
+                if (src == null) {
+                    AudioSource.load(url, cache)
+                        .then(function(source) {
+                            checkLoaded(source);
+                        })
+                        .catch(function() {
+                            checkLoaded(url);
+                        });
+                } else {
+                    checkLoaded(src);
+                }
+            };
+            for (var i = 0, length_1 = tempList.length; i < length_1; i += 1) {
+                _loop_1(i, length_1);
+            }
+        });
+    };
     Object.defineProperty(AudioSource.prototype, 'url', {
         /** url */
         get: function() {

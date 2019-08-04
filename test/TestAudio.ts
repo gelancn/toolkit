@@ -1,11 +1,7 @@
 import { AudioController } from '../src/audio/AudioController';
 import { AudioSource } from '../src/audio/AudioSource';
-import { AudioTagFactory } from '../src/audio/AudioTagFactory';
-import { Singleton } from '../src/base/Singleton';
 import { EnumProcess } from '../src/enum/EnumProcess';
 
-const singleton: Singleton = Singleton.instance;
-const factory = singleton.get(AudioTagFactory);
 export async function TestAudio(): Promise<void> {
     console.log(`---------- TestAudio ----------`);
     console.log(`\n`);
@@ -34,7 +30,7 @@ export async function TestAudio(): Promise<void> {
     });
     setTimeout(() => {
         controller.pause();
-        factory.get();
+        AudioController.factory.get();
         setTimeout(() => {
             controller.play();
         }, 3000);

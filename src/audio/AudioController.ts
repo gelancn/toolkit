@@ -1,11 +1,78 @@
-import { Singleton } from '..';
 import { Emitter } from '../base/Emitter';
 import { EnumProcess } from '../enum/EnumProcess';
 import { EnumType } from '../enum/EnumType';
+import { AudioSource } from './AudioSource';
 import { AudioTag, AudioTagFactory } from './AudioTagFactory';
 
 /** 音频控制器 */
 export class AudioController extends Emitter {
+    /** 音频工厂 */
+    public static factory: AudioTagFactory = new AudioTagFactory();
+    /**
+     * 设置静音
+     * @param value
+     */
+    public static setMuted(value: boolean): void {
+        const factory: AudioTagFactory = AudioController.factory;
+        const audioList: Array<AudioTag> = factory.getAudioList() as Array<AudioTag>;
+        if (value) {
+            audioList.forEach((tag: AudioTag) => {
+                tag.cacheMuted = tag.muted;
+                tag.muted = true;
+            });
+        } else {
+            audioList.forEach((tag: AudioTag) => {
+                if (tag.cacheMuted != null) {
+                    tag.muted = tag.cacheMuted;
+                    tag.cacheMuted = null;
+                } else {
+                    tag.muted = false;
+                }
+            });
+        }
+    }
+
+    private static _playingQueueMap: { [key: string]: AudioController } = {};
+    /**
+     * 按队列播放声音
+     * @param list
+     * @param id
+     */
+    public static async playQueue(list: Array<string>, id?: string): Promise<void> {
+        const controller: AudioController = new AudioController();
+        if (id != null) {
+            this._playingQueueMap[id] = controller;
+        }
+        for (let i: number = 0, length: number = list.length; i < length; i += 1) {
+            const url: string = list[i];
+            let source: string;
+            const audioSource: AudioSource = AudioSource.get(url);
+            if (audioSource == null) {
+                source = url;
+            } else {
+                source = audioSource.base64;
+            }
+            await new Promise((resolve: () => void) => {
+                controller.play(source);
+                controller.once(EnumProcess.END, resolve);
+            });
+        }
+    }
+
+    /**
+     * 停止播放队列声音
+     * @param id
+     */
+    public static stopQueue(id: string): void {
+        const controller: AudioController = this._playingQueueMap[id];
+        if (controller == null) {
+            return;
+        }
+        delete this._playingQueueMap[id];
+        controller.offByType(EnumProcess.END);
+        controller.stop();
+    }
+
     constructor() {
         super();
         this.onplay = (evt: Event) => {
@@ -179,8 +246,7 @@ export class AudioController extends Emitter {
         if (this._audioTag != null) {
             return;
         }
-        const factory: AudioTagFactory = Singleton.instance.get(AudioTagFactory);
-        const el: AudioTag = factory.get() as AudioTag;
+        const el: AudioTag = AudioController.factory.get() as AudioTag;
         el.loop = this._loop;
         el.volume = this._volume;
         el.muted = this._muted;
@@ -206,8 +272,7 @@ export class AudioController extends Emitter {
         el.onpause = null;
         el.ontimeupdate = null;
         el.onended = null;
-        const factory: AudioTagFactory = Singleton.instance.get(AudioTagFactory);
-        factory.recovery(el);
+        AudioController.factory.recovery(el);
     }
 
     protected ontimeupdate: (evt: Event) => void;

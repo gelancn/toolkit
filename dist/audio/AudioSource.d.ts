@@ -18,6 +18,17 @@ export declare class AudioSource {
      * @param url
      */
     static get(url: string): AudioSource | null;
+    /**
+     * 预加载音频列表
+     * @param list
+     * @param cache
+     */
+    static loadList(
+        list: Array<string>,
+        cache?: boolean,
+    ): Promise<{
+        [key: string]: AudioSource;
+    }>;
     constructor(url: string);
     private _url;
     /** url */

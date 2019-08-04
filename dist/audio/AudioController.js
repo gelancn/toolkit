@@ -1,8 +1,8 @@
 import * as tslib_1 from 'tslib';
-import { Singleton } from '..';
 import { Emitter } from '../base/Emitter';
 import { EnumProcess } from '../enum/EnumProcess';
 import { EnumType } from '../enum/EnumType';
+import { AudioSource } from './AudioSource';
 import { AudioTagFactory } from './AudioTagFactory';
 /** 音频控制器 */
 var AudioController = /** @class */ (function(_super) {
@@ -49,6 +49,99 @@ var AudioController = /** @class */ (function(_super) {
         };
         return _this;
     }
+    /**
+     * 设置静音
+     * @param value
+     */
+    AudioController.setMuted = function(value) {
+        var factory = AudioController.factory;
+        var audioList = factory.getAudioList();
+        if (value) {
+            audioList.forEach(function(tag) {
+                tag.cacheMuted = tag.muted;
+                tag.muted = true;
+            });
+        } else {
+            audioList.forEach(function(tag) {
+                if (tag.cacheMuted != null) {
+                    tag.muted = tag.cacheMuted;
+                    tag.cacheMuted = null;
+                } else {
+                    tag.muted = false;
+                }
+            });
+        }
+    };
+    /**
+     * 按队列播放声音
+     * @param list
+     * @param id
+     */
+    AudioController.playQueue = function(list, id) {
+        return tslib_1.__awaiter(this, void 0, void 0, function() {
+            var controller, _loop_1, i, length_1;
+            return tslib_1.__generator(this, function(_a) {
+                switch (_a.label) {
+                    case 0:
+                        controller = new AudioController();
+                        if (id != null) {
+                            this._playingQueueMap[id] = controller;
+                        }
+                        _loop_1 = function(i, length_1) {
+                            var url, source, audioSource;
+                            return tslib_1.__generator(this, function(_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        url = list[i];
+                                        audioSource = AudioSource.get(url);
+                                        if (audioSource == null) {
+                                            source = url;
+                                        } else {
+                                            source = audioSource.base64;
+                                        }
+                                        return [
+                                            4 /*yield*/,
+                                            new Promise(function(resolve) {
+                                                controller.play(source);
+                                                controller.once(EnumProcess.END, resolve);
+                                            }),
+                                        ];
+                                    case 1:
+                                        _a.sent();
+                                        return [2 /*return*/];
+                                }
+                            });
+                        };
+                        (i = 0), (length_1 = list.length);
+                        _a.label = 1;
+                    case 1:
+                        if (!(i < length_1)) return [3 /*break*/, 4];
+                        return [5 /*yield**/, _loop_1(i, length_1)];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        i += 1;
+                        return [3 /*break*/, 1];
+                    case 4:
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * 停止播放队列声音
+     * @param id
+     */
+    AudioController.stopQueue = function(id) {
+        var controller = this._playingQueueMap[id];
+        if (controller == null) {
+            return;
+        }
+        delete this._playingQueueMap[id];
+        controller.offByType(EnumProcess.END);
+        controller.stop();
+    };
     Object.defineProperty(AudioController.prototype, 'loop', {
         /** 循环播放 */
         get: function() {
@@ -192,8 +285,7 @@ var AudioController = /** @class */ (function(_super) {
         if (this._audioTag != null) {
             return;
         }
-        var factory = Singleton.instance.get(AudioTagFactory);
-        var el = factory.get();
+        var el = AudioController.factory.get();
         el.loop = this._loop;
         el.volume = this._volume;
         el.muted = this._muted;
@@ -218,9 +310,11 @@ var AudioController = /** @class */ (function(_super) {
         el.onpause = null;
         el.ontimeupdate = null;
         el.onended = null;
-        var factory = Singleton.instance.get(AudioTagFactory);
-        factory.recovery(el);
+        AudioController.factory.recovery(el);
     };
+    /** 音频工厂 */
+    AudioController.factory = new AudioTagFactory();
+    AudioController._playingQueueMap = {};
     return AudioController;
 })(Emitter);
 export { AudioController };

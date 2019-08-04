@@ -1,6 +1,26 @@
 import { Emitter } from '../base/Emitter';
+import { AudioTagFactory } from './AudioTagFactory';
 /** 音频控制器 */
 export declare class AudioController extends Emitter {
+    /** 音频工厂 */
+    static factory: AudioTagFactory;
+    /**
+     * 设置静音
+     * @param value
+     */
+    static setMuted(value: boolean): void;
+    private static _playingQueueMap;
+    /**
+     * 按队列播放声音
+     * @param list
+     * @param id
+     */
+    static playQueue(list: Array<string>, id?: string): Promise<void>;
+    /**
+     * 停止播放队列声音
+     * @param id
+     */
+    static stopQueue(id: string): void;
     constructor();
     private _audioTag;
     private _source;

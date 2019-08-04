@@ -44,6 +44,50 @@ export class AudioSource {
         }
     }
 
+    /**
+     * 预加载音频列表
+     * @param list
+     * @param cache
+     */
+    public static loadList(list: Array<string>, cache?: boolean): Promise<{ [key: string]: AudioSource }> {
+        return new Promise((resolve: (sourceMap: { [key: string]: AudioSource }) => void) => {
+            const tempList: Array<string> = list.concat();
+            const resultMap: { [key: string]: AudioSource } = {};
+            const checkLoaded = (source: AudioSource | string) => {
+                let url: string;
+                if (source instanceof AudioSource) {
+                    url = source.url;
+                    resultMap[source.url] = source;
+                } else {
+                    url = source;
+                    resultMap[source] = null;
+                }
+                const index: number = tempList.indexOf(url);
+                if (index >= 0) {
+                    tempList.splice(index, 1);
+                }
+                if (tempList.length === 0) {
+                    resolve(resultMap);
+                }
+            };
+            for (let i: number = 0, length: number = tempList.length; i < length; i += 1) {
+                const url: string = tempList[i];
+                const src: AudioSource = AudioSource.get(url);
+                if (src == null) {
+                    AudioSource.load(url, cache)
+                        .then((source: AudioSource) => {
+                            checkLoaded(source);
+                        })
+                        .catch(() => {
+                            checkLoaded(url);
+                        });
+                } else {
+                    checkLoaded(src);
+                }
+            }
+        });
+    }
+
     constructor(url: string) {
         this._url = url;
     }
