@@ -32,7 +32,10 @@
         "typescript": "^3.4.5",
         "webpack": "^4.30.0"
     },
-    "dependencies": {},
+    "dependencies": {
+        "@types/tween.js": "^17.2.0",
+        "tween.js": "^16.6.0"
+    },
     "husky": {
         "hooks": {
             "pre-commit": "lint-staged"
