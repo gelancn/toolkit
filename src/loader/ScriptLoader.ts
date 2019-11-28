@@ -38,6 +38,9 @@ export class ScriptLoader extends Emitter implements ILoader {
 
     /** 重置 */
     public reset(): void {
+        if (this._script == null) {
+            return;
+        }
         this._script.onload = null;
         this._script.onprogress = null;
         this._script.onerror = null;

@@ -36,6 +36,9 @@ export class ImageLoader extends Emitter implements ILoader {
 
     /** 重置 */
     public reset(): void {
+        if (this._image == null) {
+            return;
+        }
         this._image.onload = null;
         this._image.onprogress = null;
         this._image.onerror = null;

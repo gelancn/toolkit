@@ -37,6 +37,9 @@ var ImageLoader = /** @class */ (function(_super) {
     };
     /** 重置 */
     ImageLoader.prototype.reset = function() {
+        if (this._image == null) {
+            return;
+        }
         this._image.onload = null;
         this._image.onprogress = null;
         this._image.onerror = null;

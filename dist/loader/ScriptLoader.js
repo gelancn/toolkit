@@ -39,6 +39,9 @@ var ScriptLoader = /** @class */ (function(_super) {
     };
     /** 重置 */
     ScriptLoader.prototype.reset = function() {
+        if (this._script == null) {
+            return;
+        }
         this._script.onload = null;
         this._script.onprogress = null;
         this._script.onerror = null;
