@@ -30,7 +30,6 @@ var AudioController = /** @class */ (function(_super) {
             } else {
                 _this.emit(EnumProcess.PAUSE);
             }
-            _this._recoveryTag();
         };
         _this.ontimeupdate = function(evt) {
             if (!_this._playing) {
@@ -280,6 +279,10 @@ var AudioController = /** @class */ (function(_super) {
             return;
         }
         el.pause();
+    };
+    AudioController.prototype.dispose = function() {
+        this.stop();
+        this._recoveryTag();
     };
     AudioController.prototype._getTag = function() {
         if (this._audioTag != null) {

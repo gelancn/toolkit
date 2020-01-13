@@ -90,7 +90,6 @@ export class AudioController extends Emitter {
             } else {
                 this.emit(EnumProcess.PAUSE);
             }
-            this._recoveryTag();
         };
         this.ontimeupdate = (evt: Event) => {
             if (!this._playing) {
@@ -240,6 +239,11 @@ export class AudioController extends Emitter {
             return;
         }
         el.pause();
+    }
+
+    public dispose(): void {
+        this.stop();
+        this._recoveryTag();
     }
 
     private _getTag(): void {

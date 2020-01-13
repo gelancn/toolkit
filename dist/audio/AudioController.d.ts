@@ -55,6 +55,7 @@ export declare class AudioController extends Emitter {
     stop(): void;
     /** 暂停 */
     pause(): void;
+    dispose(): void;
     private _getTag;
     private _recoveryTag;
     protected ontimeupdate: (evt: Event) => void;

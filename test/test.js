@@ -563,7 +563,6 @@ and limitations under the License.
                             } else {
                                 _this.emit(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].PAUSE);
                             }
-                            _this._recoveryTag();
                         };
                         _this.ontimeupdate = function(evt) {
                             if (!_this._playing) {
@@ -813,6 +812,10 @@ and limitations under the License.
                             return;
                         }
                         el.pause();
+                    };
+                    AudioController.prototype.dispose = function() {
+                        this.stop();
+                        this._recoveryTag();
                     };
                     AudioController.prototype._getTag = function() {
                         if (this._audioTag != null) {
@@ -1772,6 +1775,9 @@ and limitations under the License.
                     };
                     /** 重置 */
                     ImageLoader.prototype.reset = function() {
+                        if (this._image == null) {
+                            return;
+                        }
                         this._image.onload = null;
                         this._image.onprogress = null;
                         this._image.onerror = null;
@@ -1836,6 +1842,9 @@ and limitations under the License.
                     };
                     /** 重置 */
                     ScriptLoader.prototype.reset = function() {
+                        if (this._script == null) {
+                            return;
+                        }
                         this._script.onload = null;
                         this._script.onprogress = null;
                         this._script.onerror = null;
