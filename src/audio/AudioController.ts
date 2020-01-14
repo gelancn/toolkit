@@ -13,7 +13,7 @@ export class AudioController extends Emitter {
      * @param value
      */
     public static setMuted(value: boolean): void {
-        const factory: AudioTagFactory = AudioController.factory;
+        const factory: AudioTagFactory = this.factory;
         const audioList: Array<AudioTag> = factory.getAudioList() as Array<AudioTag>;
         if (value) {
             audioList.forEach((tag: AudioTag) => {
@@ -61,9 +61,10 @@ export class AudioController extends Emitter {
             } else {
                 source = audioSource.base64;
             }
-            await new Promise((resolve: () => void) => {
+            await new Promise((resolve: () => void, reject: () => void) => {
                 controller.play(source);
                 controller.once(EnumProcess.END, resolve);
+                controller.on(EnumProcess.ERROR, reject);
             });
         }
         this.stop(id);
@@ -91,14 +92,14 @@ export class AudioController extends Emitter {
             if (this._currentTime > el.currentTime) {
                 el.currentTime = this._currentTime;
             }
-            this.emit(EnumProcess.START);
+            this.emit(EnumProcess.START, evt);
         };
         this.onpause = (evt: Event) => {
             this._playing = false;
             if (this._currentTime === 0) {
                 this.emit(EnumProcess.STOP);
             } else {
-                this.emit(EnumProcess.PAUSE);
+                this.emit(EnumProcess.PAUSE, evt);
             }
         };
         this.ontimeupdate = (evt: Event) => {
@@ -113,8 +114,11 @@ export class AudioController extends Emitter {
         this.onended = (evt: Event) => {
             this._currentTime = 0;
             this._playing = false;
-            this.emit(EnumProcess.END);
+            this.emit(EnumProcess.END, evt);
             this._recoveryTag();
+        };
+        this.onerror = (event: Event | string, source?: string, lineno?: number, colno?: number, error?: Error) => {
+            this.emit(EnumProcess.ERROR, { event, source, lineno, colno, error });
         };
     }
 
@@ -269,6 +273,7 @@ export class AudioController extends Emitter {
         el.onpause = this.onpause;
         el.ontimeupdate = this.ontimeupdate;
         el.onended = this.onended;
+        el.onerror = this.onerror;
         this._audioTag = el;
     }
 
@@ -286,6 +291,7 @@ export class AudioController extends Emitter {
         el.onpause = null;
         el.ontimeupdate = null;
         el.onended = null;
+        el.onerror = null;
         AudioController.factory.recovery(el);
     }
 
@@ -293,4 +299,5 @@ export class AudioController extends Emitter {
     protected onplay: (evt: Event) => void;
     protected onpause: (evt: Event) => void;
     protected onended: (evt: Event) => void;
+    protected onerror: (event: Event | string, source?: string, lineno?: number, colno?: number, error?: Error) => void;
 }

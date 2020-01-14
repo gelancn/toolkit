@@ -554,14 +554,14 @@ and limitations under the License.
                             if (_this._currentTime > el.currentTime) {
                                 el.currentTime = _this._currentTime;
                             }
-                            _this.emit(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].START);
+                            _this.emit(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].START, evt);
                         };
                         _this.onpause = function(evt) {
                             _this._playing = false;
                             if (_this._currentTime === 0) {
                                 _this.emit(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].STOP);
                             } else {
-                                _this.emit(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].PAUSE);
+                                _this.emit(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].PAUSE, evt);
                             }
                         };
                         _this.ontimeupdate = function(evt) {
@@ -576,8 +576,17 @@ and limitations under the License.
                         _this.onended = function(evt) {
                             _this._currentTime = 0;
                             _this._playing = false;
-                            _this.emit(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].END);
+                            _this.emit(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].END, evt);
                             _this._recoveryTag();
+                        };
+                        _this.onerror = function(event, source, lineno, colno, error) {
+                            _this.emit(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].ERROR, {
+                                event: event,
+                                source: source,
+                                lineno: lineno,
+                                colno: colno,
+                                error: error,
+                            });
                         };
                         return _this;
                     }
@@ -586,7 +595,7 @@ and limitations under the License.
                      * @param value
                      */
                     AudioController.setMuted = function(value) {
-                        var factory = AudioController.factory;
+                        var factory = this.factory;
                         var audioList = factory.getAudioList();
                         if (value) {
                             audioList.forEach(function(tag) {
@@ -641,9 +650,10 @@ and limitations under the License.
                                                         }
                                                         return [
                                                             4 /*yield*/,
-                                                            new Promise(function(resolve) {
+                                                            new Promise(function(resolve, reject) {
                                                                 controller.play(source);
                                                                 controller.once(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].END, resolve);
+                                                                controller.on(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].ERROR, reject);
                                                             }),
                                                         ];
                                                     case 1:
@@ -839,6 +849,7 @@ and limitations under the License.
                         el.onpause = this.onpause;
                         el.ontimeupdate = this.ontimeupdate;
                         el.onended = this.onended;
+                        el.onerror = this.onerror;
                         this._audioTag = el;
                     };
                     AudioController.prototype._recoveryTag = function() {
@@ -855,6 +866,7 @@ and limitations under the License.
                         el.onpause = null;
                         el.ontimeupdate = null;
                         el.onended = null;
+                        el.onerror = null;
                         AudioController.factory.recovery(el);
                     };
                     /** 音频工厂 */

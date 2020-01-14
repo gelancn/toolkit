@@ -21,14 +21,14 @@ var AudioController = /** @class */ (function(_super) {
             if (_this._currentTime > el.currentTime) {
                 el.currentTime = _this._currentTime;
             }
-            _this.emit(EnumProcess.START);
+            _this.emit(EnumProcess.START, evt);
         };
         _this.onpause = function(evt) {
             _this._playing = false;
             if (_this._currentTime === 0) {
                 _this.emit(EnumProcess.STOP);
             } else {
-                _this.emit(EnumProcess.PAUSE);
+                _this.emit(EnumProcess.PAUSE, evt);
             }
         };
         _this.ontimeupdate = function(evt) {
@@ -43,8 +43,11 @@ var AudioController = /** @class */ (function(_super) {
         _this.onended = function(evt) {
             _this._currentTime = 0;
             _this._playing = false;
-            _this.emit(EnumProcess.END);
+            _this.emit(EnumProcess.END, evt);
             _this._recoveryTag();
+        };
+        _this.onerror = function(event, source, lineno, colno, error) {
+            _this.emit(EnumProcess.ERROR, { event: event, source: source, lineno: lineno, colno: colno, error: error });
         };
         return _this;
     }
@@ -53,7 +56,7 @@ var AudioController = /** @class */ (function(_super) {
      * @param value
      */
     AudioController.setMuted = function(value) {
-        var factory = AudioController.factory;
+        var factory = this.factory;
         var audioList = factory.getAudioList();
         if (value) {
             audioList.forEach(function(tag) {
@@ -108,9 +111,10 @@ var AudioController = /** @class */ (function(_super) {
                                         }
                                         return [
                                             4 /*yield*/,
-                                            new Promise(function(resolve) {
+                                            new Promise(function(resolve, reject) {
                                                 controller.play(source);
                                                 controller.once(EnumProcess.END, resolve);
+                                                controller.on(EnumProcess.ERROR, reject);
                                             }),
                                         ];
                                     case 1:
@@ -306,6 +310,7 @@ var AudioController = /** @class */ (function(_super) {
         el.onpause = this.onpause;
         el.ontimeupdate = this.ontimeupdate;
         el.onended = this.onended;
+        el.onerror = this.onerror;
         this._audioTag = el;
     };
     AudioController.prototype._recoveryTag = function() {
@@ -322,6 +327,7 @@ var AudioController = /** @class */ (function(_super) {
         el.onpause = null;
         el.ontimeupdate = null;
         el.onended = null;
+        el.onerror = null;
         AudioController.factory.recovery(el);
     };
     /** 音频工厂 */

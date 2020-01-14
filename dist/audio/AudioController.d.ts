@@ -62,4 +62,5 @@ export declare class AudioController extends Emitter {
     protected onplay: (evt: Event) => void;
     protected onpause: (evt: Event) => void;
     protected onended: (evt: Event) => void;
+    protected onerror: (event: Event | string, source?: string, lineno?: number, colno?: number, error?: Error) => void;
 }
