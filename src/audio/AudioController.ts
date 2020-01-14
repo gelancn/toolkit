@@ -38,10 +38,19 @@ export class AudioController extends Emitter {
      * @param list
      * @param id
      */
-    public static async playQueue(list: Array<string>, id?: string): Promise<void> {
+    public static async play(value: string | Array<string>, id?: string): Promise<void> {
         const controller: AudioController = new AudioController();
         if (id != null) {
+            if (this._playingQueueMap[id] != null) {
+                this.stop(id);
+            }
             this._playingQueueMap[id] = controller;
+        }
+        let list: Array<string>;
+        if (typeof value === EnumType.STRING) {
+            list = [value as string];
+        } else {
+            list = value as Array<string>;
         }
         for (let i: number = 0, length: number = list.length; i < length; i += 1) {
             const url: string = list[i];
@@ -57,20 +66,21 @@ export class AudioController extends Emitter {
                 controller.once(EnumProcess.END, resolve);
             });
         }
+        this.stop(id);
     }
 
     /**
      * 停止播放队列声音
      * @param id
      */
-    public static stopQueue(id: string): void {
+    public static stop(id: string): void {
         const controller: AudioController = this._playingQueueMap[id];
         if (controller == null) {
             return;
         }
         delete this._playingQueueMap[id];
         controller.offByType(EnumProcess.END);
-        controller.stop();
+        controller.dispose();
     }
 
     constructor() {
