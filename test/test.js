@@ -609,15 +609,23 @@ and limitations under the License.
                      * @param list
                      * @param id
                      */
-                    AudioController.playQueue = function(list, id) {
+                    AudioController.play = function(value, id) {
                         return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](this, void 0, Promise, function() {
-                            var controller, _loop_1, i, length;
+                            var controller, list, _loop_1, i, length;
                             return tslib__WEBPACK_IMPORTED_MODULE_0__['__generator'](this, function(_a) {
                                 switch (_a.label) {
                                     case 0:
                                         controller = new AudioController();
                                         if (id != null) {
+                                            if (this._playingQueueMap[id] != null) {
+                                                this.stop(id);
+                                            }
                                             this._playingQueueMap[id] = controller;
+                                        }
+                                        if (typeof value === _enum_EnumType__WEBPACK_IMPORTED_MODULE_3__['EnumType'].STRING) {
+                                            list = [value];
+                                        } else {
+                                            list = value;
                                         }
                                         _loop_1 = function(i, length) {
                                             var url, source, audioSource;
@@ -656,6 +664,7 @@ and limitations under the License.
                                         i += 1;
                                         return [3 /*break*/, 1];
                                     case 4:
+                                        this.stop(id);
                                         return [2 /*return*/];
                                 }
                             });
@@ -665,14 +674,14 @@ and limitations under the License.
                      * 停止播放队列声音
                      * @param id
                      */
-                    AudioController.stopQueue = function(id) {
+                    AudioController.stop = function(id) {
                         var controller = this._playingQueueMap[id];
                         if (controller == null) {
                             return;
                         }
                         delete this._playingQueueMap[id];
                         controller.offByType(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].END);
-                        controller.stop();
+                        controller.dispose();
                     };
                     Object.defineProperty(AudioController.prototype, 'loop', {
                         /** 循环播放 */

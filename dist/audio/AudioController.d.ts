@@ -15,12 +15,12 @@ export declare class AudioController extends Emitter {
      * @param list
      * @param id
      */
-    static playQueue(list: Array<string>, id?: string): Promise<void>;
+    static play(value: string | Array<string>, id?: string): Promise<void>;
     /**
      * 停止播放队列声音
      * @param id
      */
-    static stopQueue(id: string): void;
+    static stop(id: string): void;
     constructor();
     private _audioTag;
     private _source;

@@ -76,15 +76,23 @@ var AudioController = /** @class */ (function(_super) {
      * @param list
      * @param id
      */
-    AudioController.playQueue = function(list, id) {
+    AudioController.play = function(value, id) {
         return tslib_1.__awaiter(this, void 0, void 0, function() {
-            var controller, _loop_1, i, length_1;
+            var controller, list, _loop_1, i, length_1;
             return tslib_1.__generator(this, function(_a) {
                 switch (_a.label) {
                     case 0:
                         controller = new AudioController();
                         if (id != null) {
+                            if (this._playingQueueMap[id] != null) {
+                                this.stop(id);
+                            }
                             this._playingQueueMap[id] = controller;
+                        }
+                        if (typeof value === EnumType.STRING) {
+                            list = [value];
+                        } else {
+                            list = value;
                         }
                         _loop_1 = function(i, length_1) {
                             var url, source, audioSource;
@@ -123,6 +131,7 @@ var AudioController = /** @class */ (function(_super) {
                         i += 1;
                         return [3 /*break*/, 1];
                     case 4:
+                        this.stop(id);
                         return [2 /*return*/];
                 }
             });
@@ -132,14 +141,14 @@ var AudioController = /** @class */ (function(_super) {
      * 停止播放队列声音
      * @param id
      */
-    AudioController.stopQueue = function(id) {
+    AudioController.stop = function(id) {
         var controller = this._playingQueueMap[id];
         if (controller == null) {
             return;
         }
         delete this._playingQueueMap[id];
         controller.offByType(EnumProcess.END);
-        controller.stop();
+        controller.dispose();
     };
     Object.defineProperty(AudioController.prototype, 'loop', {
         /** 循环播放 */
