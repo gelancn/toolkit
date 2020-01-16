@@ -75,27 +75,72 @@ var AudioController = /** @class */ (function(_super) {
         }
     };
     /**
+     * 播放声音
+     * @param url
+     */
+    AudioController.playAudio = function(url) {
+        var _this = this;
+        return new Promise(function(resolve, reject) {
+            if (url == null) {
+                reject();
+                return;
+            }
+            var source;
+            var audioSource = AudioSource.get(url);
+            if (audioSource == null) {
+                source = url;
+            } else {
+                source = audioSource.base64;
+            }
+            var controller = _this._playingMap[url];
+            if (controller == null) {
+                controller = new AudioController();
+                _this._playingMap[url] = controller;
+            }
+            controller.play(source);
+            controller.once(EnumProcess.END, function() {
+                delete _this._playingMap[url];
+                controller.dispose();
+                resolve();
+            });
+            controller.once(EnumProcess.ERROR, function() {
+                delete _this._playingMap[url];
+                controller.dispose();
+                reject();
+            });
+        });
+    };
+    /**
+     * 停止声音
+     * @param url
+     */
+    AudioController.stopAudio = function(url) {
+        var controller = this._playingMap[url];
+        if (controller == null) {
+            return;
+        }
+        controller.offByType(EnumProcess.END);
+        controller.offByType(EnumProcess.ERROR);
+        delete this._playingMap[url];
+        controller.dispose();
+    };
+    /**
      * 按队列播放声音
      * @param list
      * @param id
      */
-    AudioController.play = function(value, id) {
+    AudioController.playAudios = function(list, id) {
         return tslib_1.__awaiter(this, void 0, void 0, function() {
-            var controller, list, _loop_1, i, length_1;
+            var controller, _loop_1, i, length_1;
             return tslib_1.__generator(this, function(_a) {
                 switch (_a.label) {
                     case 0:
                         controller = new AudioController();
                         if (id != null) {
-                            if (this._playingQueueMap[id] != null) {
-                                this.stop(id);
+                            if (this._playingMap[id] != null) {
+                                this.stopAudios(id);
                             }
-                            this._playingQueueMap[id] = controller;
-                        }
-                        if (typeof value === EnumType.STRING) {
-                            list = [value];
-                        } else {
-                            list = value;
+                            this._playingMap[id] = controller;
                         }
                         _loop_1 = function(i, length_1) {
                             var url, source, audioSource;
@@ -114,7 +159,7 @@ var AudioController = /** @class */ (function(_super) {
                                             new Promise(function(resolve, reject) {
                                                 controller.play(source);
                                                 controller.once(EnumProcess.END, resolve);
-                                                controller.on(EnumProcess.ERROR, reject);
+                                                controller.once(EnumProcess.ERROR, reject);
                                             }),
                                         ];
                                     case 1:
@@ -135,7 +180,7 @@ var AudioController = /** @class */ (function(_super) {
                         i += 1;
                         return [3 /*break*/, 1];
                     case 4:
-                        this.stop(id);
+                        this.stopAudios(id);
                         return [2 /*return*/];
                 }
             });
@@ -145,13 +190,14 @@ var AudioController = /** @class */ (function(_super) {
      * 停止播放队列声音
      * @param id
      */
-    AudioController.stop = function(id) {
-        var controller = this._playingQueueMap[id];
+    AudioController.stopAudios = function(id) {
+        var controller = this._playingMap[id];
         if (controller == null) {
             return;
         }
-        delete this._playingQueueMap[id];
+        delete this._playingMap[id];
         controller.offByType(EnumProcess.END);
+        controller.offByType(EnumProcess.ERROR);
         controller.dispose();
     };
     Object.defineProperty(AudioController.prototype, 'loop', {
@@ -332,7 +378,7 @@ var AudioController = /** @class */ (function(_super) {
     };
     /** 音频工厂 */
     AudioController.factory = new AudioTagFactory();
-    AudioController._playingQueueMap = {};
+    AudioController._playingMap = {};
     return AudioController;
 })(Emitter);
 export { AudioController };

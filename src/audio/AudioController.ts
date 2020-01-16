@@ -32,25 +32,68 @@ export class AudioController extends Emitter {
         }
     }
 
-    private static _playingQueueMap: { [key: string]: AudioController } = {};
+    private static _playingMap: { [key: string]: AudioController } = {};
+    /**
+     * 播放声音
+     * @param url
+     */
+    public static playAudio(url: string): Promise<void> {
+        return new Promise((resolve: () => void, reject: () => void) => {
+            if (url == null) {
+                reject();
+                return;
+            }
+            let source: string;
+            const audioSource: AudioSource = AudioSource.get(url);
+            if (audioSource == null) {
+                source = url;
+            } else {
+                source = audioSource.base64;
+            }
+            let controller: AudioController = this._playingMap[url];
+            if (controller == null) {
+                controller = new AudioController();
+                this._playingMap[url] = controller;
+            }
+            controller.play(source);
+            controller.once(EnumProcess.END, () => {
+                delete this._playingMap[url];
+                controller.dispose();
+                resolve();
+            });
+            controller.once(EnumProcess.ERROR, () => {
+                delete this._playingMap[url];
+                controller.dispose();
+                reject();
+            });
+        });
+    }
+    /**
+     * 停止声音
+     * @param url
+     */
+    public static stopAudio(url: string): void {
+        const controller: AudioController = this._playingMap[url];
+        if (controller == null) {
+            return;
+        }
+        controller.offByType(EnumProcess.END);
+        controller.offByType(EnumProcess.ERROR);
+        delete this._playingMap[url];
+        controller.dispose();
+    }
     /**
      * 按队列播放声音
      * @param list
      * @param id
      */
-    public static async play(value: string | Array<string>, id?: string): Promise<void> {
+    public static async playAudios(list: Array<string>, id?: string): Promise<void> {
         const controller: AudioController = new AudioController();
         if (id != null) {
-            if (this._playingQueueMap[id] != null) {
-                this.stop(id);
+            if (this._playingMap[id] != null) {
+                this.stopAudios(id);
             }
-            this._playingQueueMap[id] = controller;
-        }
-        let list: Array<string>;
-        if (typeof value === EnumType.STRING) {
-            list = [value as string];
-        } else {
-            list = value as Array<string>;
+            this._playingMap[id] = controller;
         }
         for (let i: number = 0, length: number = list.length; i < length; i += 1) {
             const url: string = list[i];
@@ -64,23 +107,24 @@ export class AudioController extends Emitter {
             await new Promise((resolve: () => void, reject: () => void) => {
                 controller.play(source);
                 controller.once(EnumProcess.END, resolve);
-                controller.on(EnumProcess.ERROR, reject);
+                controller.once(EnumProcess.ERROR, reject);
             });
         }
-        this.stop(id);
+        this.stopAudios(id);
     }
 
     /**
      * 停止播放队列声音
      * @param id
      */
-    public static stop(id: string): void {
-        const controller: AudioController = this._playingQueueMap[id];
+    public static stopAudios(id: string): void {
+        const controller: AudioController = this._playingMap[id];
         if (controller == null) {
             return;
         }
-        delete this._playingQueueMap[id];
+        delete this._playingMap[id];
         controller.offByType(EnumProcess.END);
+        controller.offByType(EnumProcess.ERROR);
         controller.dispose();
     }
 

@@ -9,18 +9,28 @@ export declare class AudioController extends Emitter {
      * @param value
      */
     static setMuted(value: boolean): void;
-    private static _playingQueueMap;
+    private static _playingMap;
+    /**
+     * 播放声音
+     * @param url
+     */
+    static playAudio(url: string): Promise<void>;
+    /**
+     * 停止声音
+     * @param url
+     */
+    static stopAudio(url: string): void;
     /**
      * 按队列播放声音
      * @param list
      * @param id
      */
-    static play(value: string | Array<string>, id?: string): Promise<void>;
+    static playAudios(list: Array<string>, id?: string): Promise<void>;
     /**
      * 停止播放队列声音
      * @param id
      */
-    static stop(id: string): void;
+    static stopAudios(id: string): void;
     constructor();
     private _audioTag;
     private _source;

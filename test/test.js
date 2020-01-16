@@ -614,27 +614,72 @@ and limitations under the License.
                         }
                     };
                     /**
+                     * 播放声音
+                     * @param url
+                     */
+                    AudioController.playAudio = function(url) {
+                        var _this = this;
+                        return new Promise(function(resolve, reject) {
+                            if (url == null) {
+                                reject();
+                                return;
+                            }
+                            var source;
+                            var audioSource = _AudioSource__WEBPACK_IMPORTED_MODULE_4__['AudioSource'].get(url);
+                            if (audioSource == null) {
+                                source = url;
+                            } else {
+                                source = audioSource.base64;
+                            }
+                            var controller = _this._playingMap[url];
+                            if (controller == null) {
+                                controller = new AudioController();
+                                _this._playingMap[url] = controller;
+                            }
+                            controller.play(source);
+                            controller.once(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].END, function() {
+                                delete _this._playingMap[url];
+                                controller.dispose();
+                                resolve();
+                            });
+                            controller.once(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].ERROR, function() {
+                                delete _this._playingMap[url];
+                                controller.dispose();
+                                reject();
+                            });
+                        });
+                    };
+                    /**
+                     * 停止声音
+                     * @param url
+                     */
+                    AudioController.stopAudio = function(url) {
+                        var controller = this._playingMap[url];
+                        if (controller == null) {
+                            return;
+                        }
+                        controller.offByType(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].END);
+                        controller.offByType(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].ERROR);
+                        delete this._playingMap[url];
+                        controller.dispose();
+                    };
+                    /**
                      * 按队列播放声音
                      * @param list
                      * @param id
                      */
-                    AudioController.play = function(value, id) {
+                    AudioController.playAudios = function(list, id) {
                         return tslib__WEBPACK_IMPORTED_MODULE_0__['__awaiter'](this, void 0, Promise, function() {
-                            var controller, list, _loop_1, i, length;
+                            var controller, _loop_1, i, length;
                             return tslib__WEBPACK_IMPORTED_MODULE_0__['__generator'](this, function(_a) {
                                 switch (_a.label) {
                                     case 0:
                                         controller = new AudioController();
                                         if (id != null) {
-                                            if (this._playingQueueMap[id] != null) {
-                                                this.stop(id);
+                                            if (this._playingMap[id] != null) {
+                                                this.stopAudios(id);
                                             }
-                                            this._playingQueueMap[id] = controller;
-                                        }
-                                        if (typeof value === _enum_EnumType__WEBPACK_IMPORTED_MODULE_3__['EnumType'].STRING) {
-                                            list = [value];
-                                        } else {
-                                            list = value;
+                                            this._playingMap[id] = controller;
                                         }
                                         _loop_1 = function(i, length) {
                                             var url, source, audioSource;
@@ -653,7 +698,7 @@ and limitations under the License.
                                                             new Promise(function(resolve, reject) {
                                                                 controller.play(source);
                                                                 controller.once(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].END, resolve);
-                                                                controller.on(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].ERROR, reject);
+                                                                controller.once(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].ERROR, reject);
                                                             }),
                                                         ];
                                                     case 1:
@@ -674,7 +719,7 @@ and limitations under the License.
                                         i += 1;
                                         return [3 /*break*/, 1];
                                     case 4:
-                                        this.stop(id);
+                                        this.stopAudios(id);
                                         return [2 /*return*/];
                                 }
                             });
@@ -684,13 +729,14 @@ and limitations under the License.
                      * 停止播放队列声音
                      * @param id
                      */
-                    AudioController.stop = function(id) {
-                        var controller = this._playingQueueMap[id];
+                    AudioController.stopAudios = function(id) {
+                        var controller = this._playingMap[id];
                         if (controller == null) {
                             return;
                         }
-                        delete this._playingQueueMap[id];
+                        delete this._playingMap[id];
                         controller.offByType(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].END);
+                        controller.offByType(_enum_EnumProcess__WEBPACK_IMPORTED_MODULE_2__['EnumProcess'].ERROR);
                         controller.dispose();
                     };
                     Object.defineProperty(AudioController.prototype, 'loop', {
@@ -871,7 +917,7 @@ and limitations under the License.
                     };
                     /** 音频工厂 */
                     AudioController.factory = new _AudioTagFactory__WEBPACK_IMPORTED_MODULE_5__['AudioTagFactory']();
-                    AudioController._playingQueueMap = {};
+                    AudioController._playingMap = {};
                     return AudioController;
                 })(_base_Emitter__WEBPACK_IMPORTED_MODULE_1__['Emitter']);
 
