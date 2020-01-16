@@ -1181,7 +1181,12 @@ and limitations under the License.
                                 }
                                 _this._audiosUnLocked.length = 0;
                             }
-                            _this._available = true;
+                            if (!_this._available) {
+                                if (_this.onAvailabled != null) {
+                                    _this.onAvailabled();
+                                }
+                                _this._available = true;
+                            }
                         };
                         this.listen();
                     }

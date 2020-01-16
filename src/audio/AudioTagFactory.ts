@@ -27,10 +27,17 @@ export class AudioTagFactory {
                 }
                 this._audiosUnLocked.length = 0;
             }
-            this._available = true;
+            if (!this._available) {
+                if (this.onAvailabled != null) {
+                    this.onAvailabled();
+                }
+                this._available = true;
+            }
         };
         this.listen();
     }
+
+    public onAvailabled: () => void;
 
     private _available: boolean = false;
     /** 已经触摸解锁 可用 */

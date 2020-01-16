@@ -1,6 +1,7 @@
 /** 音频标签工厂 */
 export declare class AudioTagFactory {
     constructor();
+    onAvailabled: () => void;
     private _available;
     /** 已经触摸解锁 可用 */
     readonly available: boolean;
