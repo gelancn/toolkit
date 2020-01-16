@@ -13,8 +13,12 @@ export class AudioTagFactory {
             if (this._audiosUnLocked.length > 0) {
                 for (let i: number = 0, length: number = this._audiosUnLocked.length; i < length; i += 1) {
                     const tag: AudioTag = this._audiosUnLocked[i];
-                    if (!tag.unLocked || tag.currentTime <= 0) {
-                        tag.load();
+                    if (!tag.unLocked) {
+                        if (tag.currentTime <= 0) {
+                            tag.load();
+                        } else {
+                            tag.play();
+                        }
                     }
                     tag.unLocked = true;
                     if (!tag.inUse) {
@@ -23,8 +27,15 @@ export class AudioTagFactory {
                 }
                 this._audiosUnLocked.length = 0;
             }
+            this._available = true;
         };
         this.listen();
+    }
+
+    private _available: boolean = false;
+    /** 已经触摸解锁 可用 */
+    public get available(): boolean {
+        return this._available;
     }
 
     /** 所有标签的map */

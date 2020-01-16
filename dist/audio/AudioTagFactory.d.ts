@@ -1,6 +1,9 @@
 /** 音频标签工厂 */
 export declare class AudioTagFactory {
     constructor();
+    private _available;
+    /** 已经触摸解锁 可用 */
+    readonly available: boolean;
     /** 所有标签的map */
     private _audiosMap;
     /** 获取标签列表 */

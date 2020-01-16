@@ -2,6 +2,7 @@
 var AudioTagFactory = /** @class */ (function() {
     function AudioTagFactory() {
         var _this = this;
+        this._available = false;
         /** 所有标签的map */
         this._audiosMap = {};
         /** 音频标签池子 */
@@ -24,8 +25,12 @@ var AudioTagFactory = /** @class */ (function() {
             if (_this._audiosUnLocked.length > 0) {
                 for (var i = 0, length_2 = _this._audiosUnLocked.length; i < length_2; i += 1) {
                     var tag = _this._audiosUnLocked[i];
-                    if (!tag.unLocked || tag.currentTime <= 0) {
-                        tag.load();
+                    if (!tag.unLocked) {
+                        if (tag.currentTime <= 0) {
+                            tag.load();
+                        } else {
+                            tag.play();
+                        }
                     }
                     tag.unLocked = true;
                     if (!tag.inUse) {
@@ -34,9 +39,18 @@ var AudioTagFactory = /** @class */ (function() {
                 }
                 _this._audiosUnLocked.length = 0;
             }
+            _this._available = true;
         };
         this.listen();
     }
+    Object.defineProperty(AudioTagFactory.prototype, 'available', {
+        /** 已经触摸解锁 可用 */
+        get: function() {
+            return this._available;
+        },
+        enumerable: true,
+        configurable: true,
+    });
     /** 获取标签列表 */
     AudioTagFactory.prototype.getAudioList = function() {
         var _this = this;
