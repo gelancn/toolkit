@@ -33,19 +33,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 define("src/base/Emitter", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -529,49 +516,42 @@ define("test/base/test_Loader", ["require", "exports", "src/base/Loader"], funct
     exports.default = default_2;
     ;
 });
-define("src/base/PromiseProxy", ["require", "exports", "src/base/Emitter"], function (require, exports, Emitter_2) {
+define("src/base/PromiseProxy", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var EnumPromiseProxy;
-    (function (EnumPromiseProxy) {
-        EnumPromiseProxy["ON_RESOLVE"] = "onResolve";
-        EnumPromiseProxy["ON_REJECT"] = "onReject";
-    })(EnumPromiseProxy = exports.EnumPromiseProxy || (exports.EnumPromiseProxy = {}));
     /** Promise代理 */
-    var PromiseProxy = /** @class */ (function (_super) {
-        __extends(PromiseProxy, _super);
+    var PromiseProxy = /** @class */ (function () {
         function PromiseProxy(executor) {
-            var _this = _super.call(this) || this;
-            _this._resolve = null;
+            var _this = this;
+            this._resolve = null;
             /**
              * resolve方法
              * @param value
              */
-            _this.resolve = function (value) {
-                if (_this._resolve != null) {
-                    _this.emit(EnumPromiseProxy.ON_RESOLVE, value);
-                    _this._resolve(value);
-                    _this._resolve = null;
+            this.resolve = function (value) {
+                var res = _this._resolve;
+                _this._resolve = null;
+                if (res != null) {
+                    res(value);
                 }
             };
-            _this._reject = null;
+            this._reject = null;
             /**
              * reject方法
              * @param reason
              */
-            _this.reject = function (reason) {
-                if (_this._reject != null) {
-                    _this.emit(EnumPromiseProxy.ON_REJECT, reason);
-                    _this._reject(reason);
-                    _this._reject = null;
+            this.reject = function (reason) {
+                var rej = _this._reject;
+                _this._reject = null;
+                if (rej != null) {
+                    rej(reason);
                 }
             };
-            _this._promise = new Promise(function (resolve, reject) {
+            this._promise = new Promise(function (resolve, reject) {
                 _this._resolve = resolve;
                 _this._reject = reject;
                 executor(_this.resolve, _this.reject);
             });
-            return _this;
         }
         Object.defineProperty(PromiseProxy.prototype, "promise", {
             /** 获取Promise对象 */
@@ -582,7 +562,7 @@ define("src/base/PromiseProxy", ["require", "exports", "src/base/Emitter"], func
             configurable: true
         });
         return PromiseProxy;
-    }(Emitter_2.Emitter));
+    }());
     exports.PromiseProxy = PromiseProxy;
 });
 define("test/base/test_PromiseProxy", ["require", "exports", "src/base/PromiseProxy"], function (require, exports, PromiseProxy_1) {
@@ -590,15 +570,12 @@ define("test/base/test_PromiseProxy", ["require", "exports", "src/base/PromisePr
     Object.defineProperty(exports, "__esModule", { value: true });
     function default_3() {
         return __awaiter(this, void 0, void 0, function () {
-            var proxy, result, e_1;
+            var proxy, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         console.log("…………………… test_PromiseProxy ……………………");
                         proxy = new PromiseProxy_1.PromiseProxy(function (resolve, reject) { });
-                        proxy.on(PromiseProxy_1.EnumPromiseProxy.ON_RESOLVE, function () {
-                            console.log(PromiseProxy_1.EnumPromiseProxy.ON_RESOLVE);
-                        });
                         proxy.resolve("resolve data");
                         return [4 /*yield*/, proxy.promise];
                     case 1:
@@ -606,22 +583,12 @@ define("test/base/test_PromiseProxy", ["require", "exports", "src/base/PromisePr
                         console.log(result);
                         console.log("\n");
                         proxy = new PromiseProxy_1.PromiseProxy(function (resolve, reject) { });
-                        proxy.on(PromiseProxy_1.EnumPromiseProxy.ON_REJECT, function () {
-                            console.log(PromiseProxy_1.EnumPromiseProxy.ON_REJECT);
-                        });
-                        _a.label = 2;
-                    case 2:
-                        _a.trys.push([2, 4, , 5]);
                         proxy.reject("reject data");
-                        return [4 /*yield*/, proxy.promise];
-                    case 3:
+                        return [4 /*yield*/, proxy.promise.catch(function (data) {
+                                console.log(data);
+                            })];
+                    case 2:
                         _a.sent();
-                        return [3 /*break*/, 5];
-                    case 4:
-                        e_1 = _a.sent();
-                        console.log(e_1);
-                        return [3 /*break*/, 5];
-                    case 5:
                         console.log("…………………… test_PromiseProxy ……………………");
                         console.log("\n\n");
                         return [2 /*return*/];

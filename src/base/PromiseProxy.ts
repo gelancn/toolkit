@@ -1,14 +1,6 @@
-import { Emitter } from "./Emitter";
-
-export enum EnumPromiseProxy {
-    ON_RESOLVE = "onResolve",
-    ON_REJECT = "onReject",
-}
-
 /** Promise代理 */
-export class PromiseProxy<T> extends Emitter {
+export class PromiseProxy<T> {
     constructor(executor: (resolve: (value?: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void) {
-        super();
         this._promise = new Promise<T>((resolve: (value?: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => {
             this._resolve = resolve;
             this._reject = reject;
@@ -28,10 +20,10 @@ export class PromiseProxy<T> extends Emitter {
      * @param value
      */
     resolve = (value?: T | PromiseLike<T> | undefined) => {
-        if (this._resolve != null) {
-            this.emit(EnumPromiseProxy.ON_RESOLVE, value);
-            this._resolve(value);
-            this._resolve = null;
+        const res = this._resolve;
+        this._resolve = null;
+        if (res != null) {
+            res(value);
         }
     };
 
@@ -41,10 +33,10 @@ export class PromiseProxy<T> extends Emitter {
      * @param reason
      */
     reject = (reason?: any) => {
-        if (this._reject != null) {
-            this.emit(EnumPromiseProxy.ON_REJECT, reason);
-            this._reject(reason);
-            this._reject = null;
+        const rej = this._reject;
+        this._reject = null;
+        if (rej != null) {
+            rej(reason);
         }
     };
 }
