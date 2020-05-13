@@ -1,5 +1,4 @@
-import { PromiseProxy } from "../../src/base/PromiseProxy";
-import { EnumPromiseProxy } from "../../src/enum/EnumPromiseProxy";
+import { PromiseProxy, EnumPromiseProxy } from "../../src/base/PromiseProxy";
 
 export default async function () {
     console.log("…………………… test_PromiseProxy ……………………");

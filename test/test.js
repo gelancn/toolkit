@@ -287,6 +287,351 @@ define("test/base/test_Emitter", ["require", "exports", "src/base/Emitter"], fun
     exports.default = default_1;
     ;
 });
+define("src/base/Loader", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    /** 加载器 */
+    var Loader = /** @class */ (function () {
+        function Loader() {
+        }
+        /**
+         * 发送http请求
+         * @param param
+         */
+        Loader.sendHttpRequest = function (param) {
+            return new Promise(function (resolve, reject) {
+                var url = param.url;
+                var method = param.method || "GET";
+                var data = param.data;
+                var requestHeader = param.requestHeader;
+                var sendData = null;
+                if (data != null) {
+                    var contentType = param.contentType || (requestHeader && requestHeader["Content-Type"]);
+                    switch (method) {
+                        case "POST":
+                            switch (contentType) {
+                                case "application/x-www-form-urlencoded":
+                                    var params = Object.keys(data).map(function (key) {
+                                        return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]);
+                                    });
+                                    sendData = params.join("&");
+                                    break;
+                                case "multipart/form-data":
+                                    sendData = new FormData();
+                                    Object.keys(data).forEach(function (key) {
+                                        sendData.append(key, data[key]);
+                                    });
+                                    break;
+                                default:
+                                    sendData = JSON.stringify(data);
+                                    break;
+                            }
+                            break;
+                        case "GET":
+                            // TODO 支持data变量变为参数拼接至url后面
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open(method, url, true);
+                if (param.withCredentials) {
+                    xhr.withCredentials = param.withCredentials;
+                }
+                if (param.responseType != null) {
+                    xhr.responseType = param.responseType;
+                }
+                if (requestHeader != null) {
+                    var dict_1 = requestHeader;
+                    Object.keys(dict_1).forEach(function (key) {
+                        xhr.setRequestHeader(key, dict_1[key]);
+                    });
+                }
+                if (param.contentType != null) {
+                    xhr.overrideMimeType(param.contentType);
+                }
+                var clearListener = function () {
+                    delete xhr.onload;
+                    delete xhr.onprogress;
+                    delete xhr.onerror;
+                };
+                var onError = function (err) {
+                    clearListener();
+                    param.onError && param.onError(err);
+                    reject(err);
+                };
+                xhr.onload = function (evt) {
+                    var status = xhr.status;
+                    if (status === 200) {
+                        clearListener();
+                        var data_1 = xhr.response || xhr.responseText;
+                        param.onLoaded && param.onLoaded(data_1);
+                        resolve(data_1);
+                    }
+                    else {
+                        onError(evt);
+                    }
+                };
+                xhr.onprogress = function (evt) {
+                    var total = evt.total;
+                    var loaded = evt.loaded;
+                    param.onProgress && param.onProgress(loaded, total);
+                };
+                xhr.onerror = function (evt) {
+                    onError(evt);
+                };
+                xhr.send(sendData);
+            });
+        };
+        /**
+         * 加载图片
+         * @param param
+         */
+        Loader.loadImage = function (param) {
+            return new Promise(function (resolve, reject) {
+                var el = document.createElement("img");
+                if (param.crossOrigin != null) {
+                    el.crossOrigin = param.crossOrigin;
+                }
+                el.src = param.url;
+                var clearListener = function () {
+                    delete el.onload;
+                    delete el.onprogress;
+                    delete el.onerror;
+                };
+                el.onload = function () {
+                    clearListener();
+                    param.onLoaded && param.onLoaded(el);
+                    resolve(el);
+                };
+                el.onprogress = function (evt) {
+                    var total = evt.total;
+                    var loaded = evt.loaded;
+                    param.onProgress && param.onProgress(loaded, total);
+                };
+                el.onerror = function (err) {
+                    clearListener();
+                    param.onError && param.onError(err);
+                    reject(err);
+                };
+            });
+        };
+        /**
+         * 加载脚本
+         * @param param
+         */
+        Loader.loadScript = function (param) {
+            return new Promise(function (resolve, reject) {
+                var el = document.createElement("script");
+                el.src = param.url;
+                var clearListener = function () {
+                    delete el.onload;
+                    delete el.onprogress;
+                    delete el.onerror;
+                };
+                el.onload = function () {
+                    clearListener();
+                    param.onLoaded && param.onLoaded(el);
+                    resolve(el);
+                };
+                el.onprogress = function (evt) {
+                    var total = evt.total;
+                    var loaded = evt.loaded;
+                    param.onProgress && param.onProgress(loaded, total);
+                };
+                el.onerror = function (err) {
+                    clearListener();
+                    param.onError && param.onError(err);
+                    reject(err);
+                };
+                if (param.appendTo == null) {
+                    document.body.appendChild(el);
+                }
+                else {
+                    param.appendTo.appendChild(el);
+                }
+            });
+        };
+        return Loader;
+    }());
+    exports.Loader = Loader;
+});
+define("test/base/test_Loader", ["require", "exports", "src/base/Loader"], function (require, exports, Loader_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    function default_2() {
+        return __awaiter(this, void 0, void 0, function () {
+            var imgUrl, img, err_1, response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log("…………………… test_Loader ……………………");
+                        imgUrl = "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png";
+                        console.log("loadImage");
+                        return [4 /*yield*/, Loader_1.Loader.loadImage({
+                                url: imgUrl,
+                                onProgress: function (loaded, total) {
+                                    console.log("onProgress", loaded, total);
+                                },
+                                onLoaded: function (i) {
+                                    console.log(i);
+                                },
+                            })];
+                    case 1:
+                        img = _a.sent();
+                        document.body.appendChild(img);
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, , 5]);
+                        return [4 /*yield*/, Loader_1.Loader.loadImage({
+                                url: "???",
+                                onError: function (err) {
+                                    console.log(err);
+                                },
+                            })];
+                    case 3:
+                        _a.sent();
+                        return [3 /*break*/, 5];
+                    case 4:
+                        err_1 = _a.sent();
+                        return [3 /*break*/, 5];
+                    case 5:
+                        console.log("\n");
+                        console.log("loadScript");
+                        return [4 /*yield*/, Loader_1.Loader.loadScript({
+                                url: "test.js",
+                                onProgress: function (loaded, total) {
+                                    console.log("onProgress", loaded, total);
+                                },
+                                onLoaded: function (s) {
+                                    console.log(s);
+                                },
+                            })];
+                    case 6:
+                        _a.sent();
+                        console.log("\n");
+                        console.log("sendHttpRequest");
+                        return [4 /*yield*/, Loader_1.Loader.sendHttpRequest({
+                                method: "GET",
+                                url: "http://localhost:3000/index.html",
+                            })];
+                    case 7:
+                        response = _a.sent();
+                        console.log(response);
+                        console.log("…………………… test_Loader ……………………");
+                        console.log("\n\n");
+                        return [2 /*return*/];
+                }
+            });
+        });
+    }
+    exports.default = default_2;
+    ;
+});
+define("src/base/PromiseProxy", ["require", "exports", "src/base/Emitter"], function (require, exports, Emitter_2) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var EnumPromiseProxy;
+    (function (EnumPromiseProxy) {
+        EnumPromiseProxy["ON_RESOLVE"] = "onResolve";
+        EnumPromiseProxy["ON_REJECT"] = "onReject";
+    })(EnumPromiseProxy = exports.EnumPromiseProxy || (exports.EnumPromiseProxy = {}));
+    /** Promise代理 */
+    var PromiseProxy = /** @class */ (function (_super) {
+        __extends(PromiseProxy, _super);
+        function PromiseProxy(executor) {
+            var _this = _super.call(this) || this;
+            _this._resolve = null;
+            /**
+             * resolve方法
+             * @param value
+             */
+            _this.resolve = function (value) {
+                if (_this._resolve != null) {
+                    _this.emit(EnumPromiseProxy.ON_RESOLVE, value);
+                    _this._resolve(value);
+                    _this._resolve = null;
+                }
+            };
+            _this._reject = null;
+            /**
+             * reject方法
+             * @param reason
+             */
+            _this.reject = function (reason) {
+                if (_this._reject != null) {
+                    _this.emit(EnumPromiseProxy.ON_REJECT, reason);
+                    _this._reject(reason);
+                    _this._reject = null;
+                }
+            };
+            _this._promise = new Promise(function (resolve, reject) {
+                _this._resolve = resolve;
+                _this._reject = reject;
+                executor(_this.resolve, _this.reject);
+            });
+            return _this;
+        }
+        Object.defineProperty(PromiseProxy.prototype, "promise", {
+            /** 获取Promise对象 */
+            get: function () {
+                return this._promise;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return PromiseProxy;
+    }(Emitter_2.Emitter));
+    exports.PromiseProxy = PromiseProxy;
+});
+define("test/base/test_PromiseProxy", ["require", "exports", "src/base/PromiseProxy"], function (require, exports, PromiseProxy_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    function default_3() {
+        return __awaiter(this, void 0, void 0, function () {
+            var proxy, result, e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log("…………………… test_PromiseProxy ……………………");
+                        proxy = new PromiseProxy_1.PromiseProxy(function (resolve, reject) { });
+                        proxy.on(PromiseProxy_1.EnumPromiseProxy.ON_RESOLVE, function () {
+                            console.log(PromiseProxy_1.EnumPromiseProxy.ON_RESOLVE);
+                        });
+                        proxy.resolve("resolve data");
+                        return [4 /*yield*/, proxy.promise];
+                    case 1:
+                        result = _a.sent();
+                        console.log(result);
+                        console.log("\n");
+                        proxy = new PromiseProxy_1.PromiseProxy(function (resolve, reject) { });
+                        proxy.on(PromiseProxy_1.EnumPromiseProxy.ON_REJECT, function () {
+                            console.log(PromiseProxy_1.EnumPromiseProxy.ON_REJECT);
+                        });
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, , 5]);
+                        proxy.reject("reject data");
+                        return [4 /*yield*/, proxy.promise];
+                    case 3:
+                        _a.sent();
+                        return [3 /*break*/, 5];
+                    case 4:
+                        e_1 = _a.sent();
+                        console.log(e_1);
+                        return [3 /*break*/, 5];
+                    case 5:
+                        console.log("…………………… test_PromiseProxy ……………………");
+                        console.log("\n\n");
+                        return [2 /*return*/];
+                }
+            });
+        });
+    }
+    exports.default = default_3;
+    ;
+});
 define("src/base/Singleton", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -392,7 +737,7 @@ define("src/base/Singleton", ["require", "exports"], function (require, exports)
 define("test/base/test_Singleton", ["require", "exports", "src/base/Singleton"], function (require, exports, Singleton_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    function default_2() {
+    function default_4() {
         return __awaiter(this, void 0, void 0, function () {
             var A, B, C, singleton;
             return __generator(this, function (_a) {
@@ -437,118 +782,10 @@ define("test/base/test_Singleton", ["require", "exports", "src/base/Singleton"],
             });
         });
     }
-    exports.default = default_2;
+    exports.default = default_4;
     ;
 });
-define("src/enum/EnumPromiseProxy", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    /** promise proxy 事件枚举 */
-    var EnumPromiseProxy;
-    (function (EnumPromiseProxy) {
-        EnumPromiseProxy["ON_RESOLVE"] = "onResolve";
-        EnumPromiseProxy["ON_REJECT"] = "onReject";
-    })(EnumPromiseProxy = exports.EnumPromiseProxy || (exports.EnumPromiseProxy = {}));
-});
-define("src/base/PromiseProxy", ["require", "exports", "src/enum/EnumPromiseProxy", "src/base/Emitter"], function (require, exports, EnumPromiseProxy_1, Emitter_2) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    /** Promise代理 */
-    var PromiseProxy = /** @class */ (function (_super) {
-        __extends(PromiseProxy, _super);
-        function PromiseProxy(executor) {
-            var _this = _super.call(this) || this;
-            _this._resolve = null;
-            /**
-             * resolve方法
-             * @param value
-             */
-            _this.resolve = function (value) {
-                if (_this._resolve != null) {
-                    _this.emit(EnumPromiseProxy_1.EnumPromiseProxy.ON_RESOLVE, value);
-                    _this._resolve(value);
-                    _this._resolve = null;
-                }
-            };
-            _this._reject = null;
-            /**
-             * reject方法
-             * @param reason
-             */
-            _this.reject = function (reason) {
-                if (_this._reject != null) {
-                    _this.emit(EnumPromiseProxy_1.EnumPromiseProxy.ON_REJECT, reason);
-                    _this._reject(reason);
-                    _this._reject = null;
-                }
-            };
-            _this._promise = new Promise(function (resolve, reject) {
-                _this._resolve = resolve;
-                _this._reject = reject;
-                executor(_this.resolve, _this.reject);
-            });
-            return _this;
-        }
-        Object.defineProperty(PromiseProxy.prototype, "promise", {
-            /** 获取Promise对象 */
-            get: function () {
-                return this._promise;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return PromiseProxy;
-    }(Emitter_2.Emitter));
-    exports.PromiseProxy = PromiseProxy;
-});
-define("test/base/test_PromiseProxy", ["require", "exports", "src/base/PromiseProxy", "src/enum/EnumPromiseProxy"], function (require, exports, PromiseProxy_1, EnumPromiseProxy_2) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    function default_3() {
-        return __awaiter(this, void 0, void 0, function () {
-            var proxy, result, e_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        console.log("…………………… test_PromiseProxy ……………………");
-                        proxy = new PromiseProxy_1.PromiseProxy(function (resolve, reject) { });
-                        proxy.on(EnumPromiseProxy_2.EnumPromiseProxy.ON_RESOLVE, function () {
-                            console.log(EnumPromiseProxy_2.EnumPromiseProxy.ON_RESOLVE);
-                        });
-                        proxy.resolve("resolve data");
-                        return [4 /*yield*/, proxy.promise];
-                    case 1:
-                        result = _a.sent();
-                        console.log(result);
-                        console.log("\n");
-                        proxy = new PromiseProxy_1.PromiseProxy(function (resolve, reject) { });
-                        proxy.on(EnumPromiseProxy_2.EnumPromiseProxy.ON_REJECT, function () {
-                            console.log(EnumPromiseProxy_2.EnumPromiseProxy.ON_REJECT);
-                        });
-                        _a.label = 2;
-                    case 2:
-                        _a.trys.push([2, 4, , 5]);
-                        proxy.reject("reject data");
-                        return [4 /*yield*/, proxy.promise];
-                    case 3:
-                        _a.sent();
-                        return [3 /*break*/, 5];
-                    case 4:
-                        e_1 = _a.sent();
-                        console.log(e_1);
-                        return [3 /*break*/, 5];
-                    case 5:
-                        console.log("…………………… test_PromiseProxy ……………………");
-                        console.log("\n\n");
-                        return [2 /*return*/];
-                }
-            });
-        });
-    }
-    exports.default = default_3;
-    ;
-});
-define("test/Test", ["require", "exports", "test/base/test_Emitter", "test/base/test_Singleton", "test/base/test_PromiseProxy"], function (require, exports, test_Emitter_1, test_Singleton_1, test_PromiseProxy_1) {
+define("test/test", ["require", "exports", "test/base/test_Emitter", "test/base/test_Loader", "test/base/test_PromiseProxy", "test/base/test_Singleton"], function (require, exports, test_Emitter_1, test_Loader_1, test_PromiseProxy_1, test_Singleton_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function run() {
@@ -563,6 +800,9 @@ define("test/Test", ["require", "exports", "test/base/test_Emitter", "test/base/
                         _a.sent();
                         return [4 /*yield*/, test_PromiseProxy_1.default()];
                     case 3:
+                        _a.sent();
+                        return [4 /*yield*/, test_Loader_1.default()];
+                    case 4:
                         _a.sent();
                         return [2 /*return*/];
                 }

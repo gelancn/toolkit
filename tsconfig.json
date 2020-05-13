@@ -6,7 +6,6 @@
         "importHelpers": true,
         "declaration": true,
         "strict": true,
-        "allowJs": true,
         "lib": ["es2015.promise", "es2015.collection", "esnext.asynciterable", "es5", "dom"],
         "outDir": "./dist"
     },
