@@ -3,10 +3,9 @@ import { EnumAudioProcess } from './Audio';
 
 /** 音频控制器 */
 export class AudioController extends Emitter {
-    private static _uidCount = 0;
-    constructor(tag: HTMLAudioElement) {
+    constructor(tag: HTMLAudioElement, uid: number) {
         super();
-        this._uid = AudioController._uidCount++;
+        this._uid = uid;
         this._audioTag = tag;
         this.onplay = (evt: Event) => {
             this._playing = true;
@@ -89,8 +88,8 @@ export class AudioController extends Emitter {
     }
     /** 是否静音 */
     set muted(value: boolean) {
-        const el = this._audioTag as (HTMLAudioElement & { cacheMuted: boolean | null });
-        if (el == null || el.cacheMuted != null) {
+        const el = this._audioTag;
+        if (el == null) {
             return;
         }
         this._muted = !!value;
