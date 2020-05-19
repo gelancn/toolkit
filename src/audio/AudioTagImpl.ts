@@ -9,10 +9,6 @@ export class AudioTagImpl implements AudioImpl {
     }
 
     private _limit = 25;
-    /** 获取音频控制器限制数量 */
-    get limit(): number {
-        return this._limit;
-    }
 
     /** 获取一个音频标签代理 */
     get(): AudioTagController {
@@ -37,7 +33,7 @@ export class AudioTagImpl implements AudioImpl {
 
     private _muted = false;
     /** 设置静音 */
-    set muted(value: boolean) {
+    setMuted(value: boolean) {
         if (!this._unlocked) {
             return;
         }
@@ -49,7 +45,7 @@ export class AudioTagImpl implements AudioImpl {
         });
     }
     /** 获取静音 */
-    get muted(): boolean {
+    getMuted(): boolean {
         return this._muted;
     }
 
@@ -59,10 +55,6 @@ export class AudioTagImpl implements AudioImpl {
     private _audioPool!: Array<AudioTagController>;
 
     private _unlocked = false;
-    /** 获取是否解锁 */
-    public get unlockd(): boolean {
-        return this._unlocked;
-    }
     /** 解锁音频标签，通常需要在用户主动操作方法中触发此方法 */
     unlock(): void {
         if (this._unlocked) {

@@ -16,44 +16,51 @@ export enum EnumAudioEvent {
     ON_CURRENT_TIME_CHANGE = "ON_CURRENT_TIME_CHANGE",
 }
 
+/** 音频 */
 export class Audio {
-    constructor(impl?: AudioImpl) {
-        if (impl == null) {
-            this._impl = new AudioTagImpl();
-        } else {
-            this._impl = impl;
-        }
+    private static _impl: AudioImpl = new AudioTagImpl();
+    /**
+     * 设置一个音频实现
+     * @param value
+     */
+    static setAudioImpl(value: AudioImpl): void {
+        Audio._impl = value;
+        Object.keys(this._queueMap).forEach((key: string) => {
+            const task = this._queueMap[key];
+            if (task.ctrl != null) {
+                task.ctrl.stop();
+            }
+            delete this._queueMap[key];
+        });
     }
-
-    private _impl: AudioImpl;
 
     /** 设置静音 */
-    set muted(value: boolean) {
+    static setMuted(value: boolean) {
         value = !!value;
-        this._impl.muted = value;
+        Audio._impl.setMuted(value);
     }
     /** 获取静音 */
-    get muted(): boolean {
-        return this._impl.muted;
+    static getMuted(): boolean {
+        return Audio._impl.getMuted();
     }
 
     /** 获取一个音频控制器 */
-    get(): AudioController {
-        return this._impl.get();
+    static get(): AudioController {
+        return Audio._impl.get();
     }
     /** 回收一个音频控制器 */
-    recovery(ctrl: AudioController): void {
-        this._impl.recovery(ctrl);
+    static recovery(ctrl: AudioController): void {
+        Audio._impl.recovery(ctrl);
     }
 
-    private _queueMap: { [key: string]: PlayQueueTask } = {};
+    private static _queueMap: { [key: string]: PlayQueueTask } = {};
     /**
      * 播放音频队列
      * @param task
      */
-    playQueue(task: PlayQueueTask): number {
-        const impl = this._impl;
-        const queueMap = this._queueMap;
+    static playQueue(task: PlayQueueTask): number {
+        const impl = Audio._impl;
+        const queueMap = Audio._queueMap;
         const ctrl = impl.get();
         const key: number = ctrl.uid;
         task.ctrl = ctrl;
@@ -65,7 +72,7 @@ export class Audio {
                 if (task.onEnd != null) {
                     task.onEnd();
                 }
-                this.stopQueue(key);
+                Audio.stopQueue(key);
             } else {
                 const url: string = list.pop() as string;
                 ctrl.src = url;
@@ -88,9 +95,9 @@ export class Audio {
      * 停止一个音频队列
      * @param key
      */
-    stopQueue(key: number): void {
-        const impl = this._impl;
-        const queueMap = this._queueMap;
+    static stopQueue(key: number): void {
+        const impl = Audio._impl;
+        const queueMap = Audio._queueMap;
         if (key == null || queueMap[key] == null) {
             return;
         }
@@ -127,7 +134,8 @@ export interface AudioController extends Emitter {
 }
 
 export interface AudioImpl {
-    muted: boolean;
+    getMuted(): boolean;
+    setMuted(value: boolean): void;
     get(): AudioController;
     recovery(value: AudioController): void;
     unlock(): void;
