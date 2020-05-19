@@ -1,8 +1,8 @@
 import { Emitter } from "../base/Emitter";
-import { EnumAudioEvent } from "./HTMLAudio";
+import { AudioController, EnumAudioEvent } from "./Audio";
 
 /** 音频代理 */
-export class HTMLAudioElementProxy extends Emitter {
+export class AudioTagController extends Emitter implements AudioController {
     constructor(tag: HTMLAudioElement, uid: number) {
         super();
         this._uid = uid;
@@ -40,6 +40,9 @@ export class HTMLAudioElementProxy extends Emitter {
     private _el: AudioTag;
     /** 设置源 */
     set src(value: string) {
+        if (!value) {
+            return;
+        }
         const el = this._el;
         if (el.src) {
             if (el.src === value) {
@@ -117,6 +120,14 @@ export class HTMLAudioElementProxy extends Emitter {
     /** 恢复播放 */
     resume(): void {
         this._el.play();
+    }
+
+    reset(): void {
+        this._el.pause();
+        this.muted = false;
+        this.volume = 1;
+        this.loop = false;
+        this.currentTime = 0;
     }
 
     protected ontimeupdate: (evt: Event) => void;

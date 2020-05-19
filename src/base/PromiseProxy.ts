@@ -1,7 +1,7 @@
 /** Promise代理 */
 export class PromiseProxy<T> {
-    constructor(executor: (resolve: (value?: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void) {
-        this._promise = new Promise<T>((resolve: (value?: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => {
+    constructor(executor: (resolve: (value?: T | PromiseLike<T>) => void, reject: (reason?: unknown) => void) => void) {
+        this._promise = new Promise<T>((resolve: (value?: T | PromiseLike<T>) => void, reject: (reason?: unknown) => void) => {
             this._resolve = resolve;
             this._reject = reject;
             executor(this.resolve, this.reject);
@@ -27,12 +27,12 @@ export class PromiseProxy<T> {
         }
     };
 
-    private _reject: ((reason?: any) => void) | null = null;
+    private _reject: ((reason?: unknown) => void) | null = null;
     /**
      * reject方法
      * @param reason
      */
-    reject = (reason?: any) => {
+    reject = (reason?: unknown) => {
         const rej = this._reject;
         this._reject = null;
         if (rej != null) {

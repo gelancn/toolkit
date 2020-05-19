@@ -1,4 +1,4 @@
-import { Loader } from '../base/Loader';
+import { Loader } from "../base/Loader";
 
 /** 加载状态 */
 enum EnumLoadState {
@@ -137,7 +137,7 @@ export class AudioSource {
                     url: this._url,
                     method: "GET",
                     responseType: "blob",
-                    onLoaded: async (response: unknown) => {
+                    onEnd: async (response: unknown) => {
                         const blob: Blob = response as Blob;
                         this._blob = blob;
                         if (AudioSource.convertTypes.base64) {
@@ -154,7 +154,7 @@ export class AudioSource {
                         reject();
                     },
                 });
-            };
+            }
         });
     }
 

@@ -99,6 +99,15 @@ export class Emitter {
     }
 
     /**
+     * 取消所有监听
+     */
+    offAll(): void {
+        Object.keys(this._handlerMap).forEach((key: string) => {
+            delete this._handlerMap[key];
+        });
+    }
+
+    /**
      * 监听一次
      * @param type
      * @param handler
