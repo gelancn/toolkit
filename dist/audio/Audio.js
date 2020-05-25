@@ -20,7 +20,6 @@ export class Audio {
             impl = new AudioTagImpl();
         }
         this._impl = impl;
-        ;
     }
     /**
      * 设置一个音频实现

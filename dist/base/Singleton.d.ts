@@ -53,5 +53,5 @@ export declare class Singleton {
      */
     deleteInstance<T>(key: string): void;
 }
-declare type TypeCtor<T> = new (...args: Array<unknown>) => T;
+declare type TypeCtor<T> = new (...args: Array<never>) => T;
 export {};

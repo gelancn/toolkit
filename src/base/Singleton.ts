@@ -101,4 +101,4 @@ export class Singleton {
     }
 }
 
-type TypeCtor<T> = new (...args: Array<unknown>) => T;
+type TypeCtor<T> = new (...args: Array<never>) => T;
