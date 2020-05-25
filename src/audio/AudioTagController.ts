@@ -1,7 +1,7 @@
 import { Emitter } from "../base/Emitter";
 import { AudioController, EnumAudioEvent } from "./Audio";
 
-/** 音频代理 */
+/** 音频标签控制器 */
 export class AudioTagController extends Emitter implements AudioController {
     constructor(tag: HTMLAudioElement, uid: number) {
         super();

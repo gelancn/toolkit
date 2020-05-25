@@ -1,6 +1,7 @@
 import { AudioImpl } from "./Audio";
 import { AudioTagController } from "./AudioTagController";
 
+/** 音频标签实现 */
 export class AudioTagImpl implements AudioImpl {
     constructor(limit?: number) {
         if (limit != null && limit > 10) {
@@ -11,12 +12,9 @@ export class AudioTagImpl implements AudioImpl {
     private _limit = 25;
 
     /** 获取一个音频标签代理 */
-    get(): AudioTagController {
-        if (!this._unlocked) {
-            throw new Error("AudioTagImpl::get(): Please run unlock in the user operation function first.");
-        }
-        if (this._audioPool.length === 0) {
-            throw new Error("AudioTagImpl::get(): Audio pool is empty.");
+    get(): AudioTagController | null {
+        if (!this._unlocked || this._audioPool.length === 0) {
+            return null;
         }
         return this._audioPool.pop() as AudioTagController;
     }
