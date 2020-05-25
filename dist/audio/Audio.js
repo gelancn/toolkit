@@ -15,8 +15,12 @@ export var EnumAudioEvent;
 })(EnumAudioEvent || (EnumAudioEvent = {}));
 /** 音频 */
 export class Audio {
-    constructor() {
-        this._impl = new AudioTagImpl();
+    constructor(impl) {
+        if (impl == null) {
+            impl = new AudioTagImpl();
+        }
+        this._impl = impl;
+        ;
     }
     /**
      * 设置一个音频实现
@@ -43,5 +47,9 @@ export class Audio {
     /** 回收一个音频控制器 */
     recoveryController(ctrl) {
         this._impl.recovery(ctrl);
+    }
+    /** 解锁 */
+    unlock() {
+        this._impl.unlock();
     }
 }

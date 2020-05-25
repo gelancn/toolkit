@@ -14,6 +14,7 @@ export declare enum EnumAudioEvent {
 }
 /** 音频 */
 export declare class Audio {
+    constructor(impl?: AudioImpl);
     private _impl;
     /**
      * 设置一个音频实现
@@ -28,6 +29,8 @@ export declare class Audio {
     getController(): AudioController | null;
     /** 回收一个音频控制器 */
     recoveryController(ctrl: AudioController): void;
+    /** 解锁 */
+    unlock(): void;
 }
 export interface AudioController extends Emitter {
     readonly uid: number;

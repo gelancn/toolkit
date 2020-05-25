@@ -18,7 +18,14 @@ export enum EnumAudioEvent {
 
 /** 音频 */
 export class Audio {
-    private _impl: AudioImpl = new AudioTagImpl();
+    constructor(impl?: AudioImpl) {
+        if (impl == null) {
+            impl = new AudioTagImpl();
+        }
+        this._impl = impl;
+    }
+
+    private _impl: AudioImpl;
     /**
      * 设置一个音频实现
      * @param value
@@ -46,6 +53,11 @@ export class Audio {
     /** 回收一个音频控制器 */
     recoveryController(ctrl: AudioController): void {
         this._impl.recovery(ctrl);
+    }
+
+    /** 解锁 */
+    unlock(): void {
+        this._impl.unlock();
     }
 }
 
