@@ -1,29 +1,31 @@
 /** 加载器 */
-export class Loader {
+var Loader = /** @class */ (function () {
+    function Loader() {
+    }
     /**
      * 发送http请求
      * @param param
      */
-    static sendHttpRequest(param) {
-        const url = param.url;
-        const method = param.method || "GET";
-        const data = param.data;
-        const requestHeader = param.requestHeader;
-        let sendData = null;
+    Loader.sendHttpRequest = function (param) {
+        var url = param.url;
+        var method = param.method || "GET";
+        var data = param.data;
+        var requestHeader = param.requestHeader;
+        var sendData = null;
         if (data != null) {
-            const contentType = param.contentType || (requestHeader && requestHeader["Content-Type"]);
+            var contentType = param.contentType || (requestHeader && requestHeader["Content-Type"]);
             switch (method) {
                 case "POST":
                     switch (contentType) {
                         case "application/x-www-form-urlencoded":
-                            const params = Object.keys(data).map((key) => {
+                            var params = Object.keys(data).map(function (key) {
                                 return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]);
                             });
                             sendData = params.join("&");
                             break;
                         case "multipart/form-data":
                             sendData = new FormData();
-                            Object.keys(data).forEach((key) => {
+                            Object.keys(data).forEach(function (key) {
                                 sendData.append(key, data[key]);
                             });
                             break;
@@ -39,7 +41,7 @@ export class Loader {
                     break;
             }
         }
-        const xhr = new XMLHttpRequest();
+        var xhr = new XMLHttpRequest();
         xhr.open(method, url, true);
         if (param.withCredentials) {
             xhr.withCredentials = param.withCredentials;
@@ -48,95 +50,95 @@ export class Loader {
             xhr.responseType = param.responseType;
         }
         if (requestHeader != null) {
-            const dict = requestHeader;
-            Object.keys(dict).forEach((key) => {
-                xhr.setRequestHeader(key, dict[key]);
+            var dict_1 = requestHeader;
+            Object.keys(dict_1).forEach(function (key) {
+                xhr.setRequestHeader(key, dict_1[key]);
             });
         }
         if (param.contentType != null) {
             xhr.overrideMimeType(param.contentType);
         }
-        const clearListener = () => {
+        var clearListener = function () {
             delete xhr.onload;
             delete xhr.onprogress;
             delete xhr.onerror;
         };
-        const onError = (err) => {
+        var onError = function (err) {
             clearListener();
             param.onError && param.onError(err);
         };
-        xhr.onload = (evt) => {
-            const status = xhr.status;
+        xhr.onload = function (evt) {
+            var status = xhr.status;
             if (status === 200) {
                 clearListener();
-                const data = xhr.response || xhr.responseText;
-                param.onEnd && param.onEnd(data);
+                var data_1 = xhr.response || xhr.responseText;
+                param.onEnd && param.onEnd(data_1);
             }
             else {
                 onError(evt);
             }
         };
-        xhr.onprogress = (evt) => {
-            const total = evt.total;
-            const loaded = evt.loaded;
+        xhr.onprogress = function (evt) {
+            var total = evt.total;
+            var loaded = evt.loaded;
             param.onProgress && param.onProgress(loaded, total);
         };
-        xhr.onerror = (evt) => {
+        xhr.onerror = function (evt) {
             onError(evt);
         };
         xhr.send(sendData);
-    }
+    };
     /**
      * 加载图片
      * @param param
      */
-    static loadImage(param) {
-        const el = document.createElement("img");
+    Loader.loadImage = function (param) {
+        var el = document.createElement("img");
         if (param.crossOrigin != null) {
             el.crossOrigin = param.crossOrigin;
         }
         el.src = param.url;
-        const clearListener = () => {
+        var clearListener = function () {
             delete el.onload;
             delete el.onprogress;
             delete el.onerror;
         };
-        el.onload = () => {
+        el.onload = function () {
             clearListener();
             param.onEnd && param.onEnd(el);
         };
-        el.onprogress = (evt) => {
-            const total = evt.total;
-            const loaded = evt.loaded;
+        el.onprogress = function (evt) {
+            var total = evt.total;
+            var loaded = evt.loaded;
             param.onProgress && param.onProgress(loaded, total);
         };
-        el.onerror = (err) => {
+        el.onerror = function (err) {
             clearListener();
             param.onError && param.onError(err);
         };
-    }
+    };
     /**
      * 加载脚本
      * @param param
      */
-    static loadScript(param) {
-        const el = document.createElement("script");
+    Loader.loadScript = function (param) {
+        var el = document.createElement("script");
         el.src = param.url;
-        const clearListener = () => {
+        var clearListener = function () {
             delete el.onload;
             delete el.onprogress;
             delete el.onerror;
         };
-        el.onload = () => {
+        el.onload = function () {
             clearListener();
             param.onEnd && param.onEnd(el);
         };
-        el.onprogress = (evt) => {
-            const total = evt.total;
-            const loaded = evt.loaded;
+        el.onprogress = function (evt) {
+            var total = evt.total;
+            var loaded = evt.loaded;
             param.onProgress && param.onProgress(loaded, total);
         };
-        el.onerror = (err) => {
+        el.onerror = function (err) {
             clearListener();
             param.onError && param.onError(err);
         };
@@ -146,5 +148,7 @@ export class Loader {
         else {
             param.appendTo.appendChild(el);
         }
-    }
-}
+    };
+    return Loader;
+}());
+export { Loader };

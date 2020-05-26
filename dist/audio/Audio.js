@@ -14,8 +14,8 @@ export var EnumAudioEvent;
     EnumAudioEvent["ON_CURRENT_TIME_CHANGE"] = "ON_CURRENT_TIME_CHANGE";
 })(EnumAudioEvent || (EnumAudioEvent = {}));
 /** 音频 */
-export class Audio {
-    constructor(impl) {
+var Audio = /** @class */ (function () {
+    function Audio(impl) {
         if (impl == null) {
             impl = new AudioTagImpl();
         }
@@ -25,30 +25,32 @@ export class Audio {
      * 设置一个音频实现
      * @param value
      */
-    setAudioImpl(value) {
+    Audio.prototype.setAudioImpl = function (value) {
         if (value != null) {
             this._impl = value;
         }
-    }
+    };
     /** 设置静音 */
-    setMuted(value) {
+    Audio.prototype.setMuted = function (value) {
         value = !!value;
         this._impl.setMuted(value);
-    }
+    };
     /** 获取静音 */
-    getMuted() {
+    Audio.prototype.getMuted = function () {
         return this._impl.getMuted();
-    }
+    };
     /** 获取一个音频控制器 */
-    getController() {
+    Audio.prototype.getController = function () {
         return this._impl.get();
-    }
+    };
     /** 回收一个音频控制器 */
-    recoveryController(ctrl) {
+    Audio.prototype.recoveryController = function (ctrl) {
         this._impl.recovery(ctrl);
-    }
+    };
     /** 解锁 */
-    unlock() {
+    Audio.prototype.unlock = function () {
         this._impl.unlock();
-    }
-}
+    };
+    return Audio;
+}());
+export { Audio };

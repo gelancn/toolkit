@@ -1,6 +1,7 @@
+import { __spreadArrays } from "tslib";
 /** 派发器 */
-export class Emitter {
-    constructor() {
+var Emitter = /** @class */ (function () {
+    function Emitter() {
         this._handlerMap = {};
     }
     /**
@@ -10,122 +11,129 @@ export class Emitter {
      * @param target
      * @param once
      */
-    on(type, handler, target, once) {
+    Emitter.prototype.on = function (type, handler, target, once) {
         if (type == null || handler == null) {
             return;
         }
         if (target == null) {
             target = this;
         }
-        const handlerList = this._getHandlerList(type);
-        for (let i = handlerList.length - 1; i >= 0; i -= 1) {
-            const data = handlerList[i];
+        var handlerList = this._getHandlerList(type);
+        for (var i = handlerList.length - 1; i >= 0; i -= 1) {
+            var data = handlerList[i];
             if (data.handler === handler && data.target === target) {
                 return;
             }
         }
         handlerList.push({
-            type,
-            handler,
-            target,
-            once,
+            type: type,
+            handler: handler,
+            target: target,
+            once: once,
         });
-    }
+    };
     /**
      * 取消监听
      * @param type
      * @param handler
      * @param target
      */
-    off(type, handler, target) {
-        const handlerList = this._getHandlerList(type);
+    Emitter.prototype.off = function (type, handler, target) {
+        var handlerList = this._getHandlerList(type);
         if (handlerList.length === 0) {
             return;
         }
         if (target == null) {
             target = this;
         }
-        for (let i = handlerList.length - 1; i >= 0; i -= 1) {
-            const data = handlerList[i];
+        for (var i = handlerList.length - 1; i >= 0; i -= 1) {
+            var data = handlerList[i];
             if (data.handler === handler && data.target === target) {
                 handlerList.splice(i, 1);
                 break;
             }
         }
-    }
+    };
     /**
      * 按类型取消监听
      * @param type
      */
-    offByType(type) {
-        const handlerList = this._getHandlerList(type);
+    Emitter.prototype.offByType = function (type) {
+        var handlerList = this._getHandlerList(type);
         if (handlerList.length === 0) {
             return;
         }
         handlerList.length = 0;
-    }
+    };
     /**
      * 按目标对象取消监听
      * @param target
      */
-    offByTarget(target) {
-        Object.keys(this._handlerMap).forEach((key) => {
-            const handlerList = this._handlerMap[key];
-            for (let i = handlerList.length - 1; i >= 0; i -= 1) {
-                const data = handlerList[i];
+    Emitter.prototype.offByTarget = function (target) {
+        var _this = this;
+        Object.keys(this._handlerMap).forEach(function (key) {
+            var handlerList = _this._handlerMap[key];
+            for (var i = handlerList.length - 1; i >= 0; i -= 1) {
+                var data = handlerList[i];
                 if (data.target === target) {
                     handlerList.splice(i, 1);
                 }
             }
         });
-    }
+    };
     /**
      * 按监听函数取消监听
      * @param handler
      */
-    offByHandler(handler) {
-        Object.keys(this._handlerMap).forEach((key) => {
-            const handlerList = this._handlerMap[key];
-            for (let i = handlerList.length - 1; i >= 0; i -= 1) {
-                const data = handlerList[i];
+    Emitter.prototype.offByHandler = function (handler) {
+        var _this = this;
+        Object.keys(this._handlerMap).forEach(function (key) {
+            var handlerList = _this._handlerMap[key];
+            for (var i = handlerList.length - 1; i >= 0; i -= 1) {
+                var data = handlerList[i];
                 if (data.handler === handler) {
                     handlerList.splice(i, 1);
                 }
             }
         });
-    }
+    };
     /**
      * 取消所有监听
      */
-    offAll() {
-        Object.keys(this._handlerMap).forEach((key) => {
-            delete this._handlerMap[key];
+    Emitter.prototype.offAll = function () {
+        var _this = this;
+        Object.keys(this._handlerMap).forEach(function (key) {
+            delete _this._handlerMap[key];
         });
-    }
+    };
     /**
      * 监听一次
      * @param type
      * @param handler
      * @param target
      */
-    once(type, handler, target) {
+    Emitter.prototype.once = function (type, handler, target) {
         this.on(type, handler, target, true);
-    }
+    };
     /**
      * 派发
      * @param type
      * @param params
      */
-    emit(type, ...params) {
-        const handlerList = this._getHandlerList(type);
+    Emitter.prototype.emit = function (type) {
+        var params = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            params[_i - 1] = arguments[_i];
+        }
+        var handlerList = this._getHandlerList(type);
         if (handlerList.length === 0) {
             return;
         }
-        let needClean = false;
-        const argLength = params.length;
-        handlerList.forEach((data) => {
-            const handler = data.handler;
-            const target = data.target;
+        var needClean = false;
+        var argLength = params.length;
+        handlerList.forEach(function (data) {
+            var handler = data.handler;
+            var target = data.target;
             switch (argLength) {
                 case 0:
                     handler.call(target);
@@ -146,16 +154,16 @@ export class Emitter {
                     handler.call(target, params[0], params[1], params[2], params[3], params[4]);
                     break;
                 default:
-                    handler.call(target, ...params);
+                    handler.call.apply(handler, __spreadArrays([target], params));
             }
             if (data.once) {
                 needClean = true;
             }
         });
         if (needClean) {
-            const newHandlerList = [];
-            for (let i = 0, length = handlerList.length; i < length; i += 1) {
-                const handler = handlerList[i];
+            var newHandlerList = [];
+            for (var i = 0, length_1 = handlerList.length; i < length_1; i += 1) {
+                var handler = handlerList[i];
                 if (handler.once) {
                     continue;
                 }
@@ -163,13 +171,15 @@ export class Emitter {
             }
             this._handlerMap[type] = newHandlerList;
         }
-    }
-    _getHandlerList(type) {
-        let list = this._handlerMap[type];
+    };
+    Emitter.prototype._getHandlerList = function (type) {
+        var list = this._handlerMap[type];
         if (list == null) {
             list = [];
             this._handlerMap[type] = list;
         }
         return list;
-    }
-}
+    };
+    return Emitter;
+}());
+export { Emitter };
