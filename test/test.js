@@ -135,6 +135,15 @@ define("src/base/Emitter", ["require", "exports"], function (require, exports) {
             });
         };
         /**
+         * 取消所有监听
+         */
+        Emitter.prototype.offAll = function () {
+            var _this = this;
+            Object.keys(this._handlerMap).forEach(function (key) {
+                delete _this._handlerMap[key];
+            });
+        };
+        /**
          * 监听一次
          * @param type
          * @param handler
@@ -353,7 +362,7 @@ define("src/base/Loader", ["require", "exports"], function (require, exports) {
                     if (status === 200) {
                         clearListener();
                         var data_1 = xhr.response || xhr.responseText;
-                        param.onLoaded && param.onLoaded(data_1);
+                        param.onEnd && param.onEnd(data_1);
                         resolve(data_1);
                     }
                     else {
@@ -375,31 +384,23 @@ define("src/base/Loader", ["require", "exports"], function (require, exports) {
          * 加载图片
          * @param param
          */
-        Loader.loadImage = function (param) {
+        Loader.loadImage = function (url, crossOrigin) {
             return new Promise(function (resolve, reject) {
                 var el = document.createElement("img");
-                if (param.crossOrigin != null) {
-                    el.crossOrigin = param.crossOrigin;
+                if (crossOrigin != null) {
+                    el.crossOrigin = crossOrigin;
                 }
-                el.src = param.url;
+                el.src = url;
                 var clearListener = function () {
                     delete el.onload;
-                    delete el.onprogress;
                     delete el.onerror;
                 };
                 el.onload = function () {
                     clearListener();
-                    param.onLoaded && param.onLoaded(el);
                     resolve(el);
-                };
-                el.onprogress = function (evt) {
-                    var total = evt.total;
-                    var loaded = evt.loaded;
-                    param.onProgress && param.onProgress(loaded, total);
                 };
                 el.onerror = function (err) {
                     clearListener();
-                    param.onError && param.onError(err);
                     reject(err);
                 };
             });
@@ -408,35 +409,56 @@ define("src/base/Loader", ["require", "exports"], function (require, exports) {
          * 加载脚本
          * @param param
          */
-        Loader.loadScript = function (param) {
+        Loader.loadScript = function (url, appendTo) {
             return new Promise(function (resolve, reject) {
                 var el = document.createElement("script");
-                el.src = param.url;
+                el.src = url;
                 var clearListener = function () {
                     delete el.onload;
-                    delete el.onprogress;
                     delete el.onerror;
                 };
                 el.onload = function () {
                     clearListener();
-                    param.onLoaded && param.onLoaded(el);
                     resolve(el);
-                };
-                el.onprogress = function (evt) {
-                    var total = evt.total;
-                    var loaded = evt.loaded;
-                    param.onProgress && param.onProgress(loaded, total);
                 };
                 el.onerror = function (err) {
                     clearListener();
-                    param.onError && param.onError(err);
                     reject(err);
                 };
-                if (param.appendTo == null) {
+                if (appendTo == null) {
                     document.body.appendChild(el);
                 }
                 else {
-                    param.appendTo.appendChild(el);
+                    appendTo.appendChild(el);
+                }
+            });
+        };
+        /**
+         * 加载样式
+         * @param param
+         */
+        Loader.loadCSS = function (url, appendTo) {
+            return new Promise(function (resolve, reject) {
+                var el = document.createElement("link");
+                el.href = url;
+                el.rel = "stylesheet";
+                var clearListener = function () {
+                    delete el.onload;
+                    delete el.onerror;
+                };
+                el.onload = function () {
+                    clearListener();
+                    resolve(el);
+                };
+                el.onerror = function (err) {
+                    clearListener();
+                    reject(err);
+                };
+                if (appendTo == null) {
+                    document.body.appendChild(el);
+                }
+                else {
+                    appendTo.appendChild(el);
                 }
             });
         };
@@ -456,27 +478,14 @@ define("test/base/test_Loader", ["require", "exports", "src/base/Loader"], funct
                         console.log("…………………… test_Loader ……………………");
                         imgUrl = "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png";
                         console.log("loadImage");
-                        return [4 /*yield*/, Loader_1.Loader.loadImage({
-                                url: imgUrl,
-                                onProgress: function (loaded, total) {
-                                    console.log("onProgress", loaded, total);
-                                },
-                                onLoaded: function (i) {
-                                    console.log(i);
-                                },
-                            })];
+                        return [4 /*yield*/, Loader_1.Loader.loadImage(imgUrl)];
                     case 1:
                         img = _a.sent();
                         document.body.appendChild(img);
                         _a.label = 2;
                     case 2:
                         _a.trys.push([2, 4, , 5]);
-                        return [4 /*yield*/, Loader_1.Loader.loadImage({
-                                url: "???",
-                                onError: function (err) {
-                                    console.log(err);
-                                },
-                            })];
+                        return [4 /*yield*/, Loader_1.Loader.loadImage("???")];
                     case 3:
                         _a.sent();
                         return [3 /*break*/, 5];
@@ -486,24 +495,22 @@ define("test/base/test_Loader", ["require", "exports", "src/base/Loader"], funct
                     case 5:
                         console.log("\n");
                         console.log("loadScript");
-                        return [4 /*yield*/, Loader_1.Loader.loadScript({
-                                url: "test.js",
-                                onProgress: function (loaded, total) {
-                                    console.log("onProgress", loaded, total);
-                                },
-                                onLoaded: function (s) {
-                                    console.log(s);
-                                },
-                            })];
+                        return [4 /*yield*/, Loader_1.Loader.loadScript("test.js")];
                     case 6:
+                        _a.sent();
+                        console.log("\n");
+                        console.log("loadCSS");
+                        return [4 /*yield*/, Loader_1.Loader.loadCSS("https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/css/components/user_quit_dialog-527f3ede74.css")];
+                    case 7:
                         _a.sent();
                         console.log("\n");
                         console.log("sendHttpRequest");
                         return [4 /*yield*/, Loader_1.Loader.sendHttpRequest({
                                 method: "GET",
                                 url: "http://localhost:3000/index.html",
+                                onProgress: function (c, t) { console.log(c, t); },
                             })];
-                    case 7:
+                    case 8:
                         response = _a.sent();
                         console.log(response);
                         console.log("…………………… test_Loader ……………………");

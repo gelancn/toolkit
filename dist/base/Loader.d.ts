@@ -4,25 +4,28 @@ export declare class Loader {
      * 发送http请求
      * @param param
      */
-    static sendHttpRequest(param: HttpParam): void;
+    static sendHttpRequest(param: HttpParam): Promise<unknown>;
     /**
      * 加载图片
      * @param param
      */
-    static loadImage(param: ImageParam): void;
+    static loadImage(url: string, crossOrigin?: string): Promise<HTMLImageElement>;
     /**
      * 加载脚本
      * @param param
      */
-    static loadScript(param: ScriptParam): void;
+    static loadScript(url: string, appendTo?: HTMLElement): Promise<HTMLScriptElement>;
+    /**
+     * 加载样式
+     * @param param
+     */
+    static loadCSS(url: string, appendTo?: HTMLElement): Promise<HTMLLinkElement>;
 }
-interface LoaderParam {
+interface HttpParam {
     url: string;
     onProgress?: (current: number, total: number) => void;
     onEnd?(data?: unknown): void;
     onError?: (err: unknown) => void;
-}
-interface HttpParam extends LoaderParam {
     method?: "POST" | "GET";
     withCredentials?: boolean;
     requestHeader?: unknown;
@@ -31,13 +34,5 @@ interface HttpParam extends LoaderParam {
     };
     responseType?: XMLHttpRequestResponseType;
     contentType?: string;
-}
-interface ImageParam extends LoaderParam {
-    crossOrigin?: string;
-    onEnd?(data: HTMLImageElement): void;
-}
-interface ScriptParam extends LoaderParam {
-    onEnd?(data: HTMLScriptElement): void;
-    appendTo?: HTMLElement;
 }
 export {};
