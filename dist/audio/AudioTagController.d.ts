@@ -36,9 +36,4 @@ export declare class AudioTagController extends Emitter implements AudioControll
     /** 恢复播放 */
     resume(): void;
     reset(): void;
-    protected ontimeupdate: (evt: Event) => void;
-    protected onplay: (evt: Event) => void;
-    protected onpause: (evt: Event) => void;
-    protected onended: (evt: Event) => void;
-    protected onerror: (event: Event | string, source?: string, lineno?: number, colno?: number, error?: Error) => void;
 }

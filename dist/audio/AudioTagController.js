@@ -8,10 +8,10 @@ var AudioTagController = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this._uid = uid;
         _this._el = tag;
-        _this.onplay = function (evt) {
+        tag.onplay = function (evt) {
             _this.emit(EnumAudioEvent.ON_PLAY, evt);
         };
-        _this.onpause = function (evt) {
+        tag.onpause = function (evt) {
             var el = evt.target;
             if (el.isStop) {
                 el.isStop = false;
@@ -21,14 +21,14 @@ var AudioTagController = /** @class */ (function (_super) {
                 _this.emit(EnumAudioEvent.ON_PAUSE, evt);
             }
         };
-        _this.ontimeupdate = function (evt) {
+        tag.ontimeupdate = function (evt) {
             var el = evt.target;
             _this.emit(EnumAudioEvent.ON_PROGRESS, el.currentTime, el.duration);
         };
-        _this.onended = function (evt) {
+        tag.onended = function (evt) {
             _this.emit(EnumAudioEvent.ON_END, evt);
         };
-        _this.onerror = function (event, source, lineno, colno, error) {
+        tag.onerror = function (event, source, lineno, colno, error) {
             _this.emit(EnumAudioEvent.ON_ERROR, { event: event, source: source, lineno: lineno, colno: colno, error: error });
         };
         return _this;

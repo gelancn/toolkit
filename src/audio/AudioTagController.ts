@@ -7,10 +7,10 @@ export class AudioTagController extends Emitter implements AudioController {
         super();
         this._uid = uid;
         this._el = tag as AudioTag;
-        this.onplay = (evt: Event) => {
+        tag.onplay = (evt: Event) => {
             this.emit(EnumAudioEvent.ON_PLAY, evt);
         };
-        this.onpause = (evt: Event) => {
+        tag.onpause = (evt: Event) => {
             const el = evt.target as AudioTag;
             if (el.isStop) {
                 el.isStop = false;
@@ -19,14 +19,14 @@ export class AudioTagController extends Emitter implements AudioController {
                 this.emit(EnumAudioEvent.ON_PAUSE, evt);
             }
         };
-        this.ontimeupdate = (evt: Event) => {
+        tag.ontimeupdate = (evt: Event) => {
             const el = evt.target as AudioTag;
             this.emit(EnumAudioEvent.ON_PROGRESS, el.currentTime, el.duration);
         };
-        this.onended = (evt: Event) => {
+        tag.onended = (evt: Event) => {
             this.emit(EnumAudioEvent.ON_END, evt);
         };
-        this.onerror = (event: Event | string, source?: string, lineno?: number, colno?: number, error?: Error) => {
+        tag.onerror = (event: Event | string, source?: string, lineno?: number, colno?: number, error?: Error) => {
             this.emit(EnumAudioEvent.ON_ERROR, { event, source, lineno, colno, error });
         };
     }
@@ -129,12 +129,6 @@ export class AudioTagController extends Emitter implements AudioController {
         this.loop = false;
         this.currentTime = 0;
     }
-
-    protected ontimeupdate: (evt: Event) => void;
-    protected onplay: (evt: Event) => void;
-    protected onpause: (evt: Event) => void;
-    protected onended: (evt: Event) => void;
-    protected onerror: (event: Event | string, source?: string, lineno?: number, colno?: number, error?: Error) => void;
 }
 
 interface AudioTag extends HTMLAudioElement {
