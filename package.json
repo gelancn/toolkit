@@ -1,6 +1,6 @@
 {
     "name": "gl-toolkit",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "gl's toolkit",
     "main": "index.js",
     "files": [
@@ -36,9 +36,6 @@
         "typescript": "^3.8.3"
     },
     "dependencies": {
-        "@types/tween.js": "^17.2.0",
-        "idb-keyval": "^3.2.0",
-        "tween.js": "^16.6.0"
     },
     "husky": {
         "hooks": {
