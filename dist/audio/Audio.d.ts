@@ -45,6 +45,7 @@ export interface AudioController extends Emitter {
     resume(): void;
 }
 export interface AudioImpl {
+    getType(): string;
     getMuted(): boolean;
     setMuted(value: boolean): void;
     get(): AudioController | null;

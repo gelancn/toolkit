@@ -1,4 +1,4 @@
-import { AudioTagImpl } from "./AudioTagImpl";
+import { AudioTagImpl } from "./tag/AudioTagImpl";
 /** 音频事件 */
 export var EnumAudioEvent;
 (function (EnumAudioEvent) {

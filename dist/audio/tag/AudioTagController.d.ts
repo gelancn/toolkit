@@ -1,5 +1,5 @@
-import { Emitter } from "../base/Emitter";
-import { AudioController } from "./Audio";
+import { Emitter } from "../../base/Emitter";
+import { AudioController } from "../Audio";
 /** 音频标签控制器 */
 export declare class AudioTagController extends Emitter implements AudioController {
     constructor(tag: HTMLAudioElement, uid: number);

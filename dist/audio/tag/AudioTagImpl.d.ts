@@ -1,9 +1,10 @@
-import { AudioImpl } from "./Audio";
+import { AudioImpl } from "../Audio";
 import { AudioTagController } from "./AudioTagController";
 /** 音频标签实现 */
 export declare class AudioTagImpl implements AudioImpl {
     constructor(limit?: number);
     private _limit;
+    getType(): string;
     /** 获取一个音频标签代理 */
     get(): AudioTagController | null;
     /** 回收一个音频标签代理 */

@@ -1,6 +1,6 @@
 import { __extends } from "tslib";
-import { Emitter } from "../base/Emitter";
-import { EnumAudioEvent } from "./Audio";
+import { Emitter } from "../../base/Emitter";
+import { EnumAudioEvent } from "../Audio";
 /** 音频标签控制器 */
 var AudioTagController = /** @class */ (function (_super) {
     __extends(AudioTagController, _super);

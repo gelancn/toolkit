@@ -11,6 +11,9 @@ var AudioTagImpl = /** @class */ (function () {
             this._limit = limit;
         }
     }
+    AudioTagImpl.prototype.getType = function () {
+        return "tag";
+    };
     /** 获取一个音频标签代理 */
     AudioTagImpl.prototype.get = function () {
         if (!this._unlocked || this._audioPool.length === 0) {

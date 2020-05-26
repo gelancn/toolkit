@@ -1,5 +1,5 @@
 import { Emitter } from "../base/Emitter";
-import { AudioTagImpl } from "./AudioTagImpl";
+import { AudioTagImpl } from "./tag/AudioTagImpl";
 
 /** 音频事件 */
 export enum EnumAudioEvent {
@@ -75,6 +75,7 @@ export interface AudioController extends Emitter {
 }
 
 export interface AudioImpl {
+    getType(): string;
     getMuted(): boolean;
     setMuted(value: boolean): void;
     get(): AudioController | null;
