@@ -2,7 +2,7 @@
 const del = require("del");
 const child_process = require("child_process");
 
-async function build() {
+async function publish() {
     await del("./dist!package.json");
     const cmdList = [
         {
@@ -14,20 +14,24 @@ async function build() {
         {
             command: `prettier --write "src/**/*.{ts,js,css,json,md}"`,
         },
+        {
+            command: `npm publish`,
+            cwd: `dist`,
+        },
     ];
     for (let i = 0; i < cmdList.length; i += 1) {
         const cmd = cmdList[i];
         await new Promise((resolve, reject) => {
+            console.log(i, cmd);
             child_process.exec(cmd.command, { cwd: cmd.cwd }, (err, info) => {
                 if (err) {
                     reject(err);
                 }
                 resolve();
-                console.log(i, cmd);
                 console.log(info);
             });
         });
     }
 }
 
-build();
+publish();
