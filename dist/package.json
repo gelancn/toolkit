@@ -1,7 +1,7 @@
 {
-  "name": "gl-toolkit",
-  "version": "0.1.8",
-  "description": "gl's toolkit",
-  "author": "gelancn",
-  "license": "MIT"
+	"name": "gl-toolkit",
+	"version": "0.1.9",
+	"description": "gl's toolkit",
+	"author": "gelancn",
+	"license": "MIT"
 }
