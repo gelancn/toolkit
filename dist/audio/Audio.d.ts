@@ -39,7 +39,7 @@ export interface AudioController extends Emitter {
     volume: number;
     muted: boolean;
     currentTime: number;
-    play(): void;
+    play(): Promise<void>;
     stop(): void;
     pause(): void;
     resume(): void;

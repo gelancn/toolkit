@@ -34,6 +34,8 @@ export default async function () {
     });
     console.log(response);
 
+    document.body.removeChild(img);
+
     console.log("…………………… test_Loader ……………………");
     console.log("\n\n");
 };

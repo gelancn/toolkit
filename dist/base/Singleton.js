@@ -11,10 +11,10 @@ var Singleton = /** @class */ (function () {
      */
     Singleton.set = function (key, value) {
         if (typeof key === "string") {
-            return this.instance.setInstance(key, value);
+            return Singleton.instance.setInstance(key, value);
         }
         else {
-            return this.instance.setSingleton(key, value);
+            return Singleton.instance.setSingleton(key, value);
         }
     };
     /**
@@ -23,10 +23,10 @@ var Singleton = /** @class */ (function () {
      */
     Singleton.get = function (key) {
         if (typeof key === "string") {
-            return this.instance.getInstance(key);
+            return Singleton.instance.getInstance(key);
         }
         else {
-            return this.instance.getSingleton(key);
+            return Singleton.instance.getSingleton(key);
         }
     };
     /**
@@ -35,10 +35,10 @@ var Singleton = /** @class */ (function () {
      */
     Singleton.delete = function (key) {
         if (typeof key === "string") {
-            return this.instance.deleteInstance(key);
+            return Singleton.instance.deleteInstance(key);
         }
         else {
-            return this.instance.deleteSingleton(key);
+            return Singleton.instance.deleteSingleton(key);
         }
     };
     /**

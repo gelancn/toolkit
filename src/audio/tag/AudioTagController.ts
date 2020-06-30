@@ -101,8 +101,8 @@ export class AudioTagController extends Emitter implements AudioController {
     }
 
     /** 播放 */
-    play(): void {
-        this._el.play();
+    play(): Promise<void> {
+        return this._el.play();
     }
 
     /** 停止 */

@@ -28,7 +28,7 @@ export declare class AudioTagController extends Emitter implements AudioControll
     /** 当前播放进度 */
     set currentTime(value: number);
     /** 播放 */
-    play(): void;
+    play(): Promise<void>;
     /** 停止 */
     stop(): void;
     /** 暂停 */

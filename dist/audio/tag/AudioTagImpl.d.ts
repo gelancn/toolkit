@@ -18,7 +18,6 @@ export declare class AudioTagImpl implements AudioImpl {
     private _audioMap;
     /** 音频池子 */
     private _audioPool;
-    private _unlocked;
     /** 解锁音频标签，通常需要在用户主动操作方法中触发此方法 */
     unlock(): void;
 }

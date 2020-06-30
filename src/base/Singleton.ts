@@ -10,9 +10,9 @@ export class Singleton {
      */
     static set<T>(key: TypeCtor<T> | string, value: T): void {
         if (typeof key === "string") {
-            return this.instance.setInstance(key, value);
+            return Singleton.instance.setInstance(key, value);
         } else {
-            return this.instance.setSingleton(key, value);
+            return Singleton.instance.setSingleton(key, value);
         }
     }
 
@@ -22,9 +22,9 @@ export class Singleton {
      */
     static get<T>(key: TypeCtor<T> | string): T {
         if (typeof key === "string") {
-            return this.instance.getInstance(key);
+            return Singleton.instance.getInstance(key);
         } else {
-            return this.instance.getSingleton(key);
+            return Singleton.instance.getSingleton(key);
         }
     }
 
@@ -34,9 +34,9 @@ export class Singleton {
      */
     static delete<T>(key: TypeCtor<T> | string): void {
         if (typeof key === "string") {
-            return this.instance.deleteInstance(key);
+            return Singleton.instance.deleteInstance(key);
         } else {
-            return this.instance.deleteSingleton(key);
+            return Singleton.instance.deleteSingleton(key);
         }
     }
 

@@ -1,6 +1,6 @@
 {
     "name": "gl-toolkit",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "description": "gl's toolkit",
     "main": "index.js",
     "files": [
@@ -35,8 +35,7 @@
         "tslib": "^1.11.1",
         "typescript": "^3.8.3"
     },
-    "dependencies": {
-    },
+    "dependencies": {},
     "husky": {
         "hooks": {
             "pre-commit": "lint-staged"

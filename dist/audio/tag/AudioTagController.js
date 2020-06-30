@@ -124,7 +124,7 @@ var AudioTagController = /** @class */ (function (_super) {
     });
     /** 播放 */
     AudioTagController.prototype.play = function () {
-        this._el.play();
+        return this._el.play();
     };
     /** 停止 */
     AudioTagController.prototype.stop = function () {
