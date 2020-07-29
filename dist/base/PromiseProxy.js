@@ -37,7 +37,7 @@ var PromiseProxy = /** @class */ (function () {
         get: function () {
             return this._promise;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     return PromiseProxy;

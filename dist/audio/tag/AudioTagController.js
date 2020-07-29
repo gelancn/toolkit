@@ -38,7 +38,7 @@ var AudioTagController = /** @class */ (function (_super) {
         get: function () {
             return this._uid;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(AudioTagController.prototype, "src", {
@@ -59,7 +59,7 @@ var AudioTagController = /** @class */ (function (_super) {
                 el.src = value;
             }
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(AudioTagController.prototype, "loop", {
@@ -72,7 +72,7 @@ var AudioTagController = /** @class */ (function (_super) {
             this._el.loop = value;
             this.emit(EnumAudioEvent.ON_LOOP_CHANGE, value);
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(AudioTagController.prototype, "volume", {
@@ -85,7 +85,7 @@ var AudioTagController = /** @class */ (function (_super) {
             this._el.volume = value;
             this.emit(EnumAudioEvent.ON_VOLUME_CHANGE, value);
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(AudioTagController.prototype, "muted", {
@@ -98,7 +98,7 @@ var AudioTagController = /** @class */ (function (_super) {
             this._el.muted = value;
             this.emit(EnumAudioEvent.ON_MUTED_CHANGE, value);
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(AudioTagController.prototype, "duration", {
@@ -106,7 +106,7 @@ var AudioTagController = /** @class */ (function (_super) {
         get: function () {
             return this._el.duration;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(AudioTagController.prototype, "currentTime", {
@@ -119,7 +119,7 @@ var AudioTagController = /** @class */ (function (_super) {
             this._el.currentTime = value;
             this.emit(EnumAudioEvent.ON_CURRENT_TIME_CHANGE, value);
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     /** 播放 */

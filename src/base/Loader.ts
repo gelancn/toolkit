@@ -186,10 +186,3 @@ interface HttpParam {
     responseType?: XMLHttpRequestResponseType;
     contentType?: string;
 }
-
-interface CSSParam {
-    url: string;
-    onEnd?(data?: HTMLLinkElement): void;
-    onError?: (err: string | Event) => void;
-    appendTo?: HTMLElement;
-}

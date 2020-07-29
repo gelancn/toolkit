@@ -1,6 +1,6 @@
 /** 单例 */
 export class Singleton {
-    /** 单例的实例 */
+    /** 实例 */
     public static instance: Singleton = new Singleton();
 
     /**
@@ -8,36 +8,24 @@ export class Singleton {
      * @param key
      * @param value
      */
-    static set<T>(key: TypeCtor<T> | string, value: T): void {
-        if (typeof key === "string") {
-            return Singleton.instance.setInstance(key, value);
-        } else {
-            return Singleton.instance.setSingleton(key, value);
-        }
+    static set<T>(key: TypeCtor<T>, value: T): void {
+        return Singleton.instance.set(key, value);
     }
 
     /**
      * 获取一个实例
      * @param key
      */
-    static get<T>(key: TypeCtor<T> | string): T {
-        if (typeof key === "string") {
-            return Singleton.instance.getInstance(key);
-        } else {
-            return Singleton.instance.getSingleton(key);
-        }
+    static get<T>(key: TypeCtor<T>): T {
+        return Singleton.instance.get(key);
     }
 
     /**
      * 移除一个实例
      * @param key
      */
-    static delete<T>(key: TypeCtor<T> | string): void {
-        if (typeof key === "string") {
-            return Singleton.instance.deleteInstance(key);
-        } else {
-            return Singleton.instance.deleteSingleton(key);
-        }
+    static delete<T>(key: TypeCtor<T>): T | undefined {
+        return Singleton.instance.delete(key);
     }
 
     private _classMap: Map<Function, unknown> = new Map();
@@ -47,7 +35,7 @@ export class Singleton {
      * @param cls
      * @param value
      */
-    setSingleton<T>(cls: TypeCtor<T>, value: T): void {
+    set<T>(cls: TypeCtor<T>, value: T): void {
         this._classMap.set(cls, value);
     }
 
@@ -55,7 +43,7 @@ export class Singleton {
      * 获取一个单例
      * @param cls
      */
-    getSingleton<T>(cls: TypeCtor<T>): T {
+    get<T>(cls: TypeCtor<T>): T {
         const classMap: Map<Function, unknown> = this._classMap;
         let instance = classMap.get(cls) as T;
         if (instance == null) {
@@ -69,35 +57,10 @@ export class Singleton {
      * 移除一个单例
      * @param cls
      */
-    deleteSingleton<T>(cls: TypeCtor<T>): void {
+    delete<T>(cls: TypeCtor<T>): T | undefined {
+        const value = this._classMap.get(cls) as T | undefined;
         this._classMap.delete(cls);
-    }
-
-    private _keyMap: { [key: string]: unknown } = {};
-
-    /**
-     * 添加一个实例
-     * @param key
-     * @param value
-     */
-    setInstance<T>(key: string, value: T): void {
-        this._keyMap[key] = value;
-    }
-
-    /**
-     * 获取一个实例
-     * @param key
-     */
-    getInstance<T>(key: string): T {
-        return this._keyMap[key] as T;
-    }
-
-    /**
-     * 移除一个实例
-     * @param key
-     */
-    deleteInstance<T>(key: string): void {
-        delete this._keyMap[key];
+        return value;
     }
 }
 
