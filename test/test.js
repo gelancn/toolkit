@@ -1,10 +1,17 @@
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -12,10 +19,11 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -204,7 +212,7 @@ define("src/base/Emitter", ["require", "exports"], function (require, exports) {
                         handler.call(target, params[0], params[1], params[2], params[3], params[4]);
                         break;
                     default:
-                        handler.call.apply(handler, [target].concat(params));
+                        handler.call.apply(handler, __spreadArrays([target], params));
                 }
                 if (data.once) {
                     needClean = true;
@@ -1295,14 +1303,9 @@ define("test/base/test_Singleton", ["require", "exports", "src/base/Singleton"],
     Object.defineProperty(exports, "__esModule", { value: true });
     function default_5() {
         return __awaiter(this, void 0, void 0, function () {
-            var A, B, C, singleton;
+            var B, C, singleton;
             return __generator(this, function (_a) {
                 console.log("…………………… test_Singleton ……………………");
-                A = /** @class */ (function () {
-                    function A() {
-                    }
-                    return A;
-                }());
                 B = /** @class */ (function () {
                     function B() {
                     }
@@ -1434,10 +1437,10 @@ define("test/test", ["require", "exports", "test/audio/test_Audio", "test/base/t
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, test_Singleton_1.default()];
+                    case 0: return [4 /*yield*/, test_Instance_1.default()];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, test_Instance_1.default()];
+                        return [4 /*yield*/, test_Singleton_1.default()];
                     case 2:
                         _a.sent();
                         return [4 /*yield*/, test_Emitter_1.default()];
