@@ -1,5 +1,6 @@
 const packageJson = require("../package.json");
 const process = require("process");
+const child_process = require("child_process");
 const readline = require("readline");
 const fs = require("fs");
 
@@ -72,6 +73,7 @@ async function version() {
     if (ver !== packageJson.version) {
         packageJson.version = ver;
         fs.writeFileSync("./package.json", JSON.stringify(packageJson, null, "\t"));
+        child_process.execSync("npm install");
     }
     const vars = ["name", "version", "author", "dependencies", "license"];
     const distJson = {};
@@ -81,7 +83,6 @@ async function version() {
         }
         distJson[value] = packageJson[value];
     });
-    console.log(distJson)
     fs.writeFileSync("./dist/package.json", JSON.stringify(distJson, null, "\t"));
 }
 
