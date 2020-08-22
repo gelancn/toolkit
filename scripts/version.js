@@ -1,5 +1,4 @@
 const packageJson = require("../package.json");
-const distJson = require("../dist/package.json");
 const process = require("process");
 const readline = require("readline");
 const fs = require("fs");
@@ -70,12 +69,19 @@ async function version() {
     });
     console.log("version is:", ver);
 
-    if (ver === packageJson.version) {
-        return;
+    if (ver !== packageJson.version) {
+        packageJson.version = ver;
+        fs.writeFileSync("./package.json", JSON.stringify(packageJson, null, "\t"));
     }
-    packageJson.version = ver;
-    fs.writeFileSync("./package.json", JSON.stringify(packageJson, null, "\t"));
-    distJson.version = ver;
+    const vars = ["name", "version", "author", "dependencies", "license"];
+    const distJson = {};
+    vars.forEach((value, index) => {
+        if (packageJson[value] == null) {
+            return;
+        }
+        distJson[value] = packageJson[value];
+    });
+    console.log(distJson)
     fs.writeFileSync("./dist/package.json", JSON.stringify(distJson, null, "\t"));
 }
 

@@ -6,6 +6,9 @@ async function build() {
     await del("./dist!package.json");
     const cmdList = [
         {
+            command: `npm install`,
+        },
+        {
             command: `eslint src/**`,
         },
         {
