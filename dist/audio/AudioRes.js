@@ -1,4 +1,4 @@
-import { __awaiter, __extends, __generator } from "tslib";
+import * as tslib_1 from "tslib";
 import { Emitter } from "../base/Emitter";
 import { Loader } from "../base/Loader";
 var EnumLoadState;
@@ -10,7 +10,7 @@ var EnumLoadState;
 })(EnumLoadState || (EnumLoadState = {}));
 /** 音频资源数据 */
 var AudioResData = /** @class */ (function (_super) {
-    __extends(AudioResData, _super);
+    tslib_1.__extends(AudioResData, _super);
     function AudioResData(url) {
         var _this = _super.call(this) || this;
         _this.state = EnumLoadState.UNLOAD;
@@ -75,9 +75,9 @@ var AudioRes = /** @class */ (function () {
                         url: url,
                         method: "GET",
                         responseType: "blob",
-                        onEnd: function (response) { return __awaiter(_this, void 0, void 0, function () {
+                        onEnd: function (response) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                             var blob, needBase64, needArrayBuffer;
-                            return __generator(this, function (_a) {
+                            return tslib_1.__generator(this, function (_a) {
                                 switch (_a.label) {
                                     case 0:
                                         blob = response;

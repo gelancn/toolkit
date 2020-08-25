@@ -1,4 +1,3 @@
-import { __spreadArrays } from "tslib";
 /** 派发器 */
 var Emitter = /** @class */ (function () {
     function Emitter() {
@@ -154,7 +153,7 @@ var Emitter = /** @class */ (function () {
                     handler.call(target, params[0], params[1], params[2], params[3], params[4]);
                     break;
                 default:
-                    handler.call.apply(handler, __spreadArrays([target], params));
+                    handler.call.apply(handler, [target].concat(params));
             }
             if (data.once) {
                 needClean = true;

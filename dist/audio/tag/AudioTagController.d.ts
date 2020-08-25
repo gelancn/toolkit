@@ -5,28 +5,24 @@ export declare class AudioTagController extends Emitter implements AudioControll
     constructor(tag: HTMLAudioElement, uid: number);
     private _uid;
     /** 获取唯一id */
-    get uid(): number;
+    readonly uid: number;
     private _el;
     /** 设置源 */
-    set src(value: string);
+    src: string;
     /** 循环播放 */
-    get loop(): boolean;
     /** 循环播放 */
-    set loop(value: boolean);
+    loop: boolean;
     /** 音量 */
-    get volume(): number;
     /** 音量 */
-    set volume(value: number);
+    volume: number;
     /** 是否静音 */
-    get muted(): boolean;
     /** 是否静音 */
-    set muted(value: boolean);
+    muted: boolean;
     /** 音频长度 */
-    get duration(): number;
+    readonly duration: number;
     /** 当前播放进度 */
-    get currentTime(): number;
     /** 当前播放进度 */
-    set currentTime(value: number);
+    currentTime: number;
     /** 播放 */
     play(): Promise<void>;
     /** 停止 */
