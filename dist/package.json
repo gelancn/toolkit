@@ -1,6 +1,6 @@
 {
 	"name": "gl-toolkit",
-	"version": "0.1.19",
+	"version": "0.1.20",
 	"author": "gelancn",
 	"dependencies": {
 		"tslib": "1.13.0"
