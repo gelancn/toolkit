@@ -1,10 +1,10 @@
 /** 加载器 */
-export class Loader {
+export const Loader = {
     /**
      * 发送http请求
      * @param param
      */
-    static sendHttpRequest(param: HttpParam): Promise<unknown> {
+    sendHttpRequest(param: HttpParam): Promise<unknown> {
         return new Promise((resolve: (data: unknown) => void, reject: (err: string | Event) => void) => {
             const url: string = param.url;
             const method: string = param.method || "GET";
@@ -88,13 +88,13 @@ export class Loader {
             };
             xhr.send(sendData as Document);
         });
-    }
+    },
 
     /**
      * 加载图片
      * @param param
      */
-    static loadImage(url: string, crossOrigin?: string): Promise<HTMLImageElement> {
+    loadImage(url: string, crossOrigin?: string): Promise<HTMLImageElement> {
         return new Promise((resolve: (data: HTMLImageElement) => void, reject: (evt: string | Event) => void) => {
             const el = document.createElement("img");
             if (crossOrigin != null) {
@@ -114,13 +114,13 @@ export class Loader {
                 reject(err);
             };
         });
-    }
+    },
 
     /**
      * 加载脚本
      * @param param
      */
-    static loadScript(url: string, appendTo?: HTMLElement): Promise<HTMLScriptElement> {
+    loadScript(url: string, appendTo?: HTMLElement): Promise<HTMLScriptElement> {
         return new Promise((resolve: (data: HTMLScriptElement) => void, reject: (evt: string | Event) => void) => {
             const el = document.createElement("script");
             el.src = url;
@@ -142,13 +142,13 @@ export class Loader {
                 appendTo.appendChild(el);
             }
         });
-    }
+    },
 
     /**
      * 加载样式
      * @param param
      */
-    static loadCSS(url: string, appendTo?: HTMLElement): Promise<HTMLLinkElement> {
+    loadCSS(url: string, appendTo?: HTMLElement): Promise<HTMLLinkElement> {
         return new Promise((resolve: (data: HTMLLinkElement) => void, reject: (evt: string | Event) => void) => {
             const el = document.createElement("link");
             el.href = url;
@@ -171,8 +171,8 @@ export class Loader {
                 appendTo.appendChild(el);
             }
         });
-    }
-}
+    },
+};
 
 interface HttpParam {
     url: string;

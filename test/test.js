@@ -1,10 +1,3 @@
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -19,11 +12,10 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -212,7 +204,7 @@ define("src/base/Emitter", ["require", "exports"], function (require, exports) {
                         handler.call(target, params[0], params[1], params[2], params[3], params[4]);
                         break;
                     default:
-                        handler.call.apply(handler, __spreadArrays([target], params));
+                        handler.call.apply(handler, [target].concat(params));
                 }
                 if (data.once) {
                     needClean = true;
@@ -1430,7 +1422,87 @@ define("test/base/test_Instance", ["require", "exports", "src/base/Instance"], f
     exports.default = default_6;
     ;
 });
-define("test/test", ["require", "exports", "test/audio/test_Audio", "test/base/test_Emitter", "test/base/test_Loader", "test/base/test_PromiseProxy", "test/base/test_Singleton", "test/base/test_Instance"], function (require, exports, test_Audio_1, test_Emitter_1, test_Loader_1, test_PromiseProxy_1, test_Singleton_1, test_Instance_1) {
+define("src/util/ModifyObject", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.ModifyObject = {
+        _key: "__modified_object__",
+        _modify: function (target) {
+            var temp = target;
+            var key = exports.ModifyObject._key;
+            if (!temp[key]) {
+                Object.defineProperty(temp, key, {
+                    value: {},
+                    configurable: true,
+                    enumerable: false,
+                });
+            }
+            return temp[key];
+        },
+        _restore: function (target) {
+            if (typeof target !== "object") {
+                return;
+            }
+            delete target[exports.ModifyObject._key];
+        },
+        /**
+         * 获取一个值
+         * @param target
+         * @param key
+         */
+        getValue: function (target, key) {
+            var modifyMap = target[exports.ModifyObject._key];
+            if (!modifyMap) {
+                modifyMap = exports.ModifyObject._modify(target);
+            }
+            return modifyMap[key];
+        },
+        /**
+         * 设置一个值
+         * @param target
+         * @param key
+         * @param value
+         */
+        setValue: function (target, key, value) {
+            var modifyMap = target[exports.ModifyObject._key];
+            if (!modifyMap) {
+                modifyMap = exports.ModifyObject._modify(target);
+            }
+            modifyMap[key] = value;
+        },
+        /**
+         * 检测是否被改造过
+         * @param target
+         */
+        modified: function (target) {
+            return !!target[exports.ModifyObject._key];
+        },
+    };
+});
+define("test/util/test_ModifyObject", ["require", "exports", "src/util/ModifyObject"], function (require, exports, ModifyObject_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    function default_7() {
+        return __awaiter(this, void 0, void 0, function () {
+            var temp;
+            return __generator(this, function (_a) {
+                console.log("…………………… test_ModifyObject ……………………");
+                temp = {};
+                ModifyObject_1.ModifyObject.setValue(temp, "1", 1);
+                console.log(temp.hasOwnProperty(ModifyObject_1.ModifyObject._key));
+                console.log(ModifyObject_1.ModifyObject.getValue(temp, "1"));
+                ModifyObject_1.ModifyObject.setValue(temp, "1", null);
+                console.log(ModifyObject_1.ModifyObject.getValue(temp, "1"));
+                console.log("…………………… test_ModifyObject ……………………");
+                console.log("\n\n");
+                return [2 /*return*/];
+            });
+        });
+    }
+    exports.default = default_7;
+    ;
+});
+define("test/test", ["require", "exports", "test/audio/test_Audio", "test/base/test_Emitter", "test/base/test_Loader", "test/base/test_PromiseProxy", "test/base/test_Singleton", "test/base/test_Instance", "test/util/test_ModifyObject"], function (require, exports, test_Audio_1, test_Emitter_1, test_Loader_1, test_PromiseProxy_1, test_Singleton_1, test_Instance_1, test_ModifyObject_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function run() {
@@ -1452,8 +1524,11 @@ define("test/test", ["require", "exports", "test/audio/test_Audio", "test/base/t
                         return [4 /*yield*/, test_Loader_1.default()];
                     case 5:
                         _a.sent();
-                        return [4 /*yield*/, test_Audio_1.default()];
+                        return [4 /*yield*/, test_ModifyObject_1.default()];
                     case 6:
+                        _a.sent();
+                        return [4 /*yield*/, test_Audio_1.default()];
+                    case 7:
                         _a.sent();
                         return [2 /*return*/];
                 }

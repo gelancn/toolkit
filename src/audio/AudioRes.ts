@@ -1,5 +1,5 @@
 import { Emitter } from "../base/Emitter";
-import { Loader } from "../base/Loader";
+import { Loader } from "../util/Loader";
 
 enum EnumLoadState {
     UNLOAD = "UNLOAD",

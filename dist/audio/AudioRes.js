@@ -1,6 +1,6 @@
 import * as tslib_1 from "tslib";
 import { Emitter } from "../base/Emitter";
-import { Loader } from "../base/Loader";
+import { Loader } from "../util/Loader";
 var EnumLoadState;
 (function (EnumLoadState) {
     EnumLoadState["UNLOAD"] = "UNLOAD";

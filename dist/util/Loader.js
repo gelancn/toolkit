@@ -1,12 +1,10 @@
 /** 加载器 */
-var Loader = /** @class */ (function () {
-    function Loader() {
-    }
+export var Loader = {
     /**
      * 发送http请求
      * @param param
      */
-    Loader.sendHttpRequest = function (param) {
+    sendHttpRequest: function (param) {
         return new Promise(function (resolve, reject) {
             var url = param.url;
             var method = param.method || "GET";
@@ -91,12 +89,12 @@ var Loader = /** @class */ (function () {
             };
             xhr.send(sendData);
         });
-    };
+    },
     /**
      * 加载图片
      * @param param
      */
-    Loader.loadImage = function (url, crossOrigin) {
+    loadImage: function (url, crossOrigin) {
         return new Promise(function (resolve, reject) {
             var el = document.createElement("img");
             if (crossOrigin != null) {
@@ -116,12 +114,12 @@ var Loader = /** @class */ (function () {
                 reject(err);
             };
         });
-    };
+    },
     /**
      * 加载脚本
      * @param param
      */
-    Loader.loadScript = function (url, appendTo) {
+    loadScript: function (url, appendTo) {
         return new Promise(function (resolve, reject) {
             var el = document.createElement("script");
             el.src = url;
@@ -144,12 +142,12 @@ var Loader = /** @class */ (function () {
                 appendTo.appendChild(el);
             }
         });
-    };
+    },
     /**
      * 加载样式
      * @param param
      */
-    Loader.loadCSS = function (url, appendTo) {
+    loadCSS: function (url, appendTo) {
         return new Promise(function (resolve, reject) {
             var el = document.createElement("link");
             el.href = url;
@@ -173,7 +171,5 @@ var Loader = /** @class */ (function () {
                 appendTo.appendChild(el);
             }
         });
-    };
-    return Loader;
-}());
-export { Loader };
+    },
+};

@@ -1,26 +1,26 @@
 /** 加载器 */
-export declare class Loader {
+export declare const Loader: {
     /**
      * 发送http请求
      * @param param
      */
-    static sendHttpRequest(param: HttpParam): Promise<unknown>;
+    sendHttpRequest(param: HttpParam): Promise<unknown>;
     /**
      * 加载图片
      * @param param
      */
-    static loadImage(url: string, crossOrigin?: string): Promise<HTMLImageElement>;
+    loadImage(url: string, crossOrigin?: string | undefined): Promise<HTMLImageElement>;
     /**
      * 加载脚本
      * @param param
      */
-    static loadScript(url: string, appendTo?: HTMLElement): Promise<HTMLScriptElement>;
+    loadScript(url: string, appendTo?: HTMLElement | undefined): Promise<HTMLScriptElement>;
     /**
      * 加载样式
      * @param param
      */
-    static loadCSS(url: string, appendTo?: HTMLElement): Promise<HTMLLinkElement>;
-}
+    loadCSS(url: string, appendTo?: HTMLElement | undefined): Promise<HTMLLinkElement>;
+};
 interface HttpParam {
     url: string;
     onProgress?: (current: number, total: number) => void;
