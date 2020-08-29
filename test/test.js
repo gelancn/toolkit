@@ -514,18 +514,16 @@ define("src/Audio/Audio", ["require", "exports", "src/Audio/tag/AudioTagImpl"], 
     }());
     exports.Audio = Audio;
 });
-define("src/base/Loader", ["require", "exports"], function (require, exports) {
+define("src/util/Loader", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /** 加载器 */
-    var Loader = /** @class */ (function () {
-        function Loader() {
-        }
+    exports.Loader = {
         /**
          * 发送http请求
          * @param param
          */
-        Loader.sendHttpRequest = function (param) {
+        sendHttpRequest: function (param) {
             return new Promise(function (resolve, reject) {
                 var url = param.url;
                 var method = param.method || "GET";
@@ -610,12 +608,12 @@ define("src/base/Loader", ["require", "exports"], function (require, exports) {
                 };
                 xhr.send(sendData);
             });
-        };
+        },
         /**
          * 加载图片
          * @param param
          */
-        Loader.loadImage = function (url, crossOrigin) {
+        loadImage: function (url, crossOrigin) {
             return new Promise(function (resolve, reject) {
                 var el = document.createElement("img");
                 if (crossOrigin != null) {
@@ -635,12 +633,12 @@ define("src/base/Loader", ["require", "exports"], function (require, exports) {
                     reject(err);
                 };
             });
-        };
+        },
         /**
          * 加载脚本
          * @param param
          */
-        Loader.loadScript = function (url, appendTo) {
+        loadScript: function (url, appendTo) {
             return new Promise(function (resolve, reject) {
                 var el = document.createElement("script");
                 el.src = url;
@@ -663,12 +661,12 @@ define("src/base/Loader", ["require", "exports"], function (require, exports) {
                     appendTo.appendChild(el);
                 }
             });
-        };
+        },
         /**
          * 加载样式
          * @param param
          */
-        Loader.loadCSS = function (url, appendTo) {
+        loadCSS: function (url, appendTo) {
             return new Promise(function (resolve, reject) {
                 var el = document.createElement("link");
                 el.href = url;
@@ -692,12 +690,10 @@ define("src/base/Loader", ["require", "exports"], function (require, exports) {
                     appendTo.appendChild(el);
                 }
             });
-        };
-        return Loader;
-    }());
-    exports.Loader = Loader;
+        },
+    };
 });
-define("src/Audio/AudioRes", ["require", "exports", "src/base/Emitter", "src/base/Loader"], function (require, exports, Emitter_2, Loader_1) {
+define("src/Audio/AudioRes", ["require", "exports", "src/base/Emitter", "src/util/Loader"], function (require, exports, Emitter_2, Loader_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var EnumLoadState;
@@ -1083,7 +1079,7 @@ define("test/base/test_Emitter", ["require", "exports", "src/base/Emitter"], fun
     exports.default = default_2;
     ;
 });
-define("test/base/test_Loader", ["require", "exports", "src/base/Loader"], function (require, exports, Loader_2) {
+define("test/util/test_Loader", ["require", "exports", "src/util/Loader"], function (require, exports, Loader_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function default_3() {
@@ -1224,35 +1220,126 @@ define("test/base/test_PromiseProxy", ["require", "exports", "src/base/PromisePr
     exports.default = default_4;
     ;
 });
-define("src/base/Singleton", ["require", "exports"], function (require, exports) {
+define("src/util/ModifyObject", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var _modifyKey = "_modified_object_";
+    /**
+     * 修改
+     * @param target
+     */
+    function _modify(target) {
+        if (target[_modifyKey] == null) {
+            Object.defineProperty(target, _modifyKey, {
+                value: {},
+                configurable: true,
+                enumerable: false,
+            });
+        }
+        return target[_modifyKey];
+    }
+    /**
+     * 改变key
+     * @param value
+     */
+    function setModifyKey(value) {
+        if (!value || typeof value !== "string") {
+            return;
+        }
+        _modifyKey = value;
+    }
+    exports.setModifyKey = setModifyKey;
+    exports.ModifyObject = {
+        /**
+         * 获取一个值
+         * @param object
+         * @param key
+         */
+        get: function (object, key) {
+            var target = object;
+            var modifyMap = target[_modifyKey];
+            if (modifyMap == null) {
+                modifyMap = _modify(target);
+            }
+            return modifyMap[key];
+        },
+        /**
+         * 设置一个值
+         * @param object
+         * @param key
+         * @param value
+         */
+        set: function (object, key, value) {
+            var target = object;
+            var modifyMap = target[_modifyKey];
+            if (modifyMap == null) {
+                modifyMap = _modify(target);
+            }
+            modifyMap[key] = value;
+        },
+        /**
+         * 删除一个值
+         * @param object
+         * @param key
+         */
+        delete: function (object, key) {
+            var target = object;
+            var modifyMap = target[_modifyKey];
+            if (modifyMap == null) {
+                return;
+            }
+            delete modifyMap[key];
+            if (Object.getOwnPropertyNames(modifyMap).length > 0) {
+                return;
+            }
+            delete target[_modifyKey];
+        },
+        /**
+         * 删除所有
+         * @param object
+         */
+        deleteAll: function (object) {
+            var target = object;
+            delete target[_modifyKey];
+        },
+    };
+});
+define("src/base/Singleton", ["require", "exports", "src/util/ModifyObject"], function (require, exports, ModifyObject_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     /** 单例 */
     var Singleton = /** @class */ (function () {
         function Singleton() {
-            this._classMap = new Map();
+            this._singletonKey = "_singleton_";
         }
         /**
-         * 添加一个实例
-         * @param key
+         * 替换实例，尽量不要使用
          * @param value
          */
-        Singleton.set = function (key, value) {
-            return Singleton.instance.set(key, value);
+        Singleton.setInstance = function (value) {
+            Singleton._instance = value;
+        };
+        /**
+         * 添加一个实例
+         * @param cls
+         * @param value
+         */
+        Singleton.set = function (cls, value) {
+            return Singleton._instance.set(cls, value);
         };
         /**
          * 获取一个实例
-         * @param key
+         * @param cls
          */
-        Singleton.get = function (key) {
-            return Singleton.instance.get(key);
+        Singleton.get = function (cls) {
+            return Singleton._instance.get(cls);
         };
         /**
          * 移除一个实例
-         * @param key
+         * @param cls
          */
-        Singleton.delete = function (key) {
-            return Singleton.instance.delete(key);
+        Singleton.delete = function (cls) {
+            return Singleton._instance.delete(cls);
         };
         /**
          * 添加一个单例
@@ -1260,18 +1347,17 @@ define("src/base/Singleton", ["require", "exports"], function (require, exports)
          * @param value
          */
         Singleton.prototype.set = function (cls, value) {
-            this._classMap.set(cls, value);
+            ModifyObject_1.ModifyObject.set(cls, this._singletonKey, value);
         };
         /**
          * 获取一个单例
          * @param cls
          */
         Singleton.prototype.get = function (cls) {
-            var classMap = this._classMap;
-            var instance = classMap.get(cls);
+            var instance = ModifyObject_1.ModifyObject.get(cls, this._singletonKey);
             if (instance == null) {
                 instance = new cls();
-                classMap.set(cls, instance);
+                ModifyObject_1.ModifyObject.set(cls, this._singletonKey, instance);
             }
             return instance;
         };
@@ -1280,12 +1366,12 @@ define("src/base/Singleton", ["require", "exports"], function (require, exports)
          * @param cls
          */
         Singleton.prototype.delete = function (cls) {
-            var value = this._classMap.get(cls);
-            this._classMap.delete(cls);
+            var value = ModifyObject_1.ModifyObject.get(cls, this._singletonKey);
+            ModifyObject_1.ModifyObject.delete(cls, this._singletonKey);
             return value;
         };
         /** 实例 */
-        Singleton.instance = new Singleton();
+        Singleton._instance = new Singleton();
         return Singleton;
     }());
     exports.Singleton = Singleton;
@@ -1295,7 +1381,7 @@ define("test/base/test_Singleton", ["require", "exports", "src/base/Singleton"],
     Object.defineProperty(exports, "__esModule", { value: true });
     function default_5() {
         return __awaiter(this, void 0, void 0, function () {
-            var B, C, singleton;
+            var B, C;
             return __generator(this, function (_a) {
                 console.log("…………………… test_Singleton ……………………");
                 B = /** @class */ (function () {
@@ -1308,16 +1394,10 @@ define("test/base/test_Singleton", ["require", "exports", "src/base/Singleton"],
                     }
                     return C;
                 }());
-                singleton = new Singleton_1.Singleton();
-                console.log('new Singleton()');
-                singleton.set(B, new B());
-                console.log(singleton.get(B));
-                console.log(singleton.get(C));
-                console.log('\n');
-                console.log('static Singleton');
                 Singleton_1.Singleton.set(B, new B());
                 console.log(Singleton_1.Singleton.get(B));
                 console.log(Singleton_1.Singleton.get(C));
+                console.log(Object.getOwnPropertyDescriptors(B), Object.getOwnPropertyDescriptors(C));
                 console.log("…………………… test_Singleton ……………………");
                 console.log("\n\n");
                 return [2 /*return*/];
@@ -1336,26 +1416,33 @@ define("src/base/Instance", ["require", "exports"], function (require, exports) 
             this._keyMap = {};
         }
         /**
+         * 替换实例，尽量不要使用
+         * @param value
+         */
+        Instance.setInstance = function (value) {
+            Instance._instance = value;
+        };
+        /**
          * 添加一个实例
          * @param key
          * @param value
          */
         Instance.set = function (key, value) {
-            return Instance.instance.set(key, value);
+            return Instance._instance.set(key, value);
         };
         /**
          * 获取一个实例
          * @param key
          */
         Instance.get = function (key) {
-            return Instance.instance.get(key);
+            return Instance._instance.get(key);
         };
         /**
          * 移除一个实例
          * @param key
          */
         Instance.delete = function (key) {
-            return Instance.instance.delete(key);
+            return Instance._instance.delete(key);
         };
         /**
          * 添加一个实例
@@ -1382,7 +1469,7 @@ define("src/base/Instance", ["require", "exports"], function (require, exports) 
             return value;
         };
         /** 实例 */
-        Instance.instance = new Instance();
+        Instance._instance = new Instance();
         return Instance;
     }());
     exports.Instance = Instance;
@@ -1392,7 +1479,7 @@ define("test/base/test_Instance", ["require", "exports", "src/base/Instance"], f
     Object.defineProperty(exports, "__esModule", { value: true });
     function default_6() {
         return __awaiter(this, void 0, void 0, function () {
-            var A, key, instance;
+            var A, key;
             return __generator(this, function (_a) {
                 console.log("…………………… test_Instance ……………………");
                 A = /** @class */ (function () {
@@ -1401,14 +1488,6 @@ define("test/base/test_Instance", ["require", "exports", "src/base/Instance"], f
                     return A;
                 }());
                 key = "A";
-                console.log('new Instance()');
-                instance = new Instance_1.Instance();
-                instance.set(key, new A());
-                console.log(instance.get(key));
-                instance.delete(key);
-                console.log(instance.get(key));
-                console.log('\n');
-                console.log('static Instance');
                 Instance_1.Instance.set(key, new A());
                 console.log(Instance_1.Instance.get(key));
                 Instance_1.Instance.delete(key);
@@ -1422,64 +1501,7 @@ define("test/base/test_Instance", ["require", "exports", "src/base/Instance"], f
     exports.default = default_6;
     ;
 });
-define("src/util/ModifyObject", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.ModifyObject = {
-        _key: "__modified_object__",
-        _modify: function (target) {
-            var temp = target;
-            var key = exports.ModifyObject._key;
-            if (!temp[key]) {
-                Object.defineProperty(temp, key, {
-                    value: {},
-                    configurable: true,
-                    enumerable: false,
-                });
-            }
-            return temp[key];
-        },
-        _restore: function (target) {
-            if (typeof target !== "object") {
-                return;
-            }
-            delete target[exports.ModifyObject._key];
-        },
-        /**
-         * 获取一个值
-         * @param target
-         * @param key
-         */
-        getValue: function (target, key) {
-            var modifyMap = target[exports.ModifyObject._key];
-            if (!modifyMap) {
-                modifyMap = exports.ModifyObject._modify(target);
-            }
-            return modifyMap[key];
-        },
-        /**
-         * 设置一个值
-         * @param target
-         * @param key
-         * @param value
-         */
-        setValue: function (target, key, value) {
-            var modifyMap = target[exports.ModifyObject._key];
-            if (!modifyMap) {
-                modifyMap = exports.ModifyObject._modify(target);
-            }
-            modifyMap[key] = value;
-        },
-        /**
-         * 检测是否被改造过
-         * @param target
-         */
-        modified: function (target) {
-            return !!target[exports.ModifyObject._key];
-        },
-    };
-});
-define("test/util/test_ModifyObject", ["require", "exports", "src/util/ModifyObject"], function (require, exports, ModifyObject_1) {
+define("test/util/test_ModifyObject", ["require", "exports", "src/util/ModifyObject"], function (require, exports, ModifyObject_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function default_7() {
@@ -1488,11 +1510,11 @@ define("test/util/test_ModifyObject", ["require", "exports", "src/util/ModifyObj
             return __generator(this, function (_a) {
                 console.log("…………………… test_ModifyObject ……………………");
                 temp = {};
-                ModifyObject_1.ModifyObject.setValue(temp, "1", 1);
-                console.log(temp.hasOwnProperty(ModifyObject_1.ModifyObject._key));
-                console.log(ModifyObject_1.ModifyObject.getValue(temp, "1"));
-                ModifyObject_1.ModifyObject.setValue(temp, "1", null);
-                console.log(ModifyObject_1.ModifyObject.getValue(temp, "1"));
+                ModifyObject_2.ModifyObject.set(temp, "1", 1);
+                console.log(Object.getOwnPropertyNames(temp));
+                console.log(ModifyObject_2.ModifyObject.get(temp, "1"));
+                ModifyObject_2.ModifyObject.set(temp, "1", null);
+                console.log(ModifyObject_2.ModifyObject.get(temp, "1"));
                 console.log("…………………… test_ModifyObject ……………………");
                 console.log("\n\n");
                 return [2 /*return*/];
@@ -1502,7 +1524,7 @@ define("test/util/test_ModifyObject", ["require", "exports", "src/util/ModifyObj
     exports.default = default_7;
     ;
 });
-define("test/test", ["require", "exports", "test/audio/test_Audio", "test/base/test_Emitter", "test/base/test_Loader", "test/base/test_PromiseProxy", "test/base/test_Singleton", "test/base/test_Instance", "test/util/test_ModifyObject"], function (require, exports, test_Audio_1, test_Emitter_1, test_Loader_1, test_PromiseProxy_1, test_Singleton_1, test_Instance_1, test_ModifyObject_1) {
+define("test/test", ["require", "exports", "test/audio/test_Audio", "test/base/test_Emitter", "test/util/test_Loader", "test/base/test_PromiseProxy", "test/base/test_Singleton", "test/base/test_Instance", "test/util/test_ModifyObject"], function (require, exports, test_Audio_1, test_Emitter_1, test_Loader_1, test_PromiseProxy_1, test_Singleton_1, test_Instance_1, test_ModifyObject_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function run() {

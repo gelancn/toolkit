@@ -1,61 +1,79 @@
+var _modifyKey = "_modified_object_";
+/**
+ * 修改
+ * @param target
+ */
+function _modify(target) {
+    if (target[_modifyKey] == null) {
+        Object.defineProperty(target, _modifyKey, {
+            value: {},
+            configurable: true,
+            enumerable: false,
+        });
+    }
+    return target[_modifyKey];
+}
+/**
+ * 改变key
+ * @param value
+ */
+export function setModifyKey(value) {
+    if (!value || typeof value !== "string") {
+        return;
+    }
+    _modifyKey = value;
+}
 export var ModifyObject = {
-    key: "__modified_object__",
-    /**
-     * 修改
-     * @param target
-     */
-    modify: function (target) {
-        var temp = target;
-        var key = ModifyObject.key;
-        if (!temp[key]) {
-            Object.defineProperty(temp, key, {
-                value: {},
-                configurable: true,
-                enumerable: false,
-            });
-        }
-        return temp[key];
-    },
-    /**
-     * 还原
-     * @param target
-     */
-    restore: function (target) {
-        if (typeof target !== "object") {
-            return;
-        }
-        delete target[ModifyObject.key];
-    },
     /**
      * 获取一个值
-     * @param target
+     * @param object
      * @param key
      */
-    getValue: function (target, key) {
-        var modifyMap = target[ModifyObject.key];
-        if (!modifyMap) {
-            modifyMap = ModifyObject.modify(target);
+    get: function (object, key) {
+        var target = object;
+        var modifyMap = target[_modifyKey];
+        if (modifyMap == null) {
+            modifyMap = _modify(target);
         }
         return modifyMap[key];
     },
     /**
      * 设置一个值
-     * @param target
+     * @param object
      * @param key
      * @param value
      */
-    setValue: function (target, key, value) {
-        var modifyMap = target[ModifyObject.key];
-        if (!modifyMap) {
-            modifyMap = ModifyObject.modify(target);
+    set: function (object, key, value) {
+        var target = object;
+        var modifyMap = target[_modifyKey];
+        if (modifyMap == null) {
+            modifyMap = _modify(target);
         }
         modifyMap[key] = value;
     },
     /**
-     * 检测是否被改造过
-     * @param target
+     * 删除一个值
+     * @param object
+     * @param key
      */
-    modified: function (target) {
-        return !!target[ModifyObject.key];
+    delete: function (object, key) {
+        var target = object;
+        var modifyMap = target[_modifyKey];
+        if (modifyMap == null) {
+            return;
+        }
+        delete modifyMap[key];
+        if (Object.getOwnPropertyNames(modifyMap).length > 0) {
+            return;
+        }
+        delete target[_modifyKey];
+    },
+    /**
+     * 删除所有
+     * @param object
+     */
+    deleteAll: function (object) {
+        var target = object;
+        delete target[_modifyKey];
     },
 };

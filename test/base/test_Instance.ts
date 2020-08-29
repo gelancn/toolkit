@@ -5,17 +5,6 @@ export default async function () {
     class A { }
     const key = "A";
 
-    console.log('new Instance()');
-    const instance = new Instance();
-
-    instance.set(key, new A());
-    console.log(instance.get(key));
-    instance.delete(key);
-    console.log(instance.get(key));
-
-    console.log('\n');
-
-    console.log('static Instance');
     Instance.set(key, new A());
     console.log(Instance.get(key));
     Instance.delete(key);

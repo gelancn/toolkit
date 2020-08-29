@@ -1,4 +1,4 @@
-import { Loader } from "../../src/base/Loader";
+import { Loader } from "../../src/util/Loader";
 
 export default async function () {
     console.log("…………………… test_Loader ……………………");

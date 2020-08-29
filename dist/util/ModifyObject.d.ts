@@ -1,35 +1,31 @@
-interface TypeMap {
-    [key: string]: unknown;
-}
+/**
+ * 改变key
+ * @param value
+ */
+export declare function setModifyKey(value: string): void;
 export declare const ModifyObject: {
-    key: string;
-    /**
-     * 修改
-     * @param target
-     */
-    modify(target: unknown): TypeMap;
-    /**
-     * 还原
-     * @param target
-     */
-    restore(target: unknown): void;
     /**
      * 获取一个值
-     * @param target
+     * @param object
      * @param key
      */
-    getValue(target: unknown, key: string): unknown;
+    get(object: Object, key: string): unknown;
     /**
      * 设置一个值
-     * @param target
+     * @param object
      * @param key
      * @param value
      */
-    setValue(target: unknown, key: string, value: unknown): void;
+    set(object: Object, key: string, value: unknown): void;
     /**
-     * 检测是否被改造过
-     * @param target
+     * 删除一个值
+     * @param object
+     * @param key
      */
-    modified(target: unknown): boolean;
+    delete(object: Object, key: string): void;
+    /**
+     * 删除所有
+     * @param object
+     */
+    deleteAll(object: Object): void;
 };
-export {};

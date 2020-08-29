@@ -1,65 +1,81 @@
-interface TypeMap {
-    [key: string]: unknown;
+let _modifyKey = "_modified_object_";
+/**
+ * 修改
+ * @param target
+ */
+function _modify(target: Record<string, unknown>): Record<string, unknown> {
+    if (target[_modifyKey] == null) {
+        Object.defineProperty(target, _modifyKey, {
+            value: {},
+            configurable: true,
+            enumerable: false,
+        });
+    }
+    return target[_modifyKey] as Record<string, unknown>;
+}
+
+/**
+ * 改变key
+ * @param value
+ */
+export function setModifyKey(value: string): void {
+    if (!value || typeof value !== "string") {
+        return;
+    }
+    _modifyKey = value;
 }
 
 export const ModifyObject = {
-    _key: "__modified_object__",
-    /**
-     * 修改
-     * @param target
-     */
-    _modify(target: unknown): TypeMap {
-        const temp = target as TypeMap;
-        const key = ModifyObject._key;
-        if (!temp[key]) {
-            Object.defineProperty(temp, key, {
-                value: {},
-                configurable: true,
-                enumerable: false,
-            });
-        }
-        return temp[key] as TypeMap;
-    },
-    /**
-     * 还原
-     * @param target
-     */
-    _restore(target: unknown): void {
-        if (typeof target !== "object") {
-            return;
-        }
-        delete (target as TypeMap)[ModifyObject._key];
-    },
     /**
      * 获取一个值
-     * @param target
+     * @param object
      * @param key
      */
-    get(target: unknown, key: string): unknown {
-        let modifyMap = (target as TypeMap)[ModifyObject._key] as TypeMap;
-        if (!modifyMap) {
-            modifyMap = ModifyObject._modify(target) as TypeMap;
+    get(object: InstanceType<typeof Object>, key: string): unknown {
+        const target = object as Record<string, unknown>;
+        let modifyMap = target[_modifyKey] as Record<string, unknown>;
+        if (modifyMap == null) {
+            modifyMap = _modify(target);
         }
         return modifyMap[key];
     },
     /**
      * 设置一个值
-     * @param target
+     * @param object
      * @param key
      * @param value
      */
-    set(target: unknown, key: string, value: unknown): void {
-        let modifyMap = (target as TypeMap)[ModifyObject._key] as TypeMap;
-        if (!modifyMap) {
-            modifyMap = ModifyObject._modify(target) as TypeMap;
+    set(object: InstanceType<typeof Object>, key: string, value: unknown): void {
+        const target = object as Record<string, unknown>;
+        let modifyMap = target[_modifyKey] as Record<string, unknown>;
+        if (modifyMap == null) {
+            modifyMap = _modify(target);
         }
         modifyMap[key] = value;
     },
     /**
-     * 检测是否被改造过
-     * @param target
+     * 删除一个值
+     * @param object
+     * @param key
      */
-    modified(target: unknown): boolean {
-        return !!(target as TypeMap)[ModifyObject._key];
+    delete(object: InstanceType<typeof Object>, key: string): void {
+        const target = object as Record<string, unknown>;
+        const modifyMap = target[_modifyKey] as Record<string, unknown>;
+        if (modifyMap == null) {
+            return;
+        }
+        delete modifyMap[key];
+        if (Object.getOwnPropertyNames(modifyMap).length > 0) {
+            return;
+        }
+        delete target[_modifyKey];
+    },
+    /**
+     * 删除所有
+     * @param object
+     */
+    deleteAll(object: InstanceType<typeof Object>): void {
+        const target = object as Record<string, unknown>;
+        delete target[_modifyKey];
     },
 };
