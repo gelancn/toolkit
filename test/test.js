@@ -1079,145 +1079,98 @@ define("test/base/test_Emitter", ["require", "exports", "src/base/Emitter"], fun
     exports.default = default_2;
     ;
 });
-define("test/util/test_Loader", ["require", "exports", "src/util/Loader"], function (require, exports, Loader_2) {
+define("src/base/Instance", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    /** 实例 */
+    var Instance = /** @class */ (function () {
+        function Instance() {
+            this._keyMap = {};
+        }
+        /**
+         * 替换实例，尽量不要使用
+         * @param value
+         */
+        Instance.setInstance = function (value) {
+            Instance._instance = value;
+        };
+        /**
+         * 添加一个实例
+         * @param key
+         * @param value
+         */
+        Instance.set = function (key, value) {
+            return Instance._instance.set(key, value);
+        };
+        /**
+         * 获取一个实例
+         * @param key
+         */
+        Instance.get = function (key) {
+            return Instance._instance.get(key);
+        };
+        /**
+         * 移除一个实例
+         * @param key
+         */
+        Instance.delete = function (key) {
+            return Instance._instance.delete(key);
+        };
+        /**
+         * 添加一个实例
+         * @param key
+         * @param value
+         */
+        Instance.prototype.set = function (key, value) {
+            this._keyMap[key] = value;
+        };
+        /**
+         * 获取一个实例
+         * @param key
+         */
+        Instance.prototype.get = function (key) {
+            return this._keyMap[key];
+        };
+        /**
+         * 移除一个实例
+         * @param key
+         */
+        Instance.prototype.delete = function (key) {
+            var value = this._keyMap[key];
+            delete this._keyMap[key];
+            return value;
+        };
+        /** 实例 */
+        Instance._instance = new Instance();
+        return Instance;
+    }());
+    exports.Instance = Instance;
+});
+define("test/base/test_Instance", ["require", "exports", "src/base/Instance"], function (require, exports, Instance_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function default_3() {
         return __awaiter(this, void 0, void 0, function () {
-            var imgUrl, img, err_1, response;
+            var A, key;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        console.log("…………………… test_Loader ……………………");
-                        imgUrl = "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png";
-                        console.log("loadImage");
-                        return [4 /*yield*/, Loader_2.Loader.loadImage(imgUrl)];
-                    case 1:
-                        img = _a.sent();
-                        document.body.appendChild(img);
-                        _a.label = 2;
-                    case 2:
-                        _a.trys.push([2, 4, , 5]);
-                        return [4 /*yield*/, Loader_2.Loader.loadImage("???")];
-                    case 3:
-                        _a.sent();
-                        return [3 /*break*/, 5];
-                    case 4:
-                        err_1 = _a.sent();
-                        return [3 /*break*/, 5];
-                    case 5:
-                        console.log("\n");
-                        console.log("loadScript");
-                        return [4 /*yield*/, Loader_2.Loader.loadScript("test.js")];
-                    case 6:
-                        _a.sent();
-                        console.log("\n");
-                        console.log("loadCSS");
-                        return [4 /*yield*/, Loader_2.Loader.loadCSS("https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/css/components/user_quit_dialog-527f3ede74.css")];
-                    case 7:
-                        _a.sent();
-                        console.log("\n");
-                        console.log("sendHttpRequest");
-                        return [4 /*yield*/, Loader_2.Loader.sendHttpRequest({
-                                method: "GET",
-                                url: "http://localhost:3000/index.html",
-                                onProgress: function (c, t) { console.log(c, t); },
-                            })];
-                    case 8:
-                        response = _a.sent();
-                        console.log(response);
-                        document.body.removeChild(img);
-                        console.log("…………………… test_Loader ……………………");
-                        console.log("\n\n");
-                        return [2 /*return*/];
-                }
+                console.log("…………………… test_Instance ……………………");
+                A = /** @class */ (function () {
+                    function A() {
+                    }
+                    return A;
+                }());
+                key = "A";
+                Instance_1.Instance.set(key, new A());
+                console.log(Instance_1.Instance.get(key));
+                Instance_1.Instance.delete(key);
+                console.log(Instance_1.Instance.get(key));
+                console.log("…………………… test_Instance ……………………");
+                console.log("\n\n");
+                return [2 /*return*/];
             });
         });
     }
     exports.default = default_3;
-    ;
-});
-define("src/base/PromiseProxy", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    /** Promise代理 */
-    var PromiseProxy = /** @class */ (function () {
-        function PromiseProxy(executor) {
-            var _this = this;
-            this._resolve = null;
-            /**
-             * resolve方法
-             * @param value
-             */
-            this.resolve = function (value) {
-                var res = _this._resolve;
-                _this._resolve = null;
-                if (res != null) {
-                    res(value);
-                }
-            };
-            this._reject = null;
-            /**
-             * reject方法
-             * @param reason
-             */
-            this.reject = function (reason) {
-                var rej = _this._reject;
-                _this._reject = null;
-                if (rej != null) {
-                    rej(reason);
-                }
-            };
-            this._promise = new Promise(function (resolve, reject) {
-                _this._resolve = resolve;
-                _this._reject = reject;
-                executor(_this.resolve, _this.reject);
-            });
-        }
-        Object.defineProperty(PromiseProxy.prototype, "promise", {
-            /** 获取Promise对象 */
-            get: function () {
-                return this._promise;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return PromiseProxy;
-    }());
-    exports.PromiseProxy = PromiseProxy;
-});
-define("test/base/test_PromiseProxy", ["require", "exports", "src/base/PromiseProxy"], function (require, exports, PromiseProxy_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    function default_4() {
-        return __awaiter(this, void 0, void 0, function () {
-            var proxy, result;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        console.log("…………………… test_PromiseProxy ……………………");
-                        proxy = new PromiseProxy_1.PromiseProxy(function (resolve, reject) { });
-                        proxy.resolve("resolve data");
-                        return [4 /*yield*/, proxy.promise];
-                    case 1:
-                        result = _a.sent();
-                        console.log(result);
-                        console.log("\n");
-                        proxy = new PromiseProxy_1.PromiseProxy(function (resolve, reject) { });
-                        proxy.reject("reject data");
-                        return [4 /*yield*/, proxy.promise.catch(function (data) {
-                                console.log(data);
-                            })];
-                    case 2:
-                        _a.sent();
-                        console.log("…………………… test_PromiseProxy ……………………");
-                        console.log("\n\n");
-                        return [2 /*return*/];
-                }
-            });
-        });
-    }
-    exports.default = default_4;
     ;
 });
 define("src/util/ModifyObject", ["require", "exports"], function (require, exports) {
@@ -1379,7 +1332,7 @@ define("src/base/Singleton", ["require", "exports", "src/util/ModifyObject"], fu
 define("test/base/test_Singleton", ["require", "exports", "src/base/Singleton"], function (require, exports, Singleton_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    function default_5() {
+    function default_4() {
         return __awaiter(this, void 0, void 0, function () {
             var B, C;
             return __generator(this, function (_a) {
@@ -1404,107 +1357,71 @@ define("test/base/test_Singleton", ["require", "exports", "src/base/Singleton"],
             });
         });
     }
-    exports.default = default_5;
+    exports.default = default_4;
     ;
 });
-define("src/base/Instance", ["require", "exports"], function (require, exports) {
+define("test/util/test_Loader", ["require", "exports", "src/util/Loader"], function (require, exports, Loader_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    /** 实例 */
-    var Instance = /** @class */ (function () {
-        function Instance() {
-            this._keyMap = {};
-        }
-        /**
-         * 替换实例，尽量不要使用
-         * @param value
-         */
-        Instance.setInstance = function (value) {
-            Instance._instance = value;
-        };
-        /**
-         * 添加一个实例
-         * @param key
-         * @param value
-         */
-        Instance.set = function (key, value) {
-            return Instance._instance.set(key, value);
-        };
-        /**
-         * 获取一个实例
-         * @param key
-         */
-        Instance.get = function (key) {
-            return Instance._instance.get(key);
-        };
-        /**
-         * 移除一个实例
-         * @param key
-         */
-        Instance.delete = function (key) {
-            return Instance._instance.delete(key);
-        };
-        /**
-         * 添加一个实例
-         * @param key
-         * @param value
-         */
-        Instance.prototype.set = function (key, value) {
-            this._keyMap[key] = value;
-        };
-        /**
-         * 获取一个实例
-         * @param key
-         */
-        Instance.prototype.get = function (key) {
-            return this._keyMap[key];
-        };
-        /**
-         * 移除一个实例
-         * @param key
-         */
-        Instance.prototype.delete = function (key) {
-            var value = this._keyMap[key];
-            delete this._keyMap[key];
-            return value;
-        };
-        /** 实例 */
-        Instance._instance = new Instance();
-        return Instance;
-    }());
-    exports.Instance = Instance;
-});
-define("test/base/test_Instance", ["require", "exports", "src/base/Instance"], function (require, exports, Instance_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    function default_6() {
+    function default_5() {
         return __awaiter(this, void 0, void 0, function () {
-            var A, key;
+            var imgUrl, img, err_1, response;
             return __generator(this, function (_a) {
-                console.log("…………………… test_Instance ……………………");
-                A = /** @class */ (function () {
-                    function A() {
-                    }
-                    return A;
-                }());
-                key = "A";
-                Instance_1.Instance.set(key, new A());
-                console.log(Instance_1.Instance.get(key));
-                Instance_1.Instance.delete(key);
-                console.log(Instance_1.Instance.get(key));
-                console.log("…………………… test_Instance ……………………");
-                console.log("\n\n");
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        console.log("…………………… test_Loader ……………………");
+                        imgUrl = "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png";
+                        console.log("loadImage");
+                        return [4 /*yield*/, Loader_2.Loader.loadImage(imgUrl)];
+                    case 1:
+                        img = _a.sent();
+                        document.body.appendChild(img);
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, , 5]);
+                        return [4 /*yield*/, Loader_2.Loader.loadImage("???")];
+                    case 3:
+                        _a.sent();
+                        return [3 /*break*/, 5];
+                    case 4:
+                        err_1 = _a.sent();
+                        return [3 /*break*/, 5];
+                    case 5:
+                        console.log("\n");
+                        console.log("loadScript");
+                        return [4 /*yield*/, Loader_2.Loader.loadScript("test.js")];
+                    case 6:
+                        _a.sent();
+                        console.log("\n");
+                        console.log("loadCSS");
+                        return [4 /*yield*/, Loader_2.Loader.loadCSS("https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/css/components/user_quit_dialog-527f3ede74.css")];
+                    case 7:
+                        _a.sent();
+                        console.log("\n");
+                        console.log("sendHttpRequest");
+                        return [4 /*yield*/, Loader_2.Loader.sendHttpRequest({
+                                method: "GET",
+                                url: "http://localhost:3000/index.html",
+                                onProgress: function (c, t) { console.log(c, t); },
+                            })];
+                    case 8:
+                        response = _a.sent();
+                        console.log(response);
+                        document.body.removeChild(img);
+                        console.log("…………………… test_Loader ……………………");
+                        console.log("\n\n");
+                        return [2 /*return*/];
+                }
             });
         });
     }
-    exports.default = default_6;
+    exports.default = default_5;
     ;
 });
 define("test/util/test_ModifyObject", ["require", "exports", "src/util/ModifyObject"], function (require, exports, ModifyObject_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    function default_7() {
+    function default_6() {
         return __awaiter(this, void 0, void 0, function () {
             var temp;
             return __generator(this, function (_a) {
@@ -1521,10 +1438,64 @@ define("test/util/test_ModifyObject", ["require", "exports", "src/util/ModifyObj
             });
         });
     }
+    exports.default = default_6;
+    ;
+});
+define("src/util/BrokenPromise", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.BrokenPromise = {
+        /**
+         * 获取[Promise, resolve, reject]
+         */
+        get: function () {
+            var result = [];
+            var promise = new Promise(function (resolve, reject) {
+                result[1] = resolve;
+                result[2] = reject;
+            });
+            result[0] = promise;
+            return result;
+        },
+    };
+});
+define("test/util/test_BrokenPromise", ["require", "exports", "src/util/BrokenPromise"], function (require, exports, BrokenPromise_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    function default_7() {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, p1, res1, rej1, _b, p2, res2, rej2;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        console.log("…………………… test_BrokenPromise ……………………");
+                        _a = BrokenPromise_1.BrokenPromise.get(), p1 = _a[0], res1 = _a[1], rej1 = _a[2];
+                        _b = BrokenPromise_1.BrokenPromise.get(), p2 = _b[0], res2 = _b[1], rej2 = _b[2];
+                        res2();
+                        console.log("p2 resolve");
+                        setTimeout(function () {
+                            res1();
+                            console.log("p1 resolve");
+                        }, 1000);
+                        return [4 /*yield*/, p1];
+                    case 1:
+                        _c.sent();
+                        console.log('p1 完成');
+                        return [4 /*yield*/, p2];
+                    case 2:
+                        _c.sent();
+                        console.log('p2 完成');
+                        console.log("…………………… test_BrokenPromise ……………………");
+                        console.log("\n\n");
+                        return [2 /*return*/];
+                }
+            });
+        });
+    }
     exports.default = default_7;
     ;
 });
-define("test/test", ["require", "exports", "test/audio/test_Audio", "test/base/test_Emitter", "test/util/test_Loader", "test/base/test_PromiseProxy", "test/base/test_Singleton", "test/base/test_Instance", "test/util/test_ModifyObject"], function (require, exports, test_Audio_1, test_Emitter_1, test_Loader_1, test_PromiseProxy_1, test_Singleton_1, test_Instance_1, test_ModifyObject_1) {
+define("test/test", ["require", "exports", "test/audio/test_Audio", "test/base/test_Emitter", "test/base/test_Instance", "test/base/test_Singleton", "test/util/test_Loader", "test/util/test_ModifyObject", "test/util/test_BrokenPromise"], function (require, exports, test_Audio_1, test_Emitter_1, test_Instance_1, test_Singleton_1, test_Loader_1, test_ModifyObject_1, test_BrokenPromise_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function run() {
@@ -1540,7 +1511,7 @@ define("test/test", ["require", "exports", "test/audio/test_Audio", "test/base/t
                         return [4 /*yield*/, test_Emitter_1.default()];
                     case 3:
                         _a.sent();
-                        return [4 /*yield*/, test_PromiseProxy_1.default()];
+                        return [4 /*yield*/, test_BrokenPromise_1.default()];
                     case 4:
                         _a.sent();
                         return [4 /*yield*/, test_Loader_1.default()];
