@@ -1,5 +1,53 @@
-const child_process = require('child_process');
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-child_process.spawn("tsc", ["-w"], { shell: true, cwd: "test" });
-const liteServer = child_process.spawn("lite-server", { shell: true, cwd: "test" });
-liteServer.stdout.pipe(process.stdout);
+const devServer = {
+    historyApiFallback: true,
+    hot: true,
+    host: "localhost",
+    port: 8080,
+    open: false,
+    overlay: {
+        warnings: false,
+        errors: true,
+    },
+    publicPath: '/',
+    quiet: true,
+    watchOptions: {
+        poll: false,
+    },
+    disableHostCheck: true,
+};
+
+const webpackConfig = {
+    entry: {
+        index: './test/test.ts',
+    },
+    resolve: {
+        extensions: ['.js', '.ts', '.json', '.html', '.css'],
+    },
+    module: {
+        rules: [
+            {
+                test: /\.ts?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+        ],
+    },
+    devtool: 'source-map',
+    performance: {
+        hints: false,
+    },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NamedModulesPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
+        new HtmlWebpackPlugin({
+            template: './test/index.html',
+        }),
+    ],
+    devServer,
+};
+
+module.exports = webpackConfig;

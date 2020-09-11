@@ -17,7 +17,7 @@ export default async function () {
     console.log("\n");
 
     console.log("loadScript");
-    await Loader.loadScript("test.js");
+    // await Loader.loadScript("");
 
     console.log("\n");
 
@@ -29,7 +29,7 @@ export default async function () {
     console.log("sendHttpRequest");
     const response = await Loader.sendHttpRequest({
         method: "GET",
-        url: "http://localhost:3000/index.html",
+        url: "http://localhost:8080/index.html",
         onProgress: (c, t) => { console.log(c, t) },
     });
     console.log(response);

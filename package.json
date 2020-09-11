@@ -6,7 +6,7 @@
 		"build": "node ./scripts/build.js",
 		"version": "node ./scripts/version.js",
 		"publish": "node ./scripts/publish.js",
-		"test": "node ./scripts/test.js",
+		"dev": "webpack-dev-server --inline --progress --host 0.0.0.0 --config scripts/test.js",
 		"lint": "eslint src/**"
 	},
 	"repository": {
@@ -25,11 +25,15 @@
 		"eslint": "^6.8.0",
 		"eslint-config-prettier": "^6.11.0",
 		"eslint-plugin-prettier": "^3.1.4",
+		"html-webpack-plugin": "^4.4.1",
 		"husky": "^2.7.0",
 		"lint-staged": "^8.2.1",
 		"prettier": "^1.19.1",
 		"ts-loader": "^5.4.5",
-		"typescript": "^3.5.3"
+		"typescript": "^3.5.3",
+		"webpack": "^4.44.1",
+		"webpack-cli": "^3.3.12",
+		"webpack-dev-server": "^3.11.0"
 	},
 	"dependencies": {
 		"tslib": "1.13.0"
