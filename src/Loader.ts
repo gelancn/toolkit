@@ -4,7 +4,16 @@ export const Loader = {
      * 发送http请求
      * @param param
      */
-    sendHttpRequest(param: HttpParam): Promise<unknown> {
+    sendHttpRequest(param: {
+        url: string;
+        onProgress?: (current: number, total: number) => void;
+        method?: "POST" | "GET";
+        withCredentials?: boolean;
+        requestHeader?: unknown;
+        data?: { [key: string]: unknown };
+        responseType?: XMLHttpRequestResponseType;
+        contentType?: string;
+    }): Promise<unknown> {
         return new Promise((resolve: (data: unknown) => void, reject: (err: string | Event) => void) => {
             const url: string = param.url;
             const method: string = param.method || "GET";
@@ -42,40 +51,28 @@ export const Loader = {
             }
             const xhr: XMLHttpRequest = new XMLHttpRequest();
             xhr.open(method, url, true);
-            if (param.withCredentials) {
-                xhr.withCredentials = param.withCredentials;
-            }
-            if (param.responseType != null) {
-                xhr.responseType = param.responseType;
-            }
-            if (requestHeader != null) {
-                const dict: { [key: string]: string } = requestHeader;
-                Object.keys(dict).forEach((key: string) => {
-                    xhr.setRequestHeader(key, dict[key]);
+            param.withCredentials && (xhr.withCredentials = param.withCredentials);
+            param.responseType && (xhr.responseType = param.responseType);
+            requestHeader &&
+                Object.keys(requestHeader).forEach((key: string) => {
+                    xhr.setRequestHeader(key, requestHeader[key]);
                 });
-            }
             if (param.contentType != null) {
                 xhr.overrideMimeType(param.contentType);
             }
             const clearListener = () => {
-                delete xhr.onload;
-                delete xhr.onprogress;
-                delete xhr.onerror;
-            };
-            const onError = (err: string | Event) => {
-                clearListener();
-                param.onError && param.onError(err);
-                reject(err);
+                xhr.onload = null;
+                xhr.onprogress = null;
+                xhr.onerror = null;
             };
             xhr.onload = (evt: Event) => {
+                clearListener();
                 const status = xhr.status;
                 if (status === 200) {
-                    clearListener();
                     const data: unknown = xhr.response || xhr.responseText;
-                    param.onEnd && param.onEnd(data);
                     resolve(data);
                 } else {
-                    onError(evt);
+                    reject(evt);
                 }
             };
             xhr.onprogress = (evt: ProgressEvent) => {
@@ -84,7 +81,8 @@ export const Loader = {
                 param.onProgress && param.onProgress(loaded, total);
             };
             xhr.onerror = (evt: ProgressEvent) => {
-                onError(evt);
+                clearListener();
+                reject(evt);
             };
             xhr.send(sendData as Document);
         });
@@ -102,8 +100,8 @@ export const Loader = {
             }
             el.src = url;
             const clearListener = () => {
-                delete el.onload;
-                delete el.onerror;
+                el.onload = null;
+                el.onerror = null;
             };
             el.onload = () => {
                 clearListener();
@@ -125,8 +123,8 @@ export const Loader = {
             const el = document.createElement("script");
             el.src = url;
             const clearListener = () => {
-                delete el.onload;
-                delete el.onerror;
+                el.onload = null;
+                el.onerror = null;
             };
             el.onload = () => {
                 clearListener();
@@ -154,8 +152,8 @@ export const Loader = {
             el.href = url;
             el.rel = "stylesheet";
             const clearListener = () => {
-                delete el.onload;
-                delete el.onerror;
+                el.onload = null;
+                el.onerror = null;
             };
             el.onload = () => {
                 clearListener();
@@ -173,16 +171,3 @@ export const Loader = {
         });
     },
 };
-
-interface HttpParam {
-    url: string;
-    onProgress?: (current: number, total: number) => void;
-    onEnd?(data?: unknown): void;
-    onError?: (err: unknown) => void;
-    method?: "POST" | "GET";
-    withCredentials?: boolean;
-    requestHeader?: unknown;
-    data?: { [key: string]: unknown };
-    responseType?: XMLHttpRequestResponseType;
-    contentType?: string;
-}

@@ -1,17 +1,17 @@
-let _modifyKey = "_modified_object_";
+let _additionKey = "_ObjectAddition_";
 /**
  * 修改
  * @param target
  */
-function _modify(target: Record<string, unknown>): Record<string, unknown> {
-    if (target[_modifyKey] == null) {
-        Object.defineProperty(target, _modifyKey, {
+function _add(target: Record<string, unknown>): Record<string, unknown> {
+    if (target[_additionKey] == null) {
+        Object.defineProperty(target, _additionKey, {
             value: {},
             configurable: true,
             enumerable: false,
         });
     }
-    return target[_modifyKey] as Record<string, unknown>;
+    return target[_additionKey] as Record<string, unknown>;
 }
 
 /**
@@ -22,10 +22,10 @@ export function setModifyKey(value: string): void {
     if (!value || typeof value !== "string") {
         return;
     }
-    _modifyKey = value;
+    _additionKey = value;
 }
 
-export const ModifyObject = {
+export const ObjectAddition = {
     /**
      * 获取一个值
      * @param object
@@ -33,9 +33,9 @@ export const ModifyObject = {
      */
     get(object: InstanceType<typeof Object>, key: string): unknown {
         const target = object as Record<string, unknown>;
-        let modifyMap = target[_modifyKey] as Record<string, unknown>;
+        let modifyMap = target[_additionKey] as Record<string, unknown>;
         if (modifyMap == null) {
-            modifyMap = _modify(target);
+            modifyMap = _add(target);
         }
         return modifyMap[key];
     },
@@ -47,9 +47,9 @@ export const ModifyObject = {
      */
     set(object: InstanceType<typeof Object>, key: string, value: unknown): void {
         const target = object as Record<string, unknown>;
-        let modifyMap = target[_modifyKey] as Record<string, unknown>;
+        let modifyMap = target[_additionKey] as Record<string, unknown>;
         if (modifyMap == null) {
-            modifyMap = _modify(target);
+            modifyMap = _add(target);
         }
         modifyMap[key] = value;
     },
@@ -60,7 +60,7 @@ export const ModifyObject = {
      */
     delete(object: InstanceType<typeof Object>, key: string): void {
         const target = object as Record<string, unknown>;
-        const modifyMap = target[_modifyKey] as Record<string, unknown>;
+        const modifyMap = target[_additionKey] as Record<string, unknown>;
         if (modifyMap == null) {
             return;
         }
@@ -68,7 +68,7 @@ export const ModifyObject = {
         if (Object.getOwnPropertyNames(modifyMap).length > 0) {
             return;
         }
-        delete target[_modifyKey];
+        delete target[_additionKey];
     },
     /**
      * 删除所有
@@ -76,6 +76,6 @@ export const ModifyObject = {
      */
     deleteAll(object: InstanceType<typeof Object>): void {
         const target = object as Record<string, unknown>;
-        delete target[_modifyKey];
+        delete target[_additionKey];
     },
 };

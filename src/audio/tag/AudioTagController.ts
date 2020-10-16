@@ -1,4 +1,4 @@
-import { Emitter } from "../../base/Emitter";
+import { Emitter } from "../../Emitter";
 import { AudioController, EnumAudioEvent } from "../Audio";
 
 /** 音频标签控制器 */

@@ -4,7 +4,18 @@ export declare const Loader: {
      * 发送http请求
      * @param param
      */
-    sendHttpRequest(param: HttpParam): Promise<unknown>;
+    sendHttpRequest(param: {
+        url: string;
+        onProgress?: ((current: number, total: number) => void) | undefined;
+        method?: "POST" | "GET" | undefined;
+        withCredentials?: boolean | undefined;
+        requestHeader?: unknown;
+        data?: {
+            [key: string]: unknown;
+        } | undefined;
+        responseType?: "" | "text" | "document" | "blob" | "arraybuffer" | "json" | undefined;
+        contentType?: string | undefined;
+    }): Promise<unknown>;
     /**
      * 加载图片
      * @param param
@@ -21,18 +32,3 @@ export declare const Loader: {
      */
     loadCSS(url: string, appendTo?: HTMLElement | undefined): Promise<HTMLLinkElement>;
 };
-interface HttpParam {
-    url: string;
-    onProgress?: (current: number, total: number) => void;
-    onEnd?(data?: unknown): void;
-    onError?: (err: unknown) => void;
-    method?: "POST" | "GET";
-    withCredentials?: boolean;
-    requestHeader?: unknown;
-    data?: {
-        [key: string]: unknown;
-    };
-    responseType?: XMLHttpRequestResponseType;
-    contentType?: string;
-}
-export {};

@@ -3,7 +3,7 @@
  * @param value
  */
 export declare function setModifyKey(value: string): void;
-export declare const ModifyObject: {
+export declare const ObjectAddition: {
     /**
      * 获取一个值
      * @param object

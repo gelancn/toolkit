@@ -1,4 +1,4 @@
-import { ModifyObject } from "../util/ModifyObject";
+import { ObjectAddition } from "./ObjectAddition";
 /** 单例 */
 var Singleton = /** @class */ (function () {
     function Singleton() {
@@ -39,17 +39,17 @@ var Singleton = /** @class */ (function () {
      * @param value
      */
     Singleton.prototype.set = function (cls, value) {
-        ModifyObject.set(cls, this._singletonKey, value);
+        ObjectAddition.set(cls, this._singletonKey, value);
     };
     /**
      * 获取一个单例
      * @param cls
      */
     Singleton.prototype.get = function (cls) {
-        var instance = ModifyObject.get(cls, this._singletonKey);
+        var instance = ObjectAddition.get(cls, this._singletonKey);
         if (instance == null) {
             instance = new cls();
-            ModifyObject.set(cls, this._singletonKey, instance);
+            ObjectAddition.set(cls, this._singletonKey, instance);
         }
         return instance;
     };
@@ -58,8 +58,8 @@ var Singleton = /** @class */ (function () {
      * @param cls
      */
     Singleton.prototype.delete = function (cls) {
-        var value = ModifyObject.get(cls, this._singletonKey);
-        ModifyObject.delete(cls, this._singletonKey);
+        var value = ObjectAddition.get(cls, this._singletonKey);
+        ObjectAddition.delete(cls, this._singletonKey);
         return value;
     };
     /** 实例 */

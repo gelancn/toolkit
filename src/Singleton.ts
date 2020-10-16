@@ -1,4 +1,4 @@
-import { ModifyObject } from "../util/ModifyObject";
+import { ObjectAddition } from "./ObjectAddition";
 
 /** 单例 */
 export class Singleton {
@@ -45,7 +45,7 @@ export class Singleton {
      * @param value
      */
     set<T>(cls: TypeCtor<T>, value: T): void {
-        ModifyObject.set(cls, this._singletonKey, value);
+        ObjectAddition.set(cls, this._singletonKey, value);
     }
 
     /**
@@ -53,10 +53,10 @@ export class Singleton {
      * @param cls
      */
     get<T>(cls: TypeCtor<T>): T {
-        let instance = ModifyObject.get(cls, this._singletonKey) as T;
+        let instance = ObjectAddition.get(cls, this._singletonKey) as T;
         if (instance == null) {
             instance = new cls();
-            ModifyObject.set(cls, this._singletonKey, instance);
+            ObjectAddition.set(cls, this._singletonKey, instance);
         }
         return instance;
     }
@@ -66,8 +66,8 @@ export class Singleton {
      * @param cls
      */
     delete<T>(cls: TypeCtor<T>): T | undefined {
-        const value = ModifyObject.get(cls, this._singletonKey) as T | undefined;
-        ModifyObject.delete(cls, this._singletonKey);
+        const value = ObjectAddition.get(cls, this._singletonKey) as T | undefined;
+        ObjectAddition.delete(cls, this._singletonKey);
         return value;
     }
 }

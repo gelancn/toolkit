@@ -1,4 +1,4 @@
-import { Instance } from "../../src/base/Instance";
+import { Instance } from "../src/Instance";
 
 export default async function () {
     console.log("…………………… test_Instance ……………………");

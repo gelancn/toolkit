@@ -1,4 +1,4 @@
-import { Singleton } from "../../src/base/Singleton";
+import { Singleton } from "../src/Singleton";
 
 export default async function () {
     console.log("…………………… test_Singleton ……………………");

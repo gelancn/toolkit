@@ -6,7 +6,7 @@ export default async function () {
     const audio = new Audio();
     const audioRes = new AudioRes();
     let ctrl: AudioController;
-    const url = "assets/test.mp3";
+    const url = "test/assets/test.mp3";
     const container = document.createElement("div");
     document.body.appendChild(container);
     window.onmousedown = () => {

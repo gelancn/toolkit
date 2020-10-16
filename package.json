@@ -1,6 +1,6 @@
 {
 	"name": "gl-toolkit",
-	"version": "0.1.21",
+	"version": "0.1.22",
 	"author": "gelancn",
 	"scripts": {
 		"build": "node ./scripts/build.js",

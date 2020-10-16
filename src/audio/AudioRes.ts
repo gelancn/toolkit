@@ -1,5 +1,5 @@
-import { Emitter } from "../base/Emitter";
-import { Loader } from "../util/Loader";
+import { Emitter } from "../Emitter";
+import { Loader } from "../Loader";
 
 enum EnumLoadState {
     UNLOAD = "UNLOAD",
@@ -70,51 +70,53 @@ export class AudioRes {
                     res.on(EnumLoadState.ERROR, reject);
                     onProgress && res.on(EnumLoadState.LOADING, onProgress);
                     res.state = EnumLoadState.LOADING;
+                    const onEnd = async (response: unknown) => {
+                        const blob: Blob = response as Blob;
+                        res.blob = blob;
+                        const needBase64: boolean = this.convertTypes.base64;
+                        const needArrayBuffer: boolean = this.convertTypes.arrayBuffer;
+                        if (needBase64) {
+                            await this.readAsDataURL(blob)
+                                .then((data: string) => {
+                                    res.base64 = data;
+                                })
+                                .catch((evt: Event) => {
+                                    return;
+                                });
+                        }
+                        if (needArrayBuffer) {
+                            await this.readAsArrayBuffer(blob)
+                                .then((data: ArrayBuffer) => {
+                                    res.arrayBuffer = data;
+                                })
+                                .catch((evt: Event) => {
+                                    return;
+                                });
+                        }
+                        res.state = EnumLoadState.LOADED;
+                        if (!cache) {
+                            delete resourceMap[res.url];
+                        }
+                        res.emit(EnumLoadState.LOADED, res);
+                        res.offAll();
+                    };
+                    const onError = (evt: unknown) => {
+                        res.state = EnumLoadState.ERROR;
+                        if (!cache) {
+                            delete resourceMap[res.url];
+                        }
+                        res.emit(EnumLoadState.ERROR, evt);
+                    };
                     Loader.sendHttpRequest({
                         url: url,
                         method: "GET",
                         responseType: "blob",
-                        onEnd: async (response: unknown) => {
-                            const blob: Blob = response as Blob;
-                            res.blob = blob;
-                            const needBase64: boolean = this.convertTypes.base64;
-                            const needArrayBuffer: boolean = this.convertTypes.arrayBuffer;
-                            if (needBase64) {
-                                await this.readAsDataURL(blob)
-                                    .then((data: string) => {
-                                        res.base64 = data;
-                                    })
-                                    .catch((evt: Event) => {
-                                        return;
-                                    });
-                            }
-                            if (needArrayBuffer) {
-                                await this.readAsArrayBuffer(blob)
-                                    .then((data: ArrayBuffer) => {
-                                        res.arrayBuffer = data;
-                                    })
-                                    .catch((evt: Event) => {
-                                        return;
-                                    });
-                            }
-                            res.state = EnumLoadState.LOADED;
-                            if (!cache) {
-                                delete resourceMap[res.url];
-                            }
-                            res.emit(EnumLoadState.LOADED, res);
-                            res.offAll();
-                        },
                         onProgress: (current: number, total: number) => {
                             res.emit(EnumLoadState.LOADING, current, total);
                         },
-                        onError: (evt: unknown) => {
-                            res.state = EnumLoadState.ERROR;
-                            if (!cache) {
-                                delete resourceMap[res.url];
-                            }
-                            res.emit(EnumLoadState.ERROR, evt);
-                        },
-                    });
+                    })
+                        .then(onEnd)
+                        .catch(onError);
                     break;
                 case EnumLoadState.LOADING:
                     res.on(EnumLoadState.LOADED, resolve);

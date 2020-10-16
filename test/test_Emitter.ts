@@ -1,4 +1,4 @@
-import { Emitter } from "../../src/base/Emitter";
+import { Emitter } from "../src/Emitter";
 
 export default async function () {
     console.log("…………………… test_Emitter ……………………");

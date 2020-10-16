@@ -1,4 +1,4 @@
-import { Emitter } from "../base/Emitter";
+import { Emitter } from "../Emitter";
 import { AudioTagImpl } from "./tag/AudioTagImpl";
 
 /** 音频事件 */

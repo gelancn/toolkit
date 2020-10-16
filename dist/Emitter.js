@@ -24,12 +24,7 @@ var Emitter = /** @class */ (function () {
                 return;
             }
         }
-        handlerList.push({
-            type: type,
-            handler: handler,
-            target: target,
-            once: once,
-        });
+        handlerList.push({ type: type, handler: handler, target: target, once: once });
     };
     /**
      * 取消监听
@@ -129,11 +124,10 @@ var Emitter = /** @class */ (function () {
             return;
         }
         var needClean = false;
-        var argLength = params.length;
         handlerList.forEach(function (data) {
             var handler = data.handler;
             var target = data.target;
-            switch (argLength) {
+            switch (params.length) {
                 case 0:
                     handler.call(target);
                     break;

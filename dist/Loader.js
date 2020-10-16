@@ -42,41 +42,29 @@ export var Loader = {
             }
             var xhr = new XMLHttpRequest();
             xhr.open(method, url, true);
-            if (param.withCredentials) {
-                xhr.withCredentials = param.withCredentials;
-            }
-            if (param.responseType != null) {
-                xhr.responseType = param.responseType;
-            }
-            if (requestHeader != null) {
-                var dict_1 = requestHeader;
-                Object.keys(dict_1).forEach(function (key) {
-                    xhr.setRequestHeader(key, dict_1[key]);
+            param.withCredentials && (xhr.withCredentials = param.withCredentials);
+            param.responseType && (xhr.responseType = param.responseType);
+            requestHeader &&
+                Object.keys(requestHeader).forEach(function (key) {
+                    xhr.setRequestHeader(key, requestHeader[key]);
                 });
-            }
             if (param.contentType != null) {
                 xhr.overrideMimeType(param.contentType);
             }
             var clearListener = function () {
-                delete xhr.onload;
-                delete xhr.onprogress;
-                delete xhr.onerror;
-            };
-            var onError = function (err) {
-                clearListener();
-                param.onError && param.onError(err);
-                reject(err);
+                xhr.onload = null;
+                xhr.onprogress = null;
+                xhr.onerror = null;
             };
             xhr.onload = function (evt) {
+                clearListener();
                 var status = xhr.status;
                 if (status === 200) {
-                    clearListener();
                     var data_1 = xhr.response || xhr.responseText;
-                    param.onEnd && param.onEnd(data_1);
                     resolve(data_1);
                 }
                 else {
-                    onError(evt);
+                    reject(evt);
                 }
             };
             xhr.onprogress = function (evt) {
@@ -85,7 +73,8 @@ export var Loader = {
                 param.onProgress && param.onProgress(loaded, total);
             };
             xhr.onerror = function (evt) {
-                onError(evt);
+                clearListener();
+                reject(evt);
             };
             xhr.send(sendData);
         });
@@ -102,8 +91,8 @@ export var Loader = {
             }
             el.src = url;
             var clearListener = function () {
-                delete el.onload;
-                delete el.onerror;
+                el.onload = null;
+                el.onerror = null;
             };
             el.onload = function () {
                 clearListener();
@@ -124,8 +113,8 @@ export var Loader = {
             var el = document.createElement("script");
             el.src = url;
             var clearListener = function () {
-                delete el.onload;
-                delete el.onerror;
+                el.onload = null;
+                el.onerror = null;
             };
             el.onload = function () {
                 clearListener();
@@ -153,8 +142,8 @@ export var Loader = {
             el.href = url;
             el.rel = "stylesheet";
             var clearListener = function () {
-                delete el.onload;
-                delete el.onerror;
+                el.onload = null;
+                el.onerror = null;
             };
             el.onload = function () {
                 clearListener();
