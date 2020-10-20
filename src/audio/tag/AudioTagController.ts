@@ -6,22 +6,26 @@ export class AudioTagController extends Emitter implements AudioController {
     constructor(tag: HTMLAudioElement, uid: number) {
         super();
         this._uid = uid;
-        this._el = tag as AudioTag;
+        this._el = tag;
         tag.onplay = (evt: Event) => {
             this.emit(EnumAudioEvent.ON_PLAY, evt);
         };
+        let timeID = -1;
         tag.onpause = (evt: Event) => {
-            const el = evt.target as AudioTag;
-            if (el.isStop) {
-                el.isStop = false;
-                this.emit(EnumAudioEvent.ON_STOP, evt);
-            } else {
-                this.emit(EnumAudioEvent.ON_PAUSE, evt);
+            const el = evt.target as HTMLAudioElement;
+            if (!el.dataset.isStop) {
+                return;
             }
+            el.dataset.isStop = void 0;
+            timeID >= 0 && clearTimeout(timeID);
+            timeID = window.setTimeout(() => {
+                timeID = -1;
+                this.emit(EnumAudioEvent.ON_STOP);
+            }, 0);
         };
         tag.ontimeupdate = (evt: Event) => {
-            const el = evt.target as AudioTag;
-            this.emit(EnumAudioEvent.ON_PROGRESS, el.currentTime, el.duration);
+            const el = evt.target as HTMLAudioElement;
+            this.emit(EnumAudioEvent.ON_PROGRESS, el.currentTime, el.duration || 0);
         };
         tag.onended = (evt: Event) => {
             this.emit(EnumAudioEvent.ON_END, evt);
@@ -37,23 +41,7 @@ export class AudioTagController extends Emitter implements AudioController {
         return this._uid;
     }
 
-    private _el: AudioTag;
-    /** 设置源 */
-    set src(value: string) {
-        if (!value) {
-            return;
-        }
-        const el = this._el;
-        if (el.src) {
-            if (el.src === value) {
-                return;
-            }
-            this.stop();
-            el.src = value;
-        } else {
-            el.src = value;
-        }
-    }
+    private _el: HTMLAudioElement;
 
     /** 循环播放 */
     get loop(): boolean {
@@ -101,25 +89,25 @@ export class AudioTagController extends Emitter implements AudioController {
     }
 
     /** 播放 */
-    play(): Promise<void> {
-        return this._el.play();
+    play(source: string): void {
+        if (!source) {
+            return;
+        }
+        const el = this._el;
+        if (el.src && el.src === source) {
+            return;
+        }
+        el.src = source;
+        this._el.play().catch(() => {
+            // 音频标签实现会有预加载过程，预加载期间更换src后再执行play会导致报错，捕获后不影响正常功能
+        });
     }
 
     /** 停止 */
     stop(): void {
-        this._el.isStop = true;
+        this._el.dataset.isStop = "true";
         this._el.pause();
-        this.currentTime = 0;
-    }
-
-    /** 暂停 */
-    pause(): void {
-        this._el.pause();
-    }
-
-    /** 恢复播放 */
-    resume(): void {
-        this._el.play();
+        this._el.currentTime = 0;
     }
 
     reset(): void {
@@ -129,8 +117,4 @@ export class AudioTagController extends Emitter implements AudioController {
         this.loop = false;
         this.currentTime = 0;
     }
-}
-
-interface AudioTag extends HTMLAudioElement {
-    isStop: boolean;
 }

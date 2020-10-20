@@ -34,16 +34,14 @@ export default async function () {
                     console.log("预加载并播放");
                     const res = await audioRes.load(url);
                     console.log(res);
-                    ctrl.src = res.base64 as string;
-                    ctrl.play();
+                    ctrl.play(res.base64 as string);
                 },
             },
             {
                 title: "播放音频",
                 handler: () => {
                     console.log("播放音频");
-                    ctrl.src = url;
-                    ctrl.play();
+                    ctrl.play(url);
                 },
             },
             {

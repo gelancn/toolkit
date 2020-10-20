@@ -3,17 +3,16 @@ import { AudioTagImpl } from "./tag/AudioTagImpl";
 
 /** 音频事件 */
 export enum EnumAudioEvent {
-    ON_PLAY = "ON_PLAY",
-    ON_STOP = "ON_STOP",
-    ON_PAUSE = "ON_PAUSE",
-    ON_END = "ON_END",
-    ON_PROGRESS = "ON_PROGRESS",
-    ON_ERROR = "ON_ERROR",
+    ON_PLAY = "onPlay",
+    ON_STOP = "onStop",
+    ON_END = "onEnd",
+    ON_PROGRESS = "onProgress",
+    ON_ERROR = "onError",
 
-    ON_MUTED_CHANGE = "ON_MUTED_CHANGE",
-    ON_VOLUME_CHANGE = "ON_VOLUME_CHANGE",
-    ON_LOOP_CHANGE = "ON_LOOP_CHANGE",
-    ON_CURRENT_TIME_CHANGE = "ON_CURRENT_TIME_CHANGE",
+    ON_MUTED_CHANGE = "onMutedChange",
+    ON_VOLUME_CHANGE = "onVolumeChange",
+    ON_LOOP_CHANGE = "onLoopChange",
+    ON_CURRENT_TIME_CHANGE = "onCurrentTimeChange",
 }
 
 /** 音频 */
@@ -63,15 +62,12 @@ export class Audio {
 
 export interface AudioController extends Emitter {
     readonly uid: number;
-    src: string;
     loop: boolean;
     volume: number;
     muted: boolean;
     currentTime: number;
-    play(): Promise<void>;
+    play(source: string): unknown;
     stop(): void;
-    pause(): void;
-    resume(): void;
 }
 
 export interface AudioImpl {
