@@ -1,0 +1,9 @@
+{
+	"name": "gl-toolkit",
+	"version": "0.1.23",
+	"author": "gelancn",
+	"dependencies": {
+		"tslib": "1.13.0"
+	},
+	"license": "MIT"
+}
