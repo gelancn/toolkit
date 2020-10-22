@@ -7,11 +7,11 @@ import test_ObjectAddition from "./test_ObjectAddition";
 
 
 async function run() {
-    await test_Instance();
-    await test_Singleton();
-    await test_Emitter();
-    await test_Loader();
-    await test_ObjectAddition();
+    // await test_Instance();
+    // await test_Singleton();
+    // await test_Emitter();
+    // await test_Loader();
+    // await test_ObjectAddition();
 
     await test_Audio();
 }

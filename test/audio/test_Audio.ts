@@ -1,56 +1,65 @@
-import { Audio, AudioController, EnumAudioEvent } from "../../src/Audio/Audio";
-import { AudioRes } from "../../src/Audio/AudioRes";
+import { Audio, AudioController } from "../../src/Audio";
 
 export default async function () {
     console.log("…………………… test_Audio ……………………");
     const audio = new Audio();
-    const audioRes = new AudioRes();
-    let ctrl: AudioController;
     const url = "test/assets/test.mp3";
     const container = document.createElement("div");
     document.body.appendChild(container);
     window.onmousedown = () => {
-        audio.unlock();
-        ctrl = audio.getController() as AudioController;
-        ctrl.on(EnumAudioEvent.ON_PLAY, (evt: Event) => {
-            console.log(evt.type);
-        });
-        ctrl.on(EnumAudioEvent.ON_STOP, (evt: Event) => {
-            console.log(evt.type);
-        });
-        ctrl.on(EnumAudioEvent.ON_END, (evt: Event) => {
-            console.log(evt.type);
-        });
-        ctrl.on(EnumAudioEvent.ON_PROGRESS, (cur: number, total: number) => {
-            console.log(cur, total);
-        });
+        audio.tags.unlock();
         console.log("onmousedown");
     };
+    const playAudio = (source: string) => {
+        const ctrl: AudioController = new AudioController();
+        ctrl.on(AudioController.ON_PLAY, () => {
+            console.log(AudioController.ON_PLAY);
+        });
+        ctrl.on(AudioController.ON_STOP, () => {
+            console.log(AudioController.ON_STOP);
+        });
+        ctrl.on(AudioController.ON_END, () => {
+            console.log(AudioController.ON_END);
+        });
+        ctrl.on(AudioController.ON_PROGRESS, (cur: number, total: number) => {
+            console.log(cur, total);
+        });
+        ctrl.play(source);
+        return ctrl;
+    }
     await new Promise((resolve: Function, reject: Function) => {
         const btnConfig = [
             {
                 title: "预加载并播放",
                 handler: async () => {
                     console.log("预加载并播放");
-                    const res = await audioRes.load(url);
+                    const res = await audio.res.load(url);
                     console.log(res);
-                    ctrl.play(res.base64 as string);
+                    audio.play(url).then(() => {
+                        console.log("播放完成");
+                    }).catch(() => {
+                        console.log("播放停止", url);
+                        playAudio(res.base64 as string);
+                    });
+                    setTimeout(() => {
+                        audio.stop(url);
+                    }, 1000);
                 },
             },
             {
                 title: "播放音频",
                 handler: () => {
                     console.log("播放音频");
-                    ctrl.play(url);
+                    const ctrl = playAudio(url);
+                    setTimeout(() => {
+                        ctrl.play(url);
+                    }, 500);
                 },
             },
             {
                 title: "结束测试",
                 handler: () => {
                     console.log("结束测试");
-                    if (ctrl != null) {
-                        audio.recoveryController(ctrl);
-                    }
                     resolve();
                 },
             },
